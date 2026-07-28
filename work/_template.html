@@ -1,0 +1,250 @@
+<!--
+  CASE STUDY PAGE TEMPLATE
+  ========================
+  To add a new project:
+  1. Copy this file to work/<slug>.html (slug must match the `slug` you use
+     in js/projects-data.js, e.g. work/finza.html).
+  2. Replace every [PLACEHOLDER] below with real content.
+  3. Fill in the csTranslations object at the bottom (EN + TH) for any text
+     that isn't already covered by translations in js/i18n.js.
+  4. Add/replace images under assets/work/<slug>/ and point the <img> tags
+     at them (cs-cover, cs-gallery).
+  5. Add a matching entry to js/projects-data.js so the project shows up
+     in the Work grid and links here.
+  See work/finza.html for a filled-in example.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[Project Name] — Case Study | Mick Yuttana Pati</title>
+<meta name="description" content="[One-sentence project summary].">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- ===== Header (same as index.html, links point back to ../index.html) ===== -->
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="../index.html" class="logo">Mick<span class="dot">.</span>Pati</a>
+
+    <nav class="nav" id="mainNav">
+      <a href="../index.html#home" class="nav-link" data-i18n="nav.home">Home</a>
+      <a href="../index.html#about" class="nav-link" data-i18n="nav.about">About</a>
+      <a href="../index.html#experience" class="nav-link" data-i18n="nav.experience">Experience</a>
+      <a href="../index.html#work" class="nav-link" data-i18n="nav.work">Work</a>
+      <a href="../index.html#skills" class="nav-link" data-i18n="nav.skills">Skills</a>
+      <a href="../index.html#process" class="nav-link" data-i18n="nav.process">Process</a>
+      <a href="../index.html#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language">
+        <span id="langCurrent">EN</span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== Case Study Hero ===== -->
+  <section class="cs-hero">
+    <div class="container">
+      <p class="section-eyebrow" data-i18n-cs="cs.eyebrow">[Category, e.g. Mobile App]</p>
+      <h1 data-i18n-cs="cs.title">[Project Name] — [Short Descriptor]</h1>
+      <p class="cs-hero-desc" data-i18n-cs="cs.heroDesc">[One or two sentences describing the project and the problem it solves.]</p>
+
+      <div class="cs-meta-grid">
+        <div class="cs-meta-item">
+          <span data-i18n-cs="cs.meta.roleLabel">Role</span>
+          <strong data-i18n-cs="cs.meta.roleValue">[e.g. Lead UX/UI Designer]</strong>
+        </div>
+        <div class="cs-meta-item">
+          <span data-i18n-cs="cs.meta.timelineLabel">Timeline</span>
+          <strong data-i18n-cs="cs.meta.timelineValue">[e.g. 3 months]</strong>
+        </div>
+        <div class="cs-meta-item">
+          <span data-i18n-cs="cs.meta.platformLabel">Platform</span>
+          <strong data-i18n-cs="cs.meta.platformValue">[e.g. iOS / Android]</strong>
+        </div>
+        <div class="cs-meta-item">
+          <span data-i18n-cs="cs.meta.toolsLabel">Tools</span>
+          <strong data-i18n-cs="cs.meta.toolsValue">[e.g. Figma, React]</strong>
+        </div>
+      </div>
+
+      <!-- Optional cover image: assets/work/<slug>/cover.jpg. Remove this
+           block entirely if you don't have one yet. -->
+      <div class="cs-cover">
+        <img src="../assets/work/PLACEHOLDER/cover.jpg" alt="[Project Name] cover">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Overview / Problem ===== -->
+  <section class="cs-section">
+    <div class="container">
+      <h2 data-i18n-cs="cs.overview.title">The Problem</h2>
+      <p data-i18n-cs="cs.overview.body1">[What was broken or missing for users/the business before this project?]</p>
+      <p data-i18n-cs="cs.overview.body2">[Any constraints — timeline, technical, stakeholder — worth mentioning.]</p>
+    </div>
+  </section>
+
+  <!-- ===== Process ===== -->
+  <section class="cs-section">
+    <div class="container">
+      <h2 data-i18n-cs="cs.process.title">Process</h2>
+      <p data-i18n-cs="cs.process.body1">[Research, discovery, key decisions along the way.]</p>
+    </div>
+  </section>
+
+  <!-- ===== Solution / Screens ===== -->
+  <section class="cs-section">
+    <div class="container">
+      <h2 data-i18n-cs="cs.solution.title">The Solution</h2>
+      <p data-i18n-cs="cs.solution.body1">[Describe the final design and why it works.]</p>
+
+      <!-- Add as many <figure> blocks as you have screens, or delete the
+           gallery entirely if you don't have images yet. -->
+      <div class="cs-gallery">
+        <figure>
+          <img src="../assets/work/PLACEHOLDER/screen-1.jpg" alt="[Screen description]">
+          <figcaption data-i18n-cs="cs.gallery.caption1">[Caption for this screen]</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/work/PLACEHOLDER/screen-2.jpg" alt="[Screen description]">
+          <figcaption data-i18n-cs="cs.gallery.caption2">[Caption for this screen]</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Results ===== -->
+  <section class="cs-section">
+    <div class="container">
+      <h2 data-i18n-cs="cs.results.title">Results</h2>
+      <p data-i18n-cs="cs.results.body1">[Summary of the outcome/impact.]</p>
+
+      <div class="cs-results">
+        <div class="stat"><strong>[XX%]</strong><span data-i18n-cs="cs.results.stat1">[What this metric measures]</span></div>
+        <div class="stat"><strong>[XX%]</strong><span data-i18n-cs="cs.results.stat2">[What this metric measures]</span></div>
+        <div class="stat"><strong>[XX%]</strong><span data-i18n-cs="cs.results.stat3">[What this metric measures]</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Next Project ===== -->
+  <section class="cs-next">
+    <div class="container">
+      <span data-i18n-cs="cs.next.label">Next Project</span>
+      <h3 data-i18n-cs="cs.next.title">[Next Project Name] →</h3>
+      <a href="PLACEHOLDER.html" class="btn btn-primary" data-i18n-cs="cs.next.cta">View Case Study</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Footer (same as index.html, links point back to ../index.html) ===== -->
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <span class="footer-monogram">MP</span>
+      <p class="footer-tagline" data-i18n="footer.tagline">UX/UI Designer based in Bangkok, Thailand.</p>
+    </div>
+    <a href="../index.html#home" class="back-to-top" aria-label="Back to top">↑</a>
+  </div>
+  <div class="container footer-bottom">
+    <a href="../index.html" class="logo">Mick<span class="dot">.</span>Pati</a>
+    <p>&copy; <span id="year"></span> Mick Yuttana Pati. <span data-i18n="footer.rights">All rights reserved.</span></p>
+  </div>
+</footer>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/script.js"></script>
+<script>
+  // Page-specific translations for this case study. Keep this dict local to
+  // the page (rather than the shared js/i18n.js) so every new project stays
+  // a self-contained copy-paste — see work/_template.html for field docs.
+  const csTranslations = {
+    en: {
+      "cs.eyebrow": "[Category]",
+      "cs.title": "[Project Name] — [Short Descriptor]",
+      "cs.heroDesc": "[One or two sentences describing the project.]",
+      "cs.meta.roleLabel": "Role", "cs.meta.roleValue": "[Role]",
+      "cs.meta.timelineLabel": "Timeline", "cs.meta.timelineValue": "[Timeline]",
+      "cs.meta.platformLabel": "Platform", "cs.meta.platformValue": "[Platform]",
+      "cs.meta.toolsLabel": "Tools", "cs.meta.toolsValue": "[Tools]",
+      "cs.overview.title": "The Problem",
+      "cs.overview.body1": "[Body copy in English.]",
+      "cs.overview.body2": "[Body copy in English.]",
+      "cs.process.title": "Process",
+      "cs.process.body1": "[Body copy in English.]",
+      "cs.solution.title": "The Solution",
+      "cs.solution.body1": "[Body copy in English.]",
+      "cs.gallery.caption1": "[Caption]",
+      "cs.gallery.caption2": "[Caption]",
+      "cs.results.title": "Results",
+      "cs.results.body1": "[Body copy in English.]",
+      "cs.results.stat1": "[Metric label]",
+      "cs.results.stat2": "[Metric label]",
+      "cs.results.stat3": "[Metric label]",
+      "cs.next.label": "Next Project",
+      "cs.next.title": "[Next Project Name] →",
+      "cs.next.cta": "View Case Study"
+    },
+    th: {
+      "cs.eyebrow": "[หมวดหมู่]",
+      "cs.title": "[ชื่อโปรเจกต์] — [คำอธิบายสั้น]",
+      "cs.heroDesc": "[อธิบายโปรเจกต์ 1-2 ประโยค]",
+      "cs.meta.roleLabel": "บทบาท", "cs.meta.roleValue": "[บทบาท]",
+      "cs.meta.timelineLabel": "ระยะเวลา", "cs.meta.timelineValue": "[ระยะเวลา]",
+      "cs.meta.platformLabel": "แพลตฟอร์ม", "cs.meta.platformValue": "[แพลตฟอร์ม]",
+      "cs.meta.toolsLabel": "เครื่องมือ", "cs.meta.toolsValue": "[เครื่องมือ]",
+      "cs.overview.title": "โจทย์ปัญหา",
+      "cs.overview.body1": "[เนื้อหาภาษาไทย]",
+      "cs.overview.body2": "[เนื้อหาภาษาไทย]",
+      "cs.process.title": "กระบวนการทำงาน",
+      "cs.process.body1": "[เนื้อหาภาษาไทย]",
+      "cs.solution.title": "ผลลัพธ์การออกแบบ",
+      "cs.solution.body1": "[เนื้อหาภาษาไทย]",
+      "cs.gallery.caption1": "[คำอธิบายภาพ]",
+      "cs.gallery.caption2": "[คำอธิบายภาพ]",
+      "cs.results.title": "ผลลัพธ์",
+      "cs.results.body1": "[เนื้อหาภาษาไทย]",
+      "cs.results.stat1": "[ตัวชี้วัด]",
+      "cs.results.stat2": "[ตัวชี้วัด]",
+      "cs.results.stat3": "[ตัวชี้วัด]",
+      "cs.next.label": "โปรเจกต์ถัดไป",
+      "cs.next.title": "[ชื่อโปรเจกต์ถัดไป] →",
+      "cs.next.cta": "ดู Case Study"
+    }
+  };
+
+  function applyCsLanguage(lang) {
+    const dict = csTranslations[lang] || csTranslations.en;
+    document.querySelectorAll('[data-i18n-cs]').forEach(el => {
+      const value = dict[el.getAttribute('data-i18n-cs')];
+      if (value !== undefined) el.textContent = value;
+    });
+  }
+  applyCsLanguage(getLang());
+  window.addEventListener('langchange', (e) => applyCsLanguage(e.detail.lang));
+</script>
+</body>
+</html>

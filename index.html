@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mick Yuttana Pati — UX/UI Designer Portfolio</title>
+<meta name="description" content="Mick Yuttana Pati, UX/UI Designer — turning complex systems into experiences people trust.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- ===== Header ===== -->
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="#home" class="logo">Mick<span class="dot">.</span>Pati</a>
+
+    <nav class="nav" id="mainNav">
+      <a href="#home" class="nav-link" data-i18n="nav.home">Home</a>
+      <a href="#about" class="nav-link" data-i18n="nav.about">About</a>
+      <a href="#experience" class="nav-link" data-i18n="nav.experience">Experience</a>
+      <a href="#work" class="nav-link" data-i18n="nav.work">Work</a>
+      <a href="#skills" class="nav-link" data-i18n="nav.skills">Skills</a>
+      <a href="#process" class="nav-link" data-i18n="nav.process">Process</a>
+      <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language">
+        <span id="langCurrent">EN</span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="home">
+    <div class="blob"></div>
+    <span class="hero-bg-type" aria-hidden="true">Pati</span>
+    <div class="container">
+      <div class="hero-copy" data-reveal>
+        <p class="eyebrow"><span class="pulse-dot"></span> <span data-i18n="hero.eyebrow">Available for freelance work</span></p>
+        <h1 data-i18n="hero.title" data-i18n-html>Turning complex systems into <span class="highlight">experiences people trust.</span></h1>
+        <p class="hero-desc" data-i18n="hero.desc">Hi, I'm Mick Yuttana Pati — a UX/UI Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.</p>
+        <div class="hero-cta">
+          <a href="#work" class="btn btn-primary" data-i18n="hero.ctaWork">View My Work</a>
+          <a href="#contact" class="btn btn-ghost" data-i18n="hero.ctaTalk">Let's Talk</a>
+        </div>
+      </div>
+      <div class="hero-stats" data-reveal>
+        <div class="stat"><strong>3+</strong><span data-i18n="hero.stat1">Years Experience</span></div>
+        <div class="stat"><strong>40%</strong><span data-i18n="hero.stat2">Faster Design Cycles</span></div>
+        <div class="stat"><strong>15+</strong><span data-i18n="hero.stat3">Projects Delivered</span></div>
+      </div>
+    </div>
+    <div class="scroll-indicator"><span></span></div>
+  </section>
+
+  <!-- ===== Logos ===== -->
+  <section class="logos" aria-label="Companies I've worked with">
+    <div class="container">
+      <p class="logos-label" data-i18n="logos.label">Trusted by teams at</p>
+    </div>
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>NOVA</span><span>Fluxbase</span><span>Orbit</span><span>Lumen</span><span>Kestrel</span><span>Weave</span>
+        <span>NOVA</span><span>Fluxbase</span><span>Orbit</span><span>Lumen</span><span>Kestrel</span><span>Weave</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section class="about" id="about">
+    <div class="container about-inner">
+      <div class="about-image" data-reveal>
+        <div class="about-image-frame">
+          <img src="assets/mick-profile.webp" alt="Mick Yuttana Pati" class="about-photo">
+        </div>
+        <div class="about-badge">
+          <strong>3+</strong>
+          <span data-i18n="about.badgeLabel" data-i18n-html>Years of<br>Experience</span>
+        </div>
+      </div>
+      <div class="about-copy" data-reveal>
+        <p class="section-eyebrow"><span class="eyebrow-index">01</span><span data-i18n="about.eyebrow">About Me</span></p>
+        <h2 data-i18n="about.title">I turn complex problems into simple, beautiful interfaces.</h2>
+        <p class="about-text" data-i18n="about.text1">UX/UI Designer with 3+ years specializing in enterprise IoT and government platforms. I turn complex sensor data and operational workflows into interfaces that non-technical users can actually use.</p>
+        <p class="about-text" data-i18n="about.text2">My Computer Science background lets me collaborate with engineers in their own language — and ship design systems that hold up at scale.</p>
+        <ul class="about-list">
+          <li><span class="check">✓</span> <span data-i18n="about.list1">User-Centered Design Process</span></li>
+          <li><span class="check">✓</span> <span data-i18n="about.list2">Cross-Platform Design Systems</span></li>
+          <li><span class="check">✓</span> <span data-i18n="about.list3">Data-Informed Design Decisions</span></li>
+        </ul>
+        <a href="#" class="btn btn-outline" id="resumeBtn" data-i18n="about.resumeBtn">Download Resume</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Experience ===== -->
+  <section class="experience" id="experience">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="section-eyebrow"><span class="eyebrow-index">02</span><span data-i18n="experience.eyebrow">Career</span></p>
+        <h2 data-i18n="experience.title">Work Experience</h2>
+        <p class="section-desc" data-i18n="experience.desc">A timeline of roles where I've shipped real products, systems, and design processes.</p>
+      </div>
+
+      <div class="timeline" data-reveal>
+
+        <article class="timeline-item glow-border">
+          <div class="timeline-header">
+            <div class="timeline-heading">
+              <h3 data-i18n="experience.job1.role">UX/UI Designer</h3>
+              <span class="timeline-company" data-i18n="experience.job1.company">Swift Dynamics Co., Ltd.</span>
+            </div>
+            <span class="timeline-date" data-i18n="experience.job1.date">Nov 2022 – Present</span>
+          </div>
+
+          <div class="timeline-group">
+            <h4 data-i18n="experience.job1.group1.title">Product Architecture &amp; Design Systems</h4>
+            <ul>
+              <li data-i18n="experience.job1.group1.bullet1">Led end-to-end UX/UI design for a construction and facility management platform, taking it from paper-based workflows to a fully digital ecosystem used across web and mobile.</li>
+              <li data-i18n="experience.job1.group1.bullet2">Built and maintained a centralized Design System with Figma Variables, Tokens, and Auto-layout — reducing design-to-dev revision rounds from ~4 to 1–2 per feature and keeping UI consistent across 5+ product modules.</li>
+              <li data-i18n="experience.job1.group1.bullet3">Integrated AI tools (Claude, Gemini) into the design workflow for research synthesis, first-draft user flows, and documentation — cutting the discovery phase on new features from ~2 weeks to 8–9 days.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-group">
+            <h4 data-i18n="experience.job1.group2.title">Data-Driven IoT &amp; Custom Dashboards</h4>
+            <ul>
+              <li data-i18n="experience.job1.group2.bullet1">Designed monitoring dashboards for industrial IoT sensor data using Apache ECharts, helping operations teams identify system anomalies roughly 40% faster during pilot testing.</li>
+              <li data-i18n="experience.job1.group2.bullet2">Partnered with frontend engineers to spec and review component behavior in React, Ant Design, and Tailwind CSS — making sure dense data views stayed performant and didn't break under real sensor load.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-group">
+            <h4 data-i18n="experience.job1.group3.title">Stakeholder Collaboration &amp; Government Solutions</h4>
+            <ul>
+              <li data-i18n="experience.job1.group3.bullet1">Ran requirement-gathering sessions directly with Product Owners and Project Managers, translating high-level business goals into user flows and high-fidelity wireframes for large-scale government projects.</li>
+              <li data-i18n="experience.job1.group3.bullet2">Designed a unified status-tracking dashboard for a government client, prioritizing accessibility and plain-language UI for users across age groups and technical literacy — achieving a 30% lift in task completion rate during usability testing (n=12).</li>
+              <li data-i18n="experience.job1.group3.bullet3">Presented design decisions and trade-offs to cross-functional stakeholders (PM, PO, engineering leads, client representatives) on a weekly basis.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="timeline-item glow-border">
+          <div class="timeline-header">
+            <div class="timeline-heading">
+              <h3 data-i18n="experience.job2.role">UI Designer</h3>
+              <span class="timeline-company" data-i18n="experience.job2.company">Yes Web Design Studio Co., Ltd.</span>
+            </div>
+            <span class="timeline-date" data-i18n="experience.job2.date">Apr 2022 – Aug 2022</span>
+          </div>
+          <ul>
+            <li data-i18n="experience.job2.bullet1">Designed high-fidelity UI for 3+ WordPress websites in Figma, customizing ThemeForest templates to match each client's brand and content needs.</li>
+            <li data-i18n="experience.job2.bullet2">Built reusable component libraries and site maps that cut design time on follow-up projects, while keeping visual consistency across the studio's deliverables.</li>
+          </ul>
+        </article>
+
+        <article class="timeline-item glow-border">
+          <div class="timeline-header">
+            <div class="timeline-heading">
+              <h3 data-i18n="experience.job3.role">UI Designer (Internship)</h3>
+              <span class="timeline-company" data-i18n="experience.job3.company">Online Asset Co., Ltd.</span>
+            </div>
+            <span class="timeline-date" data-i18n="experience.job3.date">Nov 2021 – Mar 2022</span>
+          </div>
+          <ul>
+            <li data-i18n="experience.job3.bullet1">Designed the full mobile UI for DR.in (medical app) in Adobe XD — from wireframes to high-fidelity prototypes — and shipped responsive front-end pages for SUSCO.co.th using HTML, CSS, and JavaScript.</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Skills ===== -->
+  <section class="skills" id="skills">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="section-eyebrow"><span class="eyebrow-index">03</span><span data-i18n="skills.eyebrow">What I Do</span></p>
+        <h2 data-i18n="skills.title">Skills &amp; Tools</h2>
+        <p class="section-desc" data-i18n="skills.desc">A blend of design strategy, research methods, and the tools I use every day to bring ideas to life.</p>
+      </div>
+
+      <div class="skills-grid" data-reveal>
+        <div class="skill-card glow-border">
+          <div class="skill-icon">🧭</div>
+          <h3 data-i18n="skills.card1.title">Design Strategy</h3>
+          <p data-i18n="skills.card1.desc">Scalable Design Systems (Tokens/Variables), Information Architecture, Service Blueprinting, Product Roadmap Alignment.</p>
+        </div>
+        <div class="skill-card glow-border">
+          <div class="skill-icon">🔍</div>
+          <h3 data-i18n="skills.card2.title">UX Research</h3>
+          <p data-i18n="skills.card2.desc">Usability Testing, User Persona Mapping, User Flows, Site Maps, A/B Testing.</p>
+        </div>
+        <div class="skill-card glow-border">
+          <div class="skill-icon">💻</div>
+          <h3 data-i18n="skills.card3.title">Development</h3>
+          <p data-i18n="skills.card3.desc">React, Ant Design, shadcn/ui, Tailwind CSS, Apache ECharts, Design-to-Code Handover.</p>
+        </div>
+        <div class="skill-card glow-border">
+          <div class="skill-icon">🤖</div>
+          <h3 data-i18n="skills.card4.title">AI Productivity</h3>
+          <p data-i18n="skills.card4.desc">Claude, Gemini, ChatGPT, Google Stitch — for research synthesis, prompt engineering, and rapid prototyping.</p>
+        </div>
+        <div class="skill-card glow-border">
+          <div class="skill-icon">🎨</div>
+          <h3 data-i18n="skills.card5.title">Design Tools</h3>
+          <p data-i18n="skills.card5.desc">Figma (Advanced), FigJam, Adobe XD.</p>
+        </div>
+        <div class="skill-card glow-border">
+          <div class="skill-icon">🤝</div>
+          <h3 data-i18n="skills.card6.title">Collaboration</h3>
+          <p data-i18n="skills.card6.desc">Jira, Miro, Slack.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Work ===== -->
+  <section class="work" id="work">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="section-eyebrow"><span class="eyebrow-index">04</span><span data-i18n="work.eyebrow">Selected Work</span></p>
+        <h2 data-i18n="work.title">Featured Projects</h2>
+        <p class="section-desc" data-i18n="work.desc">A few case studies that show how I approach problems from research to final UI.</p>
+      </div>
+
+      <div class="filter-row" data-reveal>
+        <button class="filter-btn is-active" data-filter="all" data-i18n="work.filterAll">All</button>
+        <button class="filter-btn" data-filter="mobile" data-i18n="work.filterMobile">Mobile App</button>
+        <button class="filter-btn" data-filter="web" data-i18n="work.filterWeb">Web App</button>
+        <button class="filter-btn" data-filter="design-system" data-i18n="work.filterDesignSystem">Design System</button>
+      </div>
+
+      <!-- Cards are rendered from js/projects-data.js by renderWorkGrid() in js/script.js -->
+      <div class="work-grid" id="workGrid" data-reveal></div>
+    </div>
+  </section>
+
+  <!-- ===== Process ===== -->
+  <section class="process" id="process">
+    <div class="container">
+      <div class="section-head light" data-reveal>
+        <p class="section-eyebrow"><span class="eyebrow-index">05</span><span data-i18n="process.eyebrow">How I Work</span></p>
+        <h2 data-i18n="process.title">My Design Process</h2>
+        <p class="section-desc" data-i18n="process.desc">A structured yet flexible process that keeps users at the center of every decision.</p>
+      </div>
+
+      <div class="process-grid" data-reveal>
+        <div class="process-card glow-border">
+          <span class="process-num">01</span>
+          <h3 data-i18n="process.step1.title">Discover</h3>
+          <p data-i18n="process.step1.desc">Understand the business goals, users, and constraints through research and stakeholder interviews.</p>
+        </div>
+        <div class="process-card glow-border">
+          <span class="process-num">02</span>
+          <h3 data-i18n="process.step2.title">Define</h3>
+          <p data-i18n="process.step2.desc">Synthesize findings into clear problem statements, user flows, and information architecture.</p>
+        </div>
+        <div class="process-card glow-border">
+          <span class="process-num">03</span>
+          <h3 data-i18n="process.step3.title">Design</h3>
+          <p data-i18n="process.step3.desc">Explore wireframes and visual concepts, then refine into high-fidelity, testable prototypes.</p>
+        </div>
+        <div class="process-card glow-border">
+          <span class="process-num">04</span>
+          <h3 data-i18n="process.step4.title">Deliver</h3>
+          <p data-i18n="process.step4.desc">Test with real users, iterate, and hand off polished, developer-ready designs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Testimonials ===== -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="section-eyebrow"><span class="eyebrow-index">06</span><span data-i18n="testimonials.eyebrow">Testimonials</span></p>
+        <h2 data-i18n="testimonials.title">What Clients Say</h2>
+      </div>
+
+      <div class="testimonial-track" data-reveal>
+        <div class="testimonial-card glow-border">
+          <p class="quote" data-i18n="testimonials.quote1">Mick has an incredible eye for detail. Our conversion rate improved by 32% after the redesign. Communication was smooth from kickoff to handoff.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">JC</div>
+            <div>
+              <strong>Jamie Chen</strong>
+              <span data-i18n="testimonials.role1">Product Manager, Fluxbase</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card glow-border">
+          <p class="quote" data-i18n="testimonials.quote2">Working with Mick felt like having a design partner, not just a vendor. They challenged our assumptions and made the product genuinely better.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">RP</div>
+            <div>
+              <strong>Ravi Patel</strong>
+              <span data-i18n="testimonials.role2">Founder, Orbit</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card glow-border">
+          <p class="quote" data-i18n="testimonials.quote3">The new design system saved our team dozens of hours every sprint. Thoughtful, scalable, and beautifully documented.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">SM</div>
+            <div>
+              <strong>Sara Moreau</strong>
+              <span data-i18n="testimonials.role3">Head of Design, Lumen</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact ===== -->
+  <section class="contact" id="contact">
+    <div class="container contact-inner">
+      <div class="contact-copy" data-reveal>
+        <p class="section-eyebrow"><span class="eyebrow-index">07</span><span data-i18n="contact.eyebrow">Get In Touch</span></p>
+        <h2 data-i18n="contact.title">Let's create something great together.</h2>
+        <p class="section-desc" data-i18n="contact.desc">Have a project in mind or just want to say hi? My inbox is always open.</p>
+        <div class="contact-details">
+          <a href="mailto:phatiyuttana@gmail.com" class="contact-item">
+            <span class="contact-icon">✉️</span> phatiyuttana@gmail.com
+          </a>
+          <div class="contact-item">
+            <span class="contact-icon">📍</span> Phahonyothin Rd, Anusawari, Bang Khen, Bangkok 10220
+          </div>
+        </div>
+        <div class="social-row">
+          <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
+          <a href="#" aria-label="Dribbble">Dribbble</a>
+          <a href="#" aria-label="Behance">Behance</a>
+          <a href="#" aria-label="Instagram">Instagram</a>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contactForm" data-reveal>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name" data-i18n="form.labelName">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" data-i18n-placeholder="form.placeholderName" required>
+          </div>
+          <div class="form-group">
+            <label for="email" data-i18n="form.labelEmail">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" data-i18n-placeholder="form.placeholderEmail" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject" data-i18n="form.labelSubject">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="Project inquiry" data-i18n-placeholder="form.placeholderSubject">
+        </div>
+        <div class="form-group">
+          <label for="message" data-i18n="form.labelMessage">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." data-i18n-placeholder="form.placeholderMessage" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" data-i18n="form.sendBtn">Send Message</button>
+        <p class="form-note" id="formNote"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <span class="footer-monogram">MP</span>
+      <p class="footer-tagline" data-i18n="footer.tagline">UX/UI Designer based in Bangkok, Thailand.</p>
+    </div>
+    <a href="#home" class="back-to-top" aria-label="Back to top">↑</a>
+  </div>
+  <div class="container footer-bottom">
+    <a href="#home" class="logo">Mick<span class="dot">.</span>Pati</a>
+    <p>&copy; <span id="year"></span> Mick Yuttana Pati. <span data-i18n="footer.rights">All rights reserved.</span></p>
+  </div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/projects-data.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
