@@ -409,29 +409,6 @@ section { position: relative; }
 }
 @keyframes scrollDot { 0% { opacity: 1; top: 7px; } 100% { opacity: 0; top: 18px; } }
 
-/* ============ Logos ============ */
-.logos { padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; }
-.logos-label { color: var(--text-tertiary); font-size: 0.8rem; white-space: nowrap; margin-bottom: 20px; }
-
-.marquee {
-  width: 100%;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-  gap: 56px;
-  animation: marqueeScroll 24s linear infinite;
-}
-.marquee:hover .marquee-track { animation-play-state: paused; }
-@keyframes marqueeScroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.marquee-track span { font-family: var(--font-head); font-weight: 600; font-size: 1rem; color: var(--text-muted); letter-spacing: -0.01em; white-space: nowrap; }
-
 /* ============ Section Head ============ */
 .section-eyebrow {
   display: flex;
@@ -719,39 +696,6 @@ section { position: relative; }
 .process-card h3 { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.018em; margin-bottom: 8px; }
 .process-card p { font-size: 0.88rem; color: var(--text-muted); }
 
-/* ============ Testimonials ============ */
-.testimonials { padding: var(--space-section) 0; }
-.testimonial-track {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.testimonial-card {
-  background: var(--surface-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  transition: border-color var(--transition), background var(--transition);
-}
-.testimonial-card:hover { border-color: var(--border-strong); background: var(--surface-2); }
-.quote { font-size: 0.98rem; letter-spacing: -0.006em; margin-bottom: 24px; color: var(--text); }
-.quote::before { content: "\201C"; }
-.quote::after { content: "\201D"; }
-.testimonial-author { display: flex; align-items: center; gap: 14px; }
-.author-avatar {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  color: var(--accent-hover);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 600;
-  font-size: 0.8rem;
-  flex-shrink: 0;
-}
-.testimonial-author strong { display: block; font-size: 0.92rem; font-weight: 600; }
-.testimonial-author span { font-size: 0.8rem; color: var(--text-muted); }
-
 /* ============ Contact ============ */
 .contact { padding: var(--space-section) 0; background: var(--bg-alt); }
 .contact-inner { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; }
@@ -845,7 +789,6 @@ section { position: relative; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .work-grid { grid-template-columns: repeat(2, 1fr); }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
-  .testimonial-track { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 780px) {
@@ -860,7 +803,7 @@ section { position: relative; }
   .hero-bg-type { display: none; }
   .hero-stats { flex-wrap: wrap; row-gap: 24px; }
   .stat { flex: 1 1 40%; }
-  .about, .experience, .skills, .work, .process, .testimonials, .contact { padding: 64px 0; }
+  .about, .experience, .skills, .work, .process, .contact { padding: 64px 0; }
   .timeline-item { padding: 24px 20px; }
   .footer-top, .footer-bottom { justify-content: center; text-align: center; }
 }

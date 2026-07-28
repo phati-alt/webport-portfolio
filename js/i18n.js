@@ -18,8 +18,6 @@ const translations = {
     "hero.stat2": "Faster Design Cycles",
     "hero.stat3": "Projects Delivered",
 
-    "logos.label": "Trusted by teams at",
-
     "about.badgeLabel": "Years of<br>Experience",
     "about.eyebrow": "About Me",
     "about.title": "I turn complex problems into simple, beautiful interfaces.",
@@ -109,15 +107,6 @@ const translations = {
     "process.step4.title": "Deliver",
     "process.step4.desc": "Test with real users, iterate, and hand off polished, developer-ready designs.",
 
-    "testimonials.eyebrow": "Testimonials",
-    "testimonials.title": "What Clients Say",
-    "testimonials.quote1": "Mick has an incredible eye for detail. Our conversion rate improved by 32% after the redesign. Communication was smooth from kickoff to handoff.",
-    "testimonials.role1": "Product Manager, Fluxbase",
-    "testimonials.quote2": "Working with Mick felt like having a design partner, not just a vendor. They challenged our assumptions and made the product genuinely better.",
-    "testimonials.role2": "Founder, Orbit",
-    "testimonials.quote3": "The new design system saved our team dozens of hours every sprint. Thoughtful, scalable, and beautifully documented.",
-    "testimonials.role3": "Head of Design, Lumen",
-
     "contact.eyebrow": "Get In Touch",
     "contact.title": "Let's create something great together.",
     "contact.desc": "Have a project in mind or just want to say hi? My inbox is always open.",
@@ -156,8 +145,6 @@ const translations = {
     "hero.stat1": "ปีประสบการณ์",
     "hero.stat2": "รอบการออกแบบที่เร็วขึ้น",
     "hero.stat3": "โปรเจกต์ที่ส่งมอบ",
-
-    "logos.label": "ทีมที่ไว้วางใจ",
 
     "about.badgeLabel": "ปีของ<br>ประสบการณ์",
     "about.eyebrow": "เกี่ยวกับผม",
@@ -247,15 +234,6 @@ const translations = {
     "process.step3.desc": "สำรวจ Wireframe และแนวคิดภาพ แล้วพัฒนาเป็น Prototype ความละเอียดสูงที่พร้อมทดสอบ",
     "process.step4.title": "ส่งมอบ",
     "process.step4.desc": "ทดสอบกับผู้ใช้จริง ปรับปรุงซ้ำ และส่งมอบงานออกแบบที่พร้อมสำหรับนักพัฒนา",
-
-    "testimonials.eyebrow": "คำรีวิว",
-    "testimonials.title": "ลูกค้าพูดถึงเรา",
-    "testimonials.quote1": "มิคมีสายตาที่ละเอียดมาก อัตราการเปลี่ยนเป็นลูกค้าของเราเพิ่มขึ้น 32% หลังรีดีไซน์ การสื่อสารราบรื่นตั้งแต่เริ่มจนส่งมอบงาน",
-    "testimonials.role1": "Product Manager, Fluxbase",
-    "testimonials.quote2": "การทำงานกับมิคเหมือนมีพาร์ทเนอร์ด้านดีไซน์ ไม่ใช่แค่ผู้รับจ้าง เขาท้าทายสมมติฐานของเราและทำให้โปรดักต์ดีขึ้นจริง ๆ",
-    "testimonials.role2": "Founder, Orbit",
-    "testimonials.quote3": "Design System ใหม่ช่วยประหยัดเวลาทีมเราหลายสิบชั่วโมงในแต่ละสปรินต์ คิดมาอย่างรอบคอบ ขยายต่อได้ และมีเอกสารที่สวยงาม",
-    "testimonials.role3": "Head of Design, Lumen",
 
     "contact.eyebrow": "ติดต่อผม",
     "contact.title": "มาสร้างสรรค์สิ่งดี ๆ ไปด้วยกัน",
