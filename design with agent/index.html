@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mick Yuttana Pati — Instrumented / UX-UI Design Sheet</title>
+<meta name="description" content="Mick Yuttana Pati, UX/UI Designer. Industrial IoT, enterprise platforms, and government services — designed as measured, readable systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Instrument+Sans:wght@400..600&family=Martian+Mono:wght@300..600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 fill=%22%23E9EDE6%22/><path d=%22M4 22h5l4-12 4 12 4-8 3 8h4%22 fill=%22none%22 stroke=%22%230B49FF%22 stroke-width=%222.5%22/></svg>">
+<link rel="stylesheet" href="css/sheet.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body data-spec="off">
+
+<!-- Drafting-sheet frame: the page presents itself as a technical sheet -->
+<div class="sheet-frame" aria-hidden="true"></div>
+
+<!-- Left margin rail = section index + scroll position -->
+<nav class="rail" aria-label="Section index">
+  <ol class="rail-list">
+    <li><a href="#sheet"   class="rail-link is-active" data-rail="sheet"><span class="rail-no">00</span><span class="rail-name">Sheet</span></a></li>
+    <li><a href="#readings" class="rail-link" data-rail="readings"><span class="rail-no">01</span><span class="rail-name">Readings</span></a></li>
+    <li><a href="#profile"  class="rail-link" data-rail="profile"><span class="rail-no">02</span><span class="rail-name">Profile</span></a></li>
+    <li><a href="#plates"   class="rail-link" data-rail="plates"><span class="rail-no">03</span><span class="rail-name">Plates</span></a></li>
+    <li><a href="#method"   class="rail-link" data-rail="method"><span class="rail-no">04</span><span class="rail-name">Method</span></a></li>
+    <li><a href="#contact"  class="rail-link" data-rail="contact"><span class="rail-no">05</span><span class="rail-name">Contact</span></a></li>
+  </ol>
+</nav>
+
+<header class="topbar">
+  <a href="#sheet" class="mark">
+    <span class="mark-glyph" aria-hidden="true">MP</span>
+    <span class="mark-text">Mick Yuttana Pati</span>
+  </a>
+  <div class="topbar-meta">
+    <span class="topbar-rev">Rev. 2026.07</span>
+    <button class="spec-toggle" id="specToggle" aria-pressed="false">
+      <span class="spec-dot" aria-hidden="true"></span>
+      Spec view
+    </button>
+  </div>
+</header>
+
+<main id="sheet">
+
+  <!-- ===== 00 · Sheet header / thesis ===== -->
+  <section class="band band-hero" data-section="sheet">
+    <div class="grid">
+      <p class="label">00 — Sheet</p>
+      <div class="col">
+        <h1 class="display" data-note="h1 · Archivo 125wdth 800 · clamp(2.9→6.2rem) / 0.94">
+          <span class="line">Industrial sensors</span>
+          <span class="line">never stop talking.</span>
+          <span class="line line-quiet">My job is the one screen<br>you can read at a glance.</span>
+        </h1>
+
+        <div class="hero-foot">
+          <p class="lede">
+            I'm a UX/UI designer in Bangkok working on the unglamorous end of the field:
+            facility operations, sensor telemetry, and government service portals — systems
+            where a misread number costs somebody a day.
+          </p>
+          <ul class="hero-facts">
+            <li><span class="k">Role</span><span class="v">UX/UI Designer, Swift Dynamics</span></li>
+            <li><span class="k">Since</span><span class="v">Nov 2022 · 3+ yrs</span></li>
+            <li><span class="k">Open to</span><span class="v">Freelance &amp; product roles</span></li>
+          </ul>
+        </div>
+
+        <div class="hero-cta">
+          <a href="#plates" class="btn btn-solid">See the plates</a>
+          <a href="mailto:phatiyuttana@gmail.com" class="btn btn-line">phatiyuttana@gmail.com</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 01 · Readings ===== -->
+  <section class="band" data-section="readings" id="readings">
+    <div class="grid">
+      <p class="label">01 — Readings</p>
+      <div class="col">
+        <h2 class="head">Design work, measured the same way I measure a sensor.</h2>
+        <p class="sub">Four readings from shipped work. Each one is a before and an after, not a claim.</p>
+
+        <ul class="readings" data-note="--space-6: 40px · gap between readings">
+          <li class="reading">
+            <p class="reading-name">Anomaly spotting, IoT ops dashboard</p>
+            <div class="reading-plot">
+              <span class="bar bar-before" style="--w:100%"></span>
+              <span class="bar bar-after" style="--w:60%"></span>
+            </div>
+            <p class="reading-value"><span class="delta">40%</span> faster</p>
+            <p class="reading-note">Apache ECharts views, measured during pilot testing</p>
+          </li>
+          <li class="reading">
+            <p class="reading-name">Design-to-dev revision rounds</p>
+            <div class="reading-plot">
+              <span class="bar bar-before" style="--w:100%"></span>
+              <span class="bar bar-after" style="--w:38%"></span>
+            </div>
+            <p class="reading-value"><span class="delta">4 → 1–2</span> per feature</p>
+            <p class="reading-note">After a tokenised Figma system landed across 5 modules</p>
+          </li>
+          <li class="reading">
+            <p class="reading-name">Discovery phase, new feature</p>
+            <div class="reading-plot">
+              <span class="bar bar-before" style="--w:100%"></span>
+              <span class="bar bar-after" style="--w:61%"></span>
+            </div>
+            <p class="reading-value"><span class="delta">14 → 8–9</span> days</p>
+            <p class="reading-note">AI-assisted synthesis and first-draft flows, reviewed by hand</p>
+          </li>
+          <li class="reading">
+            <p class="reading-name">Task completion, government portal</p>
+            <div class="reading-plot">
+              <span class="bar bar-before" style="--w:62%"></span>
+              <span class="bar bar-after" style="--w:100%"></span>
+            </div>
+            <p class="reading-value"><span class="delta">+30%</span> completion</p>
+            <p class="reading-note">Plain-language UI, usability test with 12 participants</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 02 · Profile ===== -->
+  <section class="band band-tint" data-section="profile" id="profile">
+    <div class="grid">
+      <p class="label">02 — Profile</p>
+      <div class="col">
+        <h2 class="head">A computer science degree that turned into a design practice.</h2>
+        <p class="sub">
+          I started in code, which is why handover is the part of my job I take most seriously.
+          I can read the component I'm asking for, and I write the spec so nobody has to guess.
+        </p>
+
+        <dl class="spec-sheet" data-note="key/value rows · Martian Mono 11px / 0.08em">
+          <div class="spec-row">
+            <dt>Based</dt>
+            <dd>Bang Khen, Bangkok · Thailand (GMT+7)</dd>
+          </div>
+          <div class="spec-row">
+            <dt>Domains</dt>
+            <dd>Industrial IoT · Facility &amp; construction ops · Government services</dd>
+          </div>
+          <div class="spec-row">
+            <dt>Design</dt>
+            <dd>Figma (variables, tokens, auto-layout) · FigJam · Adobe XD</dd>
+          </div>
+          <div class="spec-row">
+            <dt>Handover</dt>
+            <dd>React · Ant Design · shadcn/ui · Tailwind CSS · Apache ECharts</dd>
+          </div>
+          <div class="spec-row">
+            <dt>Research</dt>
+            <dd>Usability testing · User flows · IA &amp; site maps · Service blueprints</dd>
+          </div>
+          <div class="spec-row">
+            <dt>Languages</dt>
+            <dd>Thai (native) · English (working)</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 03 · Plates ===== -->
+  <section class="band" data-section="plates" id="plates">
+    <div class="grid">
+      <p class="label">03 — Plates</p>
+      <div class="col">
+        <h2 class="head">Three systems, drawn to scale.</h2>
+        <p class="sub">Each plate: what was broken, what I changed, what moved.</p>
+      </div>
+    </div>
+
+    <div class="plates">
+
+      <article class="plate">
+        <header class="plate-bar">
+          <span>Plate 01</span>
+          <span>Facility &amp; construction platform</span>
+          <span>Web + mobile · 2023–</span>
+        </header>
+        <div class="plate-body">
+          <div class="plate-art" aria-hidden="true">
+            <svg viewBox="0 0 320 200" role="presentation">
+              <rect x="8" y="8" width="304" height="184" class="s-rule" fill="none"/>
+              <rect x="24" y="24" width="128" height="72" class="s-rule" fill="none"/>
+              <rect x="24" y="112" width="128" height="64" class="s-rule" fill="none"/>
+              <rect x="168" y="24" width="128" height="152" class="s-fill"/>
+              <rect x="168" y="24" width="128" height="152" class="s-rule" fill="none"/>
+              <path d="M182 150h100M182 132h72M182 114h88" class="s-ink"/>
+              <circle cx="188" cy="52" r="7" class="s-sig-f"/>
+              <path d="M204 52h78" class="s-sig"/>
+              <path d="M38 60h100M38 44h60" class="s-ink"/>
+              <path d="M38 140h100M38 156h44" class="s-ink"/>
+            </svg>
+          </div>
+          <div class="plate-copy">
+            <h3>From paper forms to one operating picture</h3>
+            <p class="plate-problem"><span class="tag">Was</span> Site inspections, defect logs and handover checks lived on printed forms; nothing reconciled until end of week.</p>
+            <p class="plate-move"><span class="tag">Did</span> Owned end-to-end UX for the platform — flows, IA and high-fidelity UI across five modules, on web and mobile, with one shared component library.</p>
+            <p class="plate-result"><span class="tag">Moved</span> Revision rounds per feature dropped from about four to one or two; UI stayed consistent as modules multiplied.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="plate">
+        <header class="plate-bar">
+          <span>Plate 02</span>
+          <span>Industrial IoT monitoring</span>
+          <span>Dashboard · 2023–</span>
+        </header>
+        <div class="plate-body">
+          <div class="plate-art" aria-hidden="true">
+            <svg viewBox="0 0 320 200" role="presentation">
+              <rect x="8" y="8" width="304" height="184" class="s-rule" fill="none"/>
+              <rect x="24" y="52" width="272" height="52" class="s-band"/>
+              <path d="M24 78h272" class="s-rule-dash"/>
+              <path d="M24 96 L48 88 L72 100 L96 82 L120 92 L144 74 L168 86 L192 40 L216 84 L240 92 L264 76 L296 88"
+                    class="s-sig" fill="none"/>
+              <circle cx="192" cy="40" r="6" class="s-sig-f"/>
+              <path d="M192 40 L192 24" class="s-rule"/>
+              <rect x="170" y="10" width="44" height="14" class="s-ink-f"/>
+              <path d="M24 136h272M24 160h272" class="s-rule"/>
+              <path d="M24 148h64M100 148h48M160 148h96" class="s-ink"/>
+            </svg>
+          </div>
+          <div class="plate-copy">
+            <h3>A threshold you can see without reading a number</h3>
+            <p class="plate-problem"><span class="tag">Was</span> Operators scanned raw sensor tables and found problems late, usually after somebody phoned in.</p>
+            <p class="plate-move"><span class="tag">Did</span> Designed ECharts monitoring views with banded thresholds and an anomaly marker, then specced component behaviour with the frontend team so dense views held up under real sensor load.</p>
+            <p class="plate-result"><span class="tag">Moved</span> Teams identified anomalies roughly 40% faster in pilot testing.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="plate">
+        <header class="plate-bar">
+          <span>Plate 03</span>
+          <span>Government status tracker</span>
+          <span>Public service · 2024</span>
+        </header>
+        <div class="plate-body">
+          <div class="plate-art" aria-hidden="true">
+            <svg viewBox="0 0 320 200" role="presentation">
+              <rect x="8" y="8" width="304" height="184" class="s-rule" fill="none"/>
+              <path d="M40 100h240" class="s-rule"/>
+              <path d="M40 100h160" class="s-sig"/>
+              <circle cx="40"  cy="100" r="9" class="s-sig-f"/>
+              <circle cx="120" cy="100" r="9" class="s-sig-f"/>
+              <circle cx="200" cy="100" r="9" class="s-sig-f"/>
+              <circle cx="280" cy="100" r="9" class="s-rule-f"/>
+              <path d="M28 128h24M108 128h24M188 128h24M268 128h24" class="s-ink"/>
+              <path d="M24 148h96M24 164h60" class="s-ink-light"/>
+              <rect x="40" y="44" width="240" height="30" class="s-fill"/>
+              <rect x="40" y="44" width="240" height="30" class="s-rule" fill="none"/>
+              <path d="M56 59h130" class="s-ink"/>
+            </svg>
+          </div>
+          <div class="plate-copy">
+            <h3>One status line, written for everyone</h3>
+            <p class="plate-problem"><span class="tag">Was</span> Applicants couldn't tell where their request sat, and the wording assumed you already knew the process.</p>
+            <p class="plate-move"><span class="tag">Did</span> Built a unified status dashboard around plain-language states and accessible contrast, tested across age groups and levels of technical confidence.</p>
+            <p class="plate-result"><span class="tag">Moved</span> Task completion rose 30% in usability testing with 12 participants.</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== 04 · Method (a real sequence — so it is numbered) ===== -->
+  <section class="band band-ink" data-section="method" id="method">
+    <div class="grid">
+      <p class="label">04 — Method</p>
+      <div class="col">
+        <h2 class="head">Four passes, in order, every time.</h2>
+        <p class="sub">The order matters: each pass produces the input the next one needs.</p>
+      </div>
+    </div>
+
+    <ol class="method">
+      <li class="step">
+        <span class="step-no">01</span>
+        <h3>Sit with the operator</h3>
+        <p>Requirement sessions with POs and PMs, then time with whoever actually uses the thing. I leave with the vocabulary they use, not the vocabulary the system uses.</p>
+        <p class="step-out">Output — problem statement, current-state flow</p>
+      </li>
+      <li class="step">
+        <span class="step-no">02</span>
+        <h3>Draw the structure</h3>
+        <p>Information architecture and user flows before any pixels. If the structure is wrong, no amount of visual polish will save the screen.</p>
+        <p class="step-out">Output — site map, flows, wireframes</p>
+      </li>
+      <li class="step">
+        <span class="step-no">03</span>
+        <h3>Build from tokens</h3>
+        <p>High-fidelity UI assembled from the design system, not drawn fresh each time. Variables and tokens mean a change lands everywhere at once.</p>
+        <p class="step-out">Output — component-based hi-fi, prototype</p>
+      </li>
+      <li class="step">
+        <span class="step-no">04</span>
+        <h3>Test, then spec</h3>
+        <p>Usability testing with real users, then a handover written for engineers — states, edge cases, behaviour under load. I stay in review until it ships.</p>
+        <p class="step-out">Output — findings, dev-ready spec</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ===== 05 · Contact ===== -->
+  <section class="band band-close" data-section="contact" id="contact">
+    <div class="grid">
+      <p class="label">05 — Contact</p>
+      <div class="col">
+        <h2 class="display display-sm">Got a system that's<br>hard to read?</h2>
+        <p class="sub sub-wide">
+          Send me the messy version. I'd rather see the real screens, the real spreadsheet,
+          the real form people are working around — that's where the work starts.
+        </p>
+
+        <ul class="contact-list">
+          <li>
+            <span class="k">Email</span>
+            <a class="v link" href="mailto:phatiyuttana@gmail.com">phatiyuttana@gmail.com</a>
+          </li>
+          <li>
+            <span class="k">LinkedIn</span>
+            <a class="v link" href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener">/in/yuttana-phati</a>
+          </li>
+          <li>
+            <span class="k">Location</span>
+            <span class="v">Phahonyothin Rd, Anusawari, Bang Khen, Bangkok 10220</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="sheet-footer">
+  <span>Mick Yuttana Pati · UX/UI Designer</span>
+  <span>Sheet 1 of 1 · Drawn 2026</span>
+  <a href="#sheet" class="to-top">Back to 00 ↑</a>
+</footer>
+
+<script src="js/sheet.js"></script>
+</body>
+</html>

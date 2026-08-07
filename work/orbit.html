@@ -1,41 +1,10 @@
-<!--
-  CASE STUDY PAGE TEMPLATE — studio design system
-  ================================================
-  Matches studio/index.html: same header, footer, fonts, tokens, motion.
-  Everything here reuses studio/css/style.css components — see the
-  "Case study pages" block near the end of that file for the handful of
-  page-specific rules (.cs-hero, .cs-meta, .cs-gallery, .cs-next).
-
-  To add a new project:
-  1. Copy this file to work/<slug>.html (slug must match the `href` used
-     on the case card in studio/index.html, e.g. work/finza.html).
-  2. Replace every [PLACEHOLDER] below with real content.
-  3. The title/description/category reuse the SAME i18n keys as the
-     homepage card (work.cardN.title, work.cardN.desc, work.filterX) —
-     keep N in sync with the card's position so they stay identical.
-  4. Fill in the csTranslations object at the bottom (EN + TH) for the
-     copy that's unique to this page — meta values, body paragraphs,
-     stats, next-project title. Generic labels ("The Problem", "Role",
-     "Next project" …) already live in studio/js/i18n.js — don't repeat
-     them here.
-  5. Pick a data-tone that matches this project's card on the homepage
-     (blue/green/purple/orange/pink/yellow) so the placeholder blocks
-     read as the same project.
-  6. When you have real screenshots: drop them in assets/work/<slug>/,
-     swap the <div class="media-block"> placeholders for <img> tags
-     pointing at them, and delete the data-tone attribute.
-  7. Update cs.next in THIS file to point at the next project, and swap
-     that project's cs.next.title/href to point back here if you're
-     inserting into the middle of the chain.
-  See work/finza.html for a filled-in example.
--->
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[Project Name] — Case Study | Mick Yuttana Pati</title>
-<meta name="description" content="[One-sentence project summary].">
+<title>Orbit — E-commerce Dashboard | Case Study | Mick Yuttana Pati</title>
+<meta name="description" content="An analytics dashboard that helps sellers track performance at a glance.">
 
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +34,6 @@
   <span class="cursor__blob"><span class="cursor__arrow">↗</span></span>
 </div>
 
-<!-- ===== Header (identical to studio/index.html, links go back through ../studio/index.html) ===== -->
 <header class="header" id="header" data-header>
   <a href="../studio/index.html#home" class="header__logo">
     <span class="header__logo-mark">MP</span>
@@ -93,82 +61,74 @@
 
 <main id="main">
 
-  <!-- ===== Hero ===== -->
   <section class="cs-hero">
     <div class="wrap">
-      <p class="pretitle" data-i18n="work.filterMobile" data-reveal>[Category — reuse work.filterMobile / work.filterWeb / work.filterDesignSystem]</p>
-      <h1 class="cs-hero__title" data-i18n="work.card1.title" data-reveal>[Reuse work.cardN.title so it matches the homepage card]</h1>
-      <p class="lede" data-i18n="work.card1.desc" data-reveal>[Reuse work.cardN.desc]</p>
+      <p class="pretitle" data-i18n="work.filterWeb" data-reveal>Web App</p>
+      <h1 class="cs-hero__title" data-i18n="work.card2.title" data-reveal>Orbit — E-commerce Dashboard</h1>
+      <p class="lede" data-i18n="work.card2.desc" data-reveal>An analytics dashboard that helps sellers track performance at a glance.</p>
 
       <dl class="cs-meta" data-reveal>
-        <div><dt data-i18n="cs.meta.roleLabel">Role</dt><dd data-i18n-cs="cs.meta.role">[Role]</dd></div>
-        <div><dt data-i18n="cs.meta.timelineLabel">Timeline</dt><dd data-i18n-cs="cs.meta.timeline">[Timeline]</dd></div>
-        <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-i18n-cs="cs.meta.platform">[Platform]</dd></div>
-        <div><dt data-i18n="cs.meta.toolsLabel">Tools</dt><dd data-i18n-cs="cs.meta.tools">[Tools]</dd></div>
+        <div><dt data-i18n="cs.meta.roleLabel">Role</dt><dd data-i18n-cs="cs.meta.role">UX/UI Designer</dd></div>
+        <div><dt data-i18n="cs.meta.timelineLabel">Timeline</dt><dd data-i18n-cs="cs.meta.timeline">8 weeks</dd></div>
+        <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-i18n-cs="cs.meta.platform">Web (desktop-first)</dd></div>
+        <div><dt data-i18n="cs.meta.toolsLabel">Tools</dt><dd data-i18n-cs="cs.meta.tools">Figma, Apache ECharts, Notion</dd></div>
       </dl>
 
-      <!-- Swap for <img class="cs-cover" src="../assets/work/<slug>/cover.jpg" alt="..."> once you have a real cover -->
-      <div class="cs-cover media-block" data-tone="blue" data-reveal><span>[Project Name] — cover</span></div>
+      <div class="cs-cover media-block" data-tone="green" data-reveal><span>Orbit — cover</span></div>
     </div>
   </section>
 
-  <!-- ===== Problem ===== -->
   <section class="cs-section">
     <div class="wrap">
       <h2 class="cs-section__title" data-i18n="cs.overview.title">The Problem</h2>
-      <p class="lede" data-i18n-cs="cs.problem.p1" data-reveal>[What was broken or missing for users/the business before this project?]</p>
-      <p class="lede" data-i18n-cs="cs.problem.p2" data-reveal>[Any constraint worth mentioning — timeline, technical, stakeholder.]</p>
+      <p class="lede" data-i18n-cs="cs.problem.p1" data-reveal>Sellers had to cross-reference three separate reports just to answer "how is my store doing today," and most gave up before finding the number they needed.</p>
+      <p class="lede" data-i18n-cs="cs.problem.p2" data-reveal>The existing reports were technically accurate but built around what the database could export, not what a seller actually checks first each morning.</p>
     </div>
   </section>
 
-  <!-- ===== Process ===== -->
   <section class="cs-section">
     <div class="wrap">
       <h2 class="cs-section__title" data-i18n="cs.process.title">Process</h2>
-      <p class="lede" data-i18n-cs="cs.process.p1" data-reveal>[Research, discovery, key decisions along the way.]</p>
+      <p class="lede" data-i18n-cs="cs.process.p1" data-reveal>Shadowed 5 sellers through their morning routine, audited the existing reports line by line, and prototyped a single glance-view that combined revenue, inventory, and traffic in one place.</p>
     </div>
   </section>
 
-  <!-- ===== Solution ===== -->
   <section class="cs-section">
     <div class="wrap">
       <h2 class="cs-section__title" data-i18n="cs.solution.title">The Solution</h2>
-      <p class="lede" data-i18n-cs="cs.solution.p1" data-reveal>[Describe the final design and why it works.]</p>
+      <p class="lede" data-i18n-cs="cs.solution.p1" data-reveal>One dashboard home surfaces the four metrics sellers checked daily first, with drill-down available on demand instead of shown by default.</p>
 
-      <!-- Swap each media-block for <img src="../assets/work/<slug>/screen-N.jpg"> once you have real screens -->
       <div class="cs-gallery">
         <figure data-reveal>
-          <div class="media-block" data-tone="blue"><span>Screen 1</span></div>
-          <figcaption data-i18n-cs="cs.solution.cap1">[Caption for this screen]</figcaption>
+          <div class="media-block" data-tone="green"><span>Dashboard home</span></div>
+          <figcaption data-i18n-cs="cs.solution.cap1">The four metrics sellers check first, above the fold</figcaption>
         </figure>
         <figure data-reveal>
-          <div class="media-block" data-tone="blue"><span>Screen 2</span></div>
-          <figcaption data-i18n-cs="cs.solution.cap2">[Caption for this screen]</figcaption>
+          <div class="media-block" data-tone="green"><span>Drill-down view</span></div>
+          <figcaption data-i18n-cs="cs.solution.cap2">Detail on demand, not shown until asked for</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- ===== Results ===== -->
   <section class="cs-section">
     <div class="wrap">
       <h2 class="cs-section__title" data-i18n="cs.results.title">Results</h2>
-      <p class="lede" data-i18n-cs="cs.results.p1" data-reveal>[Summary of the outcome/impact.]</p>
+      <p class="lede" data-i18n-cs="cs.results.p1" data-reveal>Sellers found what they needed faster, and support stopped fielding the same "where do I find X" question on repeat.</p>
 
       <div class="numbers__grid" data-reveal style="margin-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding-block: clamp(2rem, 4vw, 3.5rem);">
-        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat1">[XX%]</strong><span data-i18n-cs="cs.results.stat1Label">[What this metric measures]</span></div>
-        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat2">[XX%]</strong><span data-i18n-cs="cs.results.stat2Label">[What this metric measures]</span></div>
-        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat3">[XX%]</strong><span data-i18n-cs="cs.results.stat3Label">[What this metric measures]</span></div>
+        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat1">−58%</strong><span data-i18n-cs="cs.results.stat1Label">Support tickets about finding data</span></div>
+        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat2">3×</strong><span data-i18n-cs="cs.results.stat2Label">Faster time-to-insight in testing</span></div>
+        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat3">91%</strong><span data-i18n-cs="cs.results.stat3Label">Pilot sellers preferred it</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Next project ===== -->
   <section class="cs-next">
     <div class="wrap">
       <p class="pretitle" data-i18n="cs.next.label" data-reveal>Next project</p>
-      <h2 class="section-title" data-i18n-cs="cs.next.title" data-reveal>[Next Project Name]</h2>
-      <a href="PLACEHOLDER.html" class="btn btn--primary" data-hover>
+      <h2 class="section-title" data-i18n-cs="cs.next.title" data-reveal>Lumen — Design System</h2>
+      <a href="lumen.html" class="btn btn--primary" data-hover>
         <span class="btn__label" data-i18n="cs.next.cta">View case study</span>
         <span class="btn__circle">→</span>
       </a>
@@ -177,7 +137,6 @@
 
 </main>
 
-<!-- ===== Footer (identical to studio/index.html) ===== -->
 <footer class="footer">
   <div class="tiles">
     <a class="tile" href="../studio/index.html#services" data-tone="blue" data-hover>
@@ -247,42 +206,40 @@
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="../studio/js/i18n.js"></script>
 <script>
-  // Copy that's unique to this page — kept local so every project stays a
-  // self-contained copy-paste. Generic labels live in studio/js/i18n.js.
   const csTranslations = {
     en: {
-      "cs.meta.role": "[Role]",
-      "cs.meta.timeline": "[Timeline]",
-      "cs.meta.platform": "[Platform]",
-      "cs.meta.tools": "[Tools]",
-      "cs.problem.p1": "[Body copy in English.]",
-      "cs.problem.p2": "[Body copy in English.]",
-      "cs.process.p1": "[Body copy in English.]",
-      "cs.solution.p1": "[Body copy in English.]",
-      "cs.solution.cap1": "[Caption]",
-      "cs.solution.cap2": "[Caption]",
-      "cs.results.p1": "[Body copy in English.]",
-      "cs.results.stat1": "[XX%]", "cs.results.stat1Label": "[Metric label]",
-      "cs.results.stat2": "[XX%]", "cs.results.stat2Label": "[Metric label]",
-      "cs.results.stat3": "[XX%]", "cs.results.stat3Label": "[Metric label]",
-      "cs.next.title": "[Next Project Name]"
+      "cs.meta.role": "UX/UI Designer",
+      "cs.meta.timeline": "8 weeks",
+      "cs.meta.platform": "Web (desktop-first)",
+      "cs.meta.tools": "Figma, Apache ECharts, Notion",
+      "cs.problem.p1": "Sellers had to cross-reference three separate reports just to answer \"how is my store doing today,\" and most gave up before finding the number they needed.",
+      "cs.problem.p2": "The existing reports were technically accurate but built around what the database could export, not what a seller actually checks first each morning.",
+      "cs.process.p1": "Shadowed 5 sellers through their morning routine, audited the existing reports line by line, and prototyped a single glance-view that combined revenue, inventory, and traffic in one place.",
+      "cs.solution.p1": "One dashboard home surfaces the four metrics sellers checked daily first, with drill-down available on demand instead of shown by default.",
+      "cs.solution.cap1": "The four metrics sellers check first, above the fold",
+      "cs.solution.cap2": "Detail on demand, not shown until asked for",
+      "cs.results.p1": "Sellers found what they needed faster, and support stopped fielding the same \"where do I find X\" question on repeat.",
+      "cs.results.stat1": "−58%", "cs.results.stat1Label": "Support tickets about finding data",
+      "cs.results.stat2": "3×", "cs.results.stat2Label": "Faster time-to-insight in testing",
+      "cs.results.stat3": "91%", "cs.results.stat3Label": "Pilot sellers preferred it",
+      "cs.next.title": "Lumen — Design System"
     },
     th: {
-      "cs.meta.role": "[บทบาท]",
-      "cs.meta.timeline": "[ระยะเวลา]",
-      "cs.meta.platform": "[แพลตฟอร์ม]",
-      "cs.meta.tools": "[เครื่องมือ]",
-      "cs.problem.p1": "[เนื้อหาภาษาไทย]",
-      "cs.problem.p2": "[เนื้อหาภาษาไทย]",
-      "cs.process.p1": "[เนื้อหาภาษาไทย]",
-      "cs.solution.p1": "[เนื้อหาภาษาไทย]",
-      "cs.solution.cap1": "[คำอธิบายภาพ]",
-      "cs.solution.cap2": "[คำอธิบายภาพ]",
-      "cs.results.p1": "[เนื้อหาภาษาไทย]",
-      "cs.results.stat1": "[XX%]", "cs.results.stat1Label": "[ตัวชี้วัด]",
-      "cs.results.stat2": "[XX%]", "cs.results.stat2Label": "[ตัวชี้วัด]",
-      "cs.results.stat3": "[XX%]", "cs.results.stat3Label": "[ตัวชี้วัด]",
-      "cs.next.title": "[ชื่อโปรเจกต์ถัดไป]"
+      "cs.meta.role": "UX/UI Designer",
+      "cs.meta.timeline": "8 สัปดาห์",
+      "cs.meta.platform": "เว็บ (เน้นหน้าจอเดสก์ท็อป)",
+      "cs.meta.tools": "Figma, Apache ECharts, Notion",
+      "cs.problem.p1": "ผู้ขายต้องเปิดรายงาน 3 หน้าต่างกันเพื่อตอบคำถามง่าย ๆ ว่า \"วันนี้ร้านเป็นยังไง\" และหลายคนเลิกหาก่อนจะเจอตัวเลขที่ต้องการ",
+      "cs.problem.p2": "รายงานเดิมถูกต้องตามข้อมูลจริง แต่ถูกออกแบบตามสิ่งที่ฐานข้อมูล export ได้ ไม่ใช่ตามสิ่งที่ผู้ขายเช็กเป็นอันดับแรกทุกเช้า",
+      "cs.process.p1": "ตามสังเกตพฤติกรรมผู้ขาย 5 คนช่วงเช้า ตรวจสอบรายงานเดิมทีละบรรทัด แล้วทำ prototype หน้าจอเดียวที่รวมยอดขาย สต็อก และทราฟฟิกไว้ด้วยกัน",
+      "cs.solution.p1": "หน้าแดชบอร์ดหลักตอนนี้แสดง 4 ตัวชี้วัดที่ผู้ขายเช็กทุกวันเป็นอันดับแรก ส่วนรายละเอียดเชิงลึกจะกดดูเพิ่มเมื่อต้องการเท่านั้น ไม่ยัดทุกอย่างไว้หน้าแรก",
+      "cs.solution.cap1": "4 ตัวชี้วัดหลักที่ผู้ขายเช็กก่อนใคร อยู่บนสุดของหน้าจอ",
+      "cs.solution.cap2": "รายละเอียดเชิงลึก กดดูเมื่อต้องการเท่านั้น",
+      "cs.results.p1": "ผู้ขายหาข้อมูลที่ต้องการได้เร็วขึ้น และทีมซัพพอร์ตไม่ต้องตอบคำถาม \"หาตรงไหน\" ซ้ำ ๆ อีกต่อไป",
+      "cs.results.stat1": "-58%", "cs.results.stat1Label": "ทิกเก็ตซัพพอร์ตเรื่องหาข้อมูล",
+      "cs.results.stat2": "3 เท่า", "cs.results.stat2Label": "หาข้อมูลได้เร็วขึ้นตอนทดสอบ",
+      "cs.results.stat3": "91%", "cs.results.stat3Label": "ผู้ขายนำร่องเลือกใช้เวอร์ชันใหม่",
+      "cs.next.title": "Lumen — Design System"
     }
   };
   function applyCs(lang) {

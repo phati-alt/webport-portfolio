@@ -1,5 +1,5 @@
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$port = 8080
+$port = if ($env:PORT) { [int]$env:PORT } else { 8123 }
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:$port/")
 $listener.Start()
@@ -12,6 +12,9 @@ $mime = @{
   ".svg"  = "image/svg+xml"
   ".png"  = "image/png"
   ".jpg"  = "image/jpeg"
+  ".webp" = "image/webp"
+  ".avif" = "image/avif"
+  ".woff2" = "font/woff2"
   ".ico"  = "image/x-icon"
   ".json" = "application/json"
 }

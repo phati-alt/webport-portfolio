@@ -1,41 +1,10 @@
-<!--
-  CASE STUDY PAGE TEMPLATE — studio design system
-  ================================================
-  Matches studio/index.html: same header, footer, fonts, tokens, motion.
-  Everything here reuses studio/css/style.css components — see the
-  "Case study pages" block near the end of that file for the handful of
-  page-specific rules (.cs-hero, .cs-meta, .cs-gallery, .cs-next).
-
-  To add a new project:
-  1. Copy this file to work/<slug>.html (slug must match the `href` used
-     on the case card in studio/index.html, e.g. work/finza.html).
-  2. Replace every [PLACEHOLDER] below with real content.
-  3. The title/description/category reuse the SAME i18n keys as the
-     homepage card (work.cardN.title, work.cardN.desc, work.filterX) —
-     keep N in sync with the card's position so they stay identical.
-  4. Fill in the csTranslations object at the bottom (EN + TH) for the
-     copy that's unique to this page — meta values, body paragraphs,
-     stats, next-project title. Generic labels ("The Problem", "Role",
-     "Next project" …) already live in studio/js/i18n.js — don't repeat
-     them here.
-  5. Pick a data-tone that matches this project's card on the homepage
-     (blue/green/purple/orange/pink/yellow) so the placeholder blocks
-     read as the same project.
-  6. When you have real screenshots: drop them in assets/work/<slug>/,
-     swap the <div class="media-block"> placeholders for <img> tags
-     pointing at them, and delete the data-tone attribute.
-  7. Update cs.next in THIS file to point at the next project, and swap
-     that project's cs.next.title/href to point back here if you're
-     inserting into the middle of the chain.
-  See work/finza.html for a filled-in example.
--->
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[Project Name] — Case Study | Mick Yuttana Pati</title>
-<meta name="description" content="[One-sentence project summary].">
+<title>Vitalis — Healthcare Portal | Case Study | Mick Yuttana Pati</title>
+<meta name="description" content="Making patient records and appointments accessible for every age group.">
 
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +34,6 @@
   <span class="cursor__blob"><span class="cursor__arrow">↗</span></span>
 </div>
 
-<!-- ===== Header (identical to studio/index.html, links go back through ../studio/index.html) ===== -->
 <header class="header" id="header" data-header>
   <a href="../studio/index.html#home" class="header__logo">
     <span class="header__logo-mark">MP</span>
@@ -93,82 +61,74 @@
 
 <main id="main">
 
-  <!-- ===== Hero ===== -->
   <section class="cs-hero">
     <div class="wrap">
-      <p class="pretitle" data-i18n="work.filterMobile" data-reveal>[Category — reuse work.filterMobile / work.filterWeb / work.filterDesignSystem]</p>
-      <h1 class="cs-hero__title" data-i18n="work.card1.title" data-reveal>[Reuse work.cardN.title so it matches the homepage card]</h1>
-      <p class="lede" data-i18n="work.card1.desc" data-reveal>[Reuse work.cardN.desc]</p>
+      <p class="pretitle" data-i18n="work.filterWeb" data-reveal>Web App</p>
+      <h1 class="cs-hero__title" data-i18n="work.card5.title" data-reveal>Vitalis — Healthcare Portal</h1>
+      <p class="lede" data-i18n="work.card5.desc" data-reveal>Making patient records and appointments accessible for every age group.</p>
 
       <dl class="cs-meta" data-reveal>
-        <div><dt data-i18n="cs.meta.roleLabel">Role</dt><dd data-i18n-cs="cs.meta.role">[Role]</dd></div>
-        <div><dt data-i18n="cs.meta.timelineLabel">Timeline</dt><dd data-i18n-cs="cs.meta.timeline">[Timeline]</dd></div>
-        <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-i18n-cs="cs.meta.platform">[Platform]</dd></div>
-        <div><dt data-i18n="cs.meta.toolsLabel">Tools</dt><dd data-i18n-cs="cs.meta.tools">[Tools]</dd></div>
+        <div><dt data-i18n="cs.meta.roleLabel">Role</dt><dd data-i18n-cs="cs.meta.role">UX/UI Designer</dd></div>
+        <div><dt data-i18n="cs.meta.timelineLabel">Timeline</dt><dd data-i18n-cs="cs.meta.timeline">14 weeks</dd></div>
+        <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-i18n-cs="cs.meta.platform">Web (responsive)</dd></div>
+        <div><dt data-i18n="cs.meta.toolsLabel">Tools</dt><dd data-i18n-cs="cs.meta.tools">Figma, axe DevTools, UserTesting</dd></div>
       </dl>
 
-      <!-- Swap for <img class="cs-cover" src="../assets/work/<slug>/cover.jpg" alt="..."> once you have a real cover -->
-      <div class="cs-cover media-block" data-tone="blue" data-reveal><span>[Project Name] — cover</span></div>
+      <div class="cs-cover media-block" data-tone="pink" data-reveal><span>Vitalis — cover</span></div>
     </div>
   </section>
 
-  <!-- ===== Problem ===== -->
   <section class="cs-section">
     <div class="wrap">
       <h2 class="cs-section__title" data-i18n="cs.overview.title">The Problem</h2>
-      <p class="lede" data-i18n-cs="cs.problem.p1" data-reveal>[What was broken or missing for users/the business before this project?]</p>
-      <p class="lede" data-i18n-cs="cs.problem.p2" data-reveal>[Any constraint worth mentioning — timeline, technical, stakeholder.]</p>
+      <p class="lede" data-i18n-cs="cs.problem.p1" data-reveal>Older patients couldn't find their own lab results or upcoming appointments without calling the clinic — a "self-service" portal that wasn't self-service at all for the people who used it most.</p>
+      <p class="lede" data-i18n-cs="cs.problem.p2" data-reveal>The portal also had to meet WCAG 2.1 AA by the end of the project, not just read as accessible — an explicit compliance requirement from the client.</p>
     </div>
   </section>
 
-  <!-- ===== Process ===== -->
   <section class="cs-section">
     <div class="wrap">
       <h2 class="cs-section__title" data-i18n="cs.process.title">Process</h2>
-      <p class="lede" data-i18n-cs="cs.process.p1" data-reveal>[Research, discovery, key decisions along the way.]</p>
+      <p class="lede" data-i18n-cs="cs.process.p1" data-reveal>Usability tested with participants aged 55–78, audited every core flow against WCAG 2.1 AA, and simplified navigation from 6 top-level sections down to 3.</p>
     </div>
   </section>
 
-  <!-- ===== Solution ===== -->
   <section class="cs-section">
     <div class="wrap">
       <h2 class="cs-section__title" data-i18n="cs.solution.title">The Solution</h2>
-      <p class="lede" data-i18n-cs="cs.solution.p1" data-reveal>[Describe the final design and why it works.]</p>
+      <p class="lede" data-i18n-cs="cs.solution.p1" data-reveal>Plain-language labels, larger touch targets, and a single "What's next" home view surfacing the next appointment and any new results first, ahead of everything else.</p>
 
-      <!-- Swap each media-block for <img src="../assets/work/<slug>/screen-N.jpg"> once you have real screens -->
       <div class="cs-gallery">
         <figure data-reveal>
-          <div class="media-block" data-tone="blue"><span>Screen 1</span></div>
-          <figcaption data-i18n-cs="cs.solution.cap1">[Caption for this screen]</figcaption>
+          <div class="media-block" data-tone="pink"><span>What's next</span></div>
+          <figcaption data-i18n-cs="cs.solution.cap1">Next appointment and new results, surfaced first</figcaption>
         </figure>
         <figure data-reveal>
-          <div class="media-block" data-tone="blue"><span>Screen 2</span></div>
-          <figcaption data-i18n-cs="cs.solution.cap2">[Caption for this screen]</figcaption>
+          <div class="media-block" data-tone="pink"><span>Navigation</span></div>
+          <figcaption data-i18n-cs="cs.solution.cap2">6 sections simplified down to 3, in plain language</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- ===== Results ===== -->
   <section class="cs-section">
     <div class="wrap">
       <h2 class="cs-section__title" data-i18n="cs.results.title">Results</h2>
-      <p class="lede" data-i18n-cs="cs.results.p1" data-reveal>[Summary of the outcome/impact.]</p>
+      <p class="lede" data-i18n-cs="cs.results.p1" data-reveal>The portal hit its accessibility target, and the clinic's phones got quieter — the clearest sign patients were finding things on their own.</p>
 
       <div class="numbers__grid" data-reveal style="margin-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding-block: clamp(2rem, 4vw, 3.5rem);">
-        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat1">[XX%]</strong><span data-i18n-cs="cs.results.stat1Label">[What this metric measures]</span></div>
-        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat2">[XX%]</strong><span data-i18n-cs="cs.results.stat2Label">[What this metric measures]</span></div>
-        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat3">[XX%]</strong><span data-i18n-cs="cs.results.stat3Label">[What this metric measures]</span></div>
+        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat1">WCAG 2.1 AA</strong><span data-i18n-cs="cs.results.stat1Label">Met across all core flows</span></div>
+        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat2">−46%</strong><span data-i18n-cs="cs.results.stat2Label">Appointment-related calls</span></div>
+        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat3">61%→89%</strong><span data-i18n-cs="cs.results.stat3Label">Task success rate (n=14)</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Next project ===== -->
   <section class="cs-next">
     <div class="wrap">
       <p class="pretitle" data-i18n="cs.next.label" data-reveal>Next project</p>
-      <h2 class="section-title" data-i18n-cs="cs.next.title" data-reveal>[Next Project Name]</h2>
-      <a href="PLACEHOLDER.html" class="btn btn--primary" data-hover>
+      <h2 class="section-title" data-i18n-cs="cs.next.title" data-reveal>Nomly — Food Delivery App</h2>
+      <a href="nomly.html" class="btn btn--primary" data-hover>
         <span class="btn__label" data-i18n="cs.next.cta">View case study</span>
         <span class="btn__circle">→</span>
       </a>
@@ -177,7 +137,6 @@
 
 </main>
 
-<!-- ===== Footer (identical to studio/index.html) ===== -->
 <footer class="footer">
   <div class="tiles">
     <a class="tile" href="../studio/index.html#services" data-tone="blue" data-hover>
@@ -247,42 +206,40 @@
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="../studio/js/i18n.js"></script>
 <script>
-  // Copy that's unique to this page — kept local so every project stays a
-  // self-contained copy-paste. Generic labels live in studio/js/i18n.js.
   const csTranslations = {
     en: {
-      "cs.meta.role": "[Role]",
-      "cs.meta.timeline": "[Timeline]",
-      "cs.meta.platform": "[Platform]",
-      "cs.meta.tools": "[Tools]",
-      "cs.problem.p1": "[Body copy in English.]",
-      "cs.problem.p2": "[Body copy in English.]",
-      "cs.process.p1": "[Body copy in English.]",
-      "cs.solution.p1": "[Body copy in English.]",
-      "cs.solution.cap1": "[Caption]",
-      "cs.solution.cap2": "[Caption]",
-      "cs.results.p1": "[Body copy in English.]",
-      "cs.results.stat1": "[XX%]", "cs.results.stat1Label": "[Metric label]",
-      "cs.results.stat2": "[XX%]", "cs.results.stat2Label": "[Metric label]",
-      "cs.results.stat3": "[XX%]", "cs.results.stat3Label": "[Metric label]",
-      "cs.next.title": "[Next Project Name]"
+      "cs.meta.role": "UX/UI Designer",
+      "cs.meta.timeline": "14 weeks",
+      "cs.meta.platform": "Web (responsive)",
+      "cs.meta.tools": "Figma, axe DevTools, UserTesting",
+      "cs.problem.p1": "Older patients couldn't find their own lab results or upcoming appointments without calling the clinic — a \"self-service\" portal that wasn't self-service at all for the people who used it most.",
+      "cs.problem.p2": "The portal also had to meet WCAG 2.1 AA by the end of the project, not just read as accessible — an explicit compliance requirement from the client.",
+      "cs.process.p1": "Usability tested with participants aged 55–78, audited every core flow against WCAG 2.1 AA, and simplified navigation from 6 top-level sections down to 3.",
+      "cs.solution.p1": "Plain-language labels, larger touch targets, and a single \"What's next\" home view surfacing the next appointment and any new results first, ahead of everything else.",
+      "cs.solution.cap1": "Next appointment and new results, surfaced first",
+      "cs.solution.cap2": "6 sections simplified down to 3, in plain language",
+      "cs.results.p1": "The portal hit its accessibility target, and the clinic's phones got quieter — the clearest sign patients were finding things on their own.",
+      "cs.results.stat1": "WCAG 2.1 AA", "cs.results.stat1Label": "Met across all core flows",
+      "cs.results.stat2": "−46%", "cs.results.stat2Label": "Appointment-related calls",
+      "cs.results.stat3": "61%→89%", "cs.results.stat3Label": "Task success rate (n=14)",
+      "cs.next.title": "Nomly — Food Delivery App"
     },
     th: {
-      "cs.meta.role": "[บทบาท]",
-      "cs.meta.timeline": "[ระยะเวลา]",
-      "cs.meta.platform": "[แพลตฟอร์ม]",
-      "cs.meta.tools": "[เครื่องมือ]",
-      "cs.problem.p1": "[เนื้อหาภาษาไทย]",
-      "cs.problem.p2": "[เนื้อหาภาษาไทย]",
-      "cs.process.p1": "[เนื้อหาภาษาไทย]",
-      "cs.solution.p1": "[เนื้อหาภาษาไทย]",
-      "cs.solution.cap1": "[คำอธิบายภาพ]",
-      "cs.solution.cap2": "[คำอธิบายภาพ]",
-      "cs.results.p1": "[เนื้อหาภาษาไทย]",
-      "cs.results.stat1": "[XX%]", "cs.results.stat1Label": "[ตัวชี้วัด]",
-      "cs.results.stat2": "[XX%]", "cs.results.stat2Label": "[ตัวชี้วัด]",
-      "cs.results.stat3": "[XX%]", "cs.results.stat3Label": "[ตัวชี้วัด]",
-      "cs.next.title": "[ชื่อโปรเจกต์ถัดไป]"
+      "cs.meta.role": "UX/UI Designer",
+      "cs.meta.timeline": "14 สัปดาห์",
+      "cs.meta.platform": "เว็บ (รองรับทุกอุปกรณ์)",
+      "cs.meta.tools": "Figma, axe DevTools, UserTesting",
+      "cs.problem.p1": "ผู้ป่วยสูงอายุหาผลตรวจแล็บหรือนัดหมายที่กำลังจะถึงของตัวเองไม่เจอ ต้องโทรไปถามคลินิกทุกครั้ง ทั้งที่พอร์ทัลนี้ควรเป็นระบบ self-service แต่กลับไม่ใช่สำหรับกลุ่มที่ใช้งานมากที่สุด",
+      "cs.problem.p2": "พอร์ทัลนี้ยังต้องผ่านมาตรฐาน WCAG 2.1 AA จริงตอนจบโปรเจกต์ ไม่ใช่แค่ดูเข้าถึงง่าย เพราะเป็นข้อกำหนดที่ลูกค้าระบุไว้ชัดเจน",
+      "cs.process.p1": "ทดสอบการใช้งานกับผู้เข้าร่วมอายุ 55-78 ปี ตรวจสอบทุกขั้นตอนหลักตามมาตรฐาน WCAG 2.1 AA และลดเมนูหลักจาก 6 หมวดเหลือ 3 หมวด",
+      "cs.solution.p1": "ใช้ภาษาที่เข้าใจง่าย ปุ่มกดขนาดใหญ่ขึ้น และหน้าหลักแบบ \"ต่อไปคืออะไร\" ที่แสดงนัดหมายถัดไปและผลตรวจใหม่เป็นอันดับแรกก่อนสิ่งอื่น",
+      "cs.solution.cap1": "นัดหมายถัดไปและผลตรวจใหม่ แสดงเป็นอันดับแรก",
+      "cs.solution.cap2": "ลดเมนูจาก 6 หมวดเหลือ 3 หมวด ใช้ภาษาที่เข้าใจง่าย",
+      "cs.results.p1": "พอร์ทัลผ่านมาตรฐานการเข้าถึงตามเป้าหมาย และสายโทรเข้าคลินิกลดลงชัดเจน ซึ่งเป็นสัญญาณที่ชัดที่สุดว่าผู้ป่วยหาข้อมูลได้เองแล้ว",
+      "cs.results.stat1": "WCAG 2.1 AA", "cs.results.stat1Label": "ผ่านมาตรฐานทุกขั้นตอนหลัก",
+      "cs.results.stat2": "-46%", "cs.results.stat2Label": "สายโทรเข้าเรื่องนัดหมาย",
+      "cs.results.stat3": "61%→89%", "cs.results.stat3Label": "อัตราความสำเร็จของงาน (n=14)",
+      "cs.next.title": "Nomly — แอปสั่งอาหารเดลิเวอรี่"
     }
   };
   function applyCs(lang) {
