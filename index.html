@@ -1,324 +1,708 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mick Yuttana Pati — UX/UI Designer Portfolio</title>
-<meta name="description" content="Mick Yuttana Pati, UX/UI Designer — turning complex systems into experiences people trust.">
+<title>Mick Yuttana Pati — UX/UI Designer</title>
+<meta name="description" content="Mick Yuttana Pati — UX/UI Designer turning complex systems into experiences people trust.">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+<link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&f[]=chillax@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🟢</text></svg>">
 <link rel="stylesheet" href="css/style.css">
+
+<script>
+  // Set theme before first paint so there is no flash.
+  (function () {
+    var t = localStorage.getItem('studio-theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.classList.add('js');
+  })();
+</script>
 </head>
 <body>
 
-<div class="progress-bar" id="progressBar"></div>
-<div class="cursor-dot" id="cursorDot"></div>
+<!-- Cursor follower: small dot by default, big ring over case cards -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <svg class="cursor__ring" viewBox="0 0 100 100">
+    <defs><path id="cursorRing" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"></path></defs>
+    <text><textPath href="#cursorRing">SHOW CASE&nbsp;•&nbsp;SHOW CASE&nbsp;•&nbsp;SHOW CASE&nbsp;•&nbsp;</textPath></text>
+  </svg>
+  <span class="cursor__blob"><span class="cursor__arrow">↗</span></span>
+</div>
 
 <!-- ===== Header ===== -->
-<header class="site-header" id="siteHeader">
-  <div class="container header-inner">
-    <a href="#home" class="logo">Mick<span class="dot">.</span>Pati</a>
+<header class="header" id="header" data-header>
+  <a href="#home" class="header__logo">
+    <span class="header__logo-mark">MP</span>
+    <span class="header__logo-text">Mick Yuttana&nbsp;Pati</span>
+  </a>
 
-    <nav class="nav" id="mainNav">
-      <a href="#home" class="nav-link" data-i18n="nav.home">Home</a>
-      <a href="#about" class="nav-link" data-i18n="nav.about">About</a>
-      <a href="#experience" class="nav-link" data-i18n="nav.experience">Experience</a>
-      <a href="#work" class="nav-link" data-i18n="nav.work">Work</a>
-      <a href="#skills" class="nav-link" data-i18n="nav.skills">Skills</a>
-      <a href="#process" class="nav-link" data-i18n="nav.process">Process</a>
-      <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
-    </nav>
+  <nav class="header__nav" id="nav">
+    <a href="#work" class="header__link" data-i18n="nav.work">Work</a>
+    <a href="#services" class="header__link" data-i18n="nav.services">Services</a>
+    <a href="#about" class="header__link" data-i18n="nav.about">About</a>
+    <a href="#process" class="header__link" data-i18n="nav.process">Process</a>
+    <a href="#experience" class="header__link" data-i18n="nav.experience">Experience</a>
+    <a href="#contact" class="header__link" data-i18n="nav.contact">Contact</a>
+  </nav>
 
-    <div class="header-actions">
-      <button class="lang-toggle" id="langToggle" aria-label="Switch language">
-        <span id="langCurrent">EN</span>
-      </button>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+  <div class="header__actions">
+    <button class="pill" id="langToggle" aria-label="Switch language"><span id="langCurrent">EN</span></button>
+    <button class="pill pill--icon" id="themeToggle" aria-label="Toggle dark mode">
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
   </div>
 </header>
 
-<main>
+<main id="main">
 
-  <!-- ===== Hero ===== -->
-  <section class="hero" id="home">
-    <div class="blob"></div>
-    <span class="hero-bg-type" aria-hidden="true">Pati</span>
-    <div class="container">
-      <div class="hero-copy" data-reveal>
-        <p class="eyebrow"><span class="pulse-dot"></span> <span data-i18n="hero.eyebrow">Available for freelance work</span></p>
-        <h1 data-i18n="hero.title" data-i18n-html>Turning complex systems into <span class="highlight">experiences people trust.</span></h1>
-        <p class="hero-desc" data-i18n="hero.desc">Hi, I'm Mick Yuttana Pati — a UX/UI Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.</p>
-        <div class="hero-cta">
-          <a href="#work" class="btn btn-primary" data-i18n="hero.ctaWork">View My Work</a>
-          <a href="#contact" class="btn btn-ghost" data-i18n="hero.ctaTalk">Let's Talk</a>
-        </div>
+  <!-- ===== 1. Banner ===== -->
+  <section class="banner" id="home" data-banner>
+    <!-- Gradient shapes behind the name, like the reference site's c-banner__bg -->
+    <div class="banner__bg" aria-hidden="true">
+      <svg viewBox="0 0 1920 770" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--blue)"/><stop offset="1" stop-color="var(--paper)"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0" stop-color="var(--blue)"/><stop offset="1" stop-color="var(--paper)"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="1151" cy="385" rx="385" ry="385" fill="url(#g1)"/>
+        <path d="M766 0C343 0 0 344 0 769h766z" fill="url(#g2)"/>
+        <path d="M1921 385C1921 173 1749 1 1537 1v769c212 0 384-172 384-385z" fill="url(#g1)"/>
+      </svg>
+    </div>
+
+    <div class="banner__logo">
+      <div class="banner__row">
+        <h1 class="banner__word" data-banner-top>Mick UX/UI</h1>
       </div>
-      <div class="hero-stats" data-reveal>
-        <div class="stat"><strong>3+</strong><span data-i18n="hero.stat1">Years Experience</span></div>
-        <div class="stat"><strong>40%</strong><span data-i18n="hero.stat2">Faster Design Cycles</span></div>
-        <div class="stat"><strong>15+</strong><span data-i18n="hero.stat3">Projects Delivered</span></div>
+      <div class="banner__row banner__row--btm">
+        <p class="banner__word" data-banner-btm>Designer</p>
       </div>
     </div>
-    <div class="scroll-indicator"><span></span></div>
-  </section>
 
-  <!-- ===== About ===== -->
-  <section class="about" id="about">
-    <div class="container about-inner">
-      <div class="about-image" data-reveal>
-        <div class="about-image-frame">
-          <img src="assets/mick-profile.webp" alt="Mick Yuttana Pati" class="about-photo">
-        </div>
-        <div class="about-badge">
-          <strong>3+</strong>
-          <span data-i18n="about.badgeLabel" data-i18n-html>Years of<br>Experience</span>
-        </div>
+    <div class="banner__foot">
+      <div class="banner__text" data-banner-text>
+        <p class="banner__eyebrow"><span class="dot"></span><span data-i18n="hero.eyebrow">Available for freelance work</span></p>
+        <p class="banner__desc" data-i18n="hero.desc">Hi, I'm Mick Yuttana Pati — a UX/UI Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.</p>
+        <a href="#contact" class="btn btn--primary" data-hover>
+          <span class="btn__label" data-i18n="hero.ctaTalk">Start a project</span>
+          <span class="btn__circle">↗</span>
+        </a>
       </div>
-      <div class="about-copy" data-reveal>
-        <p class="section-eyebrow"><span class="eyebrow-index">01</span><span data-i18n="about.eyebrow">About Me</span></p>
-        <h2 data-i18n="about.title">I turn complex problems into simple, beautiful interfaces.</h2>
-        <p class="about-text" data-i18n="about.text1">UX/UI Designer with 3+ years specializing in enterprise IoT and government platforms. I turn complex sensor data and operational workflows into interfaces that non-technical users can actually use.</p>
-        <p class="about-text" data-i18n="about.text2">My Computer Science background lets me collaborate with engineers in their own language — and ship design systems that hold up at scale.</p>
-        <ul class="about-list">
-          <li><span class="check">✓</span> <span data-i18n="about.list1">User-Centered Design Process</span></li>
-          <li><span class="check">✓</span> <span data-i18n="about.list2">Cross-Platform Design Systems</span></li>
-          <li><span class="check">✓</span> <span data-i18n="about.list3">Data-Informed Design Decisions</span></li>
-        </ul>
-        <a href="#" class="btn btn-outline" id="resumeBtn" data-i18n="about.resumeBtn">Download Resume</a>
-      </div>
+
+      <a href="#intro" class="banner__scroll" aria-label="Scroll down">
+        <svg class="circle-text" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><path id="scrollRing" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"></path></defs>
+          <text><textPath href="#scrollRing">SCROLL DOWN&nbsp;•&nbsp;SCROLL DOWN&nbsp;•&nbsp;</textPath></text>
+        </svg>
+        <span class="banner__scroll-circle">↓</span>
+      </a>
     </div>
   </section>
 
-  <!-- ===== Experience ===== -->
-  <section class="experience" id="experience">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <p class="section-eyebrow"><span class="eyebrow-index">02</span><span data-i18n="experience.eyebrow">Career</span></p>
-        <h2 data-i18n="experience.title">Work Experience</h2>
-        <p class="section-desc" data-i18n="experience.desc">A timeline of roles where I've shipped real products, systems, and design processes.</p>
+  <!-- ===== 2. Intro / manifesto (line-by-line scrub reveal) ===== -->
+  <section class="intro" id="intro">
+    <div class="wrap">
+      <p class="pretitle" data-i18n="intro.pretitle">Approach</p>
+      <div class="intro__text" data-text-reveal>
+        <p data-i18n="intro.text">I design systems that people can actually trust. Strategy, interface, design systems, research, handover: five disciplines, one point of view. What we build together ends up in someone's working day — let's make that day better.</p>
+      </div>
+      <a href="#work" class="btn btn--link" data-hover>
+        <span class="btn__circle">↓</span>
+        <span class="btn__label" data-i18n="intro.cta">See selected work</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== 3. Work — masonry grid with hover circle ===== -->
+  <section class="cases" id="work">
+    <div class="wrap">
+      <header class="section-head section-head--center" data-reveal>
+        <p class="pretitle" data-i18n="work.eyebrow">Cases</p>
+        <h2 class="section-title" data-i18n="work.title">Results for products that hold up</h2>
+      </header>
+
+      <div class="filters" data-reveal>
+        <button class="filter is-active" data-filter="all" data-i18n="work.filterAll">All</button>
+        <button class="filter" data-filter="government" data-i18n="work.filterGovernment">Government Project</button>
+        <button class="filter" data-filter="platform" data-i18n="work.filterPlatform">Platform</button>
+        <button class="filter" data-filter="mobile-application" data-i18n="work.filterMobileApp">Mobile Application</button>
+        <button class="filter" data-filter="custom-dashboard" data-i18n="work.filterDashboard">Custom Dashboard</button>
+        <button class="filter" data-filter="wordpress" data-i18n="work.filterWordpress">WordPress Website</button>
       </div>
 
-      <div class="timeline" data-reveal>
+      <!-- 14 real projects, placeholder-named until content comes in:
+           2 Government Project · 3 Platform · 5 Mobile Application ·
+           2 Custom Dashboard · 2 WordPress Website. hrefs cycle through the
+           6 built template pages until each project gets its own page. -->
+      <div class="cases__grid" id="casesGrid">
 
-        <article class="timeline-item glow-border">
-          <div class="timeline-header">
-            <div class="timeline-heading">
-              <h3 data-i18n="experience.job1.role">UX/UI Designer</h3>
-              <span class="timeline-company" data-i18n="experience.job1.company">Swift Dynamics Co., Ltd.</span>
+        <a class="case" href="work/finza.html" data-category="government" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="blue"><span class="case__index" data-parallax>01</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Government Project 01</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterGovernment">Government Project</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.research">User research</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.a11y">Accessibility</span></li>
+              </ul>
             </div>
-            <span class="timeline-date" data-i18n="experience.job1.date">Nov 2022 – Present</span>
           </div>
+        </a>
 
-          <div class="timeline-group">
+        <a class="case case--tall" href="work/orbit.html" data-category="government" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="green"><span class="case__index" data-parallax>02</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Government Project 02</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterGovernment">Government Project</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.research">User research</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.a11y">Accessibility</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case" href="work/lumen.html" data-category="platform" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="purple"><span class="case__index" data-parallax>03</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Platform 01</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterPlatform">Platform</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.designSystem">Design System</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case case--tall" href="work/wanderly.html" data-category="platform" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="orange"><span class="case__index" data-parallax>04</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Platform 02</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterPlatform">Platform</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.designSystem">Design System</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case" href="work/vitalis.html" data-category="platform" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="pink"><span class="case__index" data-parallax>05</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Platform 03</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterPlatform">Platform</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.designSystem">Design System</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case case--tall" href="work/nomly.html" data-category="mobile-application" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="yellow"><span class="case__index" data-parallax>06</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Mobile Application 01</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterMobileApp">Mobile Application</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.prototype">Prototype</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case" href="work/finza.html" data-category="mobile-application" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="blue"><span class="case__index" data-parallax>07</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Mobile Application 02</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterMobileApp">Mobile Application</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.prototype">Prototype</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case case--tall" href="work/orbit.html" data-category="mobile-application" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="green"><span class="case__index" data-parallax>08</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Mobile Application 03</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterMobileApp">Mobile Application</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.prototype">Prototype</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case" href="work/lumen.html" data-category="mobile-application" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="purple"><span class="case__index" data-parallax>09</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Mobile Application 04</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterMobileApp">Mobile Application</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.prototype">Prototype</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case case--tall" href="work/wanderly.html" data-category="mobile-application" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="orange"><span class="case__index" data-parallax>10</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Mobile Application 05</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterMobileApp">Mobile Application</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.prototype">Prototype</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case" href="work/vitalis.html" data-category="custom-dashboard" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="pink"><span class="case__index" data-parallax>11</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Custom Dashboard 01</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterDashboard">Custom Dashboard</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.dataviz">Data viz</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case case--tall" href="work/nomly.html" data-category="custom-dashboard" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="yellow"><span class="case__index" data-parallax>12</span></div>
+            <div class="case__body">
+              <h3 class="case__title">Custom Dashboard 02</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterDashboard">Custom Dashboard</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.dataviz">Data viz</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case" href="work/finza.html" data-category="wordpress" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="blue"><span class="case__index" data-parallax>13</span></div>
+            <div class="case__body">
+              <h3 class="case__title">WordPress Website 01</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterWordpress">WordPress Website</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.cms">CMS</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.responsive">Responsive Design</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+        <a class="case case--tall" href="work/orbit.html" data-category="wordpress" data-reveal data-hover-case>
+          <div class="case__frame">
+            <div class="case__media" data-tone="green"><span class="case__index" data-parallax>14</span></div>
+            <div class="case__body">
+              <h3 class="case__title">WordPress Website 02</h3>
+              <ul class="tags">
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterWordpress">WordPress Website</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.cms">CMS</span></li>
+                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.responsive">Responsive Design</span></li>
+              </ul>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="cases__cta" data-reveal>
+        <a href="#contact" class="btn btn--primary" data-hover>
+          <span class="btn__circle">↗</span>
+          <span class="btn__label" data-i18n="work.allCases">Talk about your project</span>
+          <span class="btn__circle">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. Green band: circle grows open, then services + about ===== -->
+  <section class="band" id="services">
+    <div class="band__circle" aria-hidden="true" data-band-circle>
+      <div class="band__circle-inner" data-band-circle-item></div>
+    </div>
+
+    <div class="band__content">
+
+      <!-- 4a. About — media left, text right -->
+      <div class="wrap about" id="about">
+        <p class="pretitle about__eyebrow" data-reveal data-i18n="about.eyebrow">About me</p>
+
+        <div class="about__media" data-reveal>
+          <div class="about__media-frame">
+            <img src="assets/mick-profile.webp" alt="Mick Yuttana Pati" data-parallax loading="lazy">
+          </div>
+          <div class="about__badge"><strong>3+</strong><span data-i18n="about.badgeLabel" data-i18n-html>Years of<br>Experience</span></div>
+        </div>
+
+        <div class="about__content" data-reveal>
+          <h2 class="section-title" data-i18n="about.title">I turn complex problems into simple, beautiful interfaces.</h2>
+          <p class="lede" data-i18n="about.text1">UX/UI Designer with 3+ years specializing in enterprise IoT and government platforms.</p>
+          <p class="lede" data-i18n="about.text2">My Computer Science background lets me collaborate with engineers in their own language.</p>
+          <ul class="checks">
+            <li data-i18n="about.list1">User-Centered Design Process</li>
+            <li data-i18n="about.list2">Cross-Platform Design Systems</li>
+            <li data-i18n="about.list3">Data-Informed Design Decisions</li>
+          </ul>
+          <a href="#" class="btn btn--outline" id="resumeBtn" data-hover>
+            <span class="btn__label" data-i18n="about.resumeBtn">Download Resume</span>
+            <span class="btn__circle">↓</span>
+          </a>
+        </div>
+
+        <div class="numbers__grid about__numbers">
+          <div class="numbers__item" data-reveal><strong>3+</strong><span data-i18n="hero.stat1">Years Experience</span></div>
+          <div class="numbers__item" data-reveal><strong>40%</strong><span data-i18n="hero.stat2">Faster Design Cycles</span></div>
+          <div class="numbers__item" data-reveal><strong>15+</strong><span data-i18n="hero.stat3">Projects Delivered</span></div>
+          <div class="numbers__item" data-reveal><strong>+30%</strong><span data-i18n="hero.stat4">Task Completion Lift</span></div>
+        </div>
+      </div>
+
+      <!-- 4b. Scroll title + media -->
+      <div class="wrap scroll-title" data-scroll-title>
+        <h2 class="scroll-title__1" data-i18n="services.titleInline">From strategy to handover</h2>
+      </div>
+
+      <!-- 4b. Services — sticky stacking cards -->
+      <div class="wrap wrap--wide">
+        <div class="stack" data-stack>
+
+          <article class="stack__item" style="--i:0">
+            <div class="stack__card" data-tone="blue">
+              <div class="stack__head">
+                <span class="stack__num">01</span>
+                <h3 class="stack__title" data-i18n="skills.card1.title">Design Strategy</h3>
+              </div>
+              <div class="stack__content">
+                <p data-i18n="skills.card1.desc">Scalable Design Systems (Tokens/Variables), Information Architecture, Service Blueprinting, Product Roadmap Alignment.</p>
+                <ul class="tags tags--ghost"><li class="tag">Design systems</li><li class="tag">IA</li><li class="tag">Roadmap</li></ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="stack__item" style="--i:1">
+            <div class="stack__card" data-tone="orange">
+              <div class="stack__head">
+                <span class="stack__num">02</span>
+                <h3 class="stack__title" data-i18n="skills.card2.title">UX Research</h3>
+              </div>
+              <div class="stack__content">
+                <p data-i18n="skills.card2.desc">Usability Testing, User Persona Mapping, User Flows, Site Maps, A/B Testing.</p>
+                <ul class="tags tags--ghost"><li class="tag">Usability testing</li><li class="tag">Personas</li><li class="tag">A/B testing</li></ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="stack__item" style="--i:2">
+            <div class="stack__card" data-tone="pink">
+              <div class="stack__head">
+                <span class="stack__num">03</span>
+                <h3 class="stack__title" data-i18n="skills.card3.title">Development</h3>
+              </div>
+              <div class="stack__content">
+                <p data-i18n="skills.card3.desc">React, Ant Design, shadcn/ui, Tailwind CSS, Apache ECharts, Design-to-Code Handover.</p>
+                <ul class="tags tags--ghost"><li class="tag">React</li><li class="tag">Tailwind</li><li class="tag">ECharts</li></ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="stack__item" style="--i:3">
+            <div class="stack__card" data-tone="purple-dark">
+              <div class="stack__head">
+                <span class="stack__num">04</span>
+                <h3 class="stack__title" data-i18n="skills.card4.title">AI Productivity</h3>
+              </div>
+              <div class="stack__content">
+                <p data-i18n="skills.card4.desc">Claude, Gemini, ChatGPT, Google Stitch — for research synthesis, prompt engineering, and rapid prototyping.</p>
+                <ul class="tags tags--ghost"><li class="tag">Claude</li><li class="tag">Gemini</li><li class="tag">Prompting</li></ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="stack__item" style="--i:4">
+            <div class="stack__card" data-tone="yellow">
+              <div class="stack__head">
+                <span class="stack__num">05</span>
+                <h3 class="stack__title" data-i18n="skills.card5.title">Design Tools</h3>
+              </div>
+              <div class="stack__content">
+                <p data-i18n="skills.card5.desc">Figma (Advanced), FigJam, Adobe XD.</p>
+                <ul class="tags tags--ghost"><li class="tag">Figma</li><li class="tag">FigJam</li><li class="tag">Adobe XD</li></ul>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 5. Approach — text + two media ===== -->
+  <section class="approach" id="process">
+    <div class="wrap approach__grid">
+      <div class="approach__content" data-reveal>
+        <p class="pretitle" data-i18n="process.eyebrow">How I work</p>
+        <h2 class="section-title" data-i18n="process.title">My Design Process</h2>
+        <p class="lede" data-i18n="process.desc">A structured yet flexible process that keeps users at the center of every decision.</p>
+        <a href="#contact" class="btn btn--primary" data-hover>
+          <span class="btn__circle">↗</span>
+          <span class="btn__label" data-i18n="process.cta">Discover my approach</span>
+          <span class="btn__circle">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="grid-cards">
+        <article class="card" data-reveal data-hover>
+          <div class="card__media" data-tone="pink"><span class="card__num">01</span></div>
+          <div class="card__body">
+            <h3 data-i18n="process.step1.title">Discover</h3>
+            <p data-i18n="process.step1.desc">Understand the business goals, users, and constraints through research and stakeholder interviews.</p>
+          </div>
+        </article>
+        <article class="card" data-reveal data-hover>
+          <div class="card__media" data-tone="blue"><span class="card__num">02</span></div>
+          <div class="card__body">
+            <h3 data-i18n="process.step2.title">Define</h3>
+            <p data-i18n="process.step2.desc">Synthesize findings into clear problem statements, user flows, and information architecture.</p>
+          </div>
+        </article>
+        <article class="card" data-reveal data-hover>
+          <div class="card__media" data-tone="yellow"><span class="card__num">03</span></div>
+          <div class="card__body">
+            <h3 data-i18n="process.step3.title">Design</h3>
+            <p data-i18n="process.step3.desc">Explore wireframes and visual concepts, then refine into high-fidelity, testable prototypes.</p>
+          </div>
+        </article>
+        <article class="card" data-reveal data-hover>
+          <div class="card__media" data-tone="orange"><span class="card__num">04</span></div>
+          <div class="card__body">
+            <h3 data-i18n="process.step4.title">Deliver</h3>
+            <p data-i18n="process.step4.desc">Test with real users, iterate, and hand off polished, developer-ready designs.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 7. Marquee — tools ===== -->
+  <section class="marquee-section">
+    <div class="wrap">
+      <p class="pretitle" data-reveal data-i18n="tools.pretitle">Toolbox</p>
+    </div>
+    <div class="marquee" data-marquee>
+      <div class="marquee__track" data-marquee-track>
+        <div class="marquee__group" data-marquee-group>
+          <span class="marquee__item">Figma</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">FigJam</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Adobe XD</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">React</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Tailwind CSS</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Ant Design</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">shadcn/ui</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Apache ECharts</span><span class="marquee__sep">✦</span>
+        </div>
+      </div>
+    </div>
+    <div class="marquee marquee--reverse" data-marquee data-reverse="true">
+      <div class="marquee__track" data-marquee-track>
+        <div class="marquee__group" data-marquee-group>
+          <span class="marquee__item">Design Systems</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Usability Testing</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Claude</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Gemini</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Jira</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Miro</span><span class="marquee__sep">✦</span>
+          <span class="marquee__item">Slack</span><span class="marquee__sep">✦</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 8. Experience ===== -->
+  <section class="experience" id="experience">
+    <div class="wrap">
+      <header class="section-head" data-reveal>
+        <p class="pretitle" data-i18n="experience.eyebrow">Career</p>
+        <h2 class="section-title" data-i18n="experience.title">Work Experience</h2>
+        <p class="section-desc" data-i18n="experience.desc">A timeline of roles where I've shipped real products, systems, and design processes.</p>
+      </header>
+
+      <div class="timeline">
+        <article class="job" data-reveal>
+          <div class="job__head">
+            <div>
+              <h3 data-i18n="experience.job1.role">UX/UI Designer</h3>
+              <p class="job__company" data-i18n="experience.job1.company">Swift Dynamics Co., Ltd.</p>
+            </div>
+            <span class="job__date" data-i18n="experience.job1.date">Nov 2022 – Present</span>
+          </div>
+          <div class="job__group">
             <h4 data-i18n="experience.job1.group1.title">Product Architecture &amp; Design Systems</h4>
             <ul>
-              <li data-i18n="experience.job1.group1.bullet1">Led end-to-end UX/UI design for a construction and facility management platform, taking it from paper-based workflows to a fully digital ecosystem used across web and mobile.</li>
-              <li data-i18n="experience.job1.group1.bullet2">Built and maintained a centralized Design System with Figma Variables, Tokens, and Auto-layout — reducing design-to-dev revision rounds from ~4 to 1–2 per feature and keeping UI consistent across 5+ product modules.</li>
-              <li data-i18n="experience.job1.group1.bullet3">Integrated AI tools (Claude, Gemini) into the design workflow for research synthesis, first-draft user flows, and documentation — cutting the discovery phase on new features from ~2 weeks to 8–9 days.</li>
+              <li data-i18n="experience.job1.group1.bullet1">Led end-to-end UX/UI design for a construction and facility management platform.</li>
+              <li data-i18n="experience.job1.group1.bullet2">Built and maintained a centralized Design System with Figma Variables, Tokens, and Auto-layout.</li>
+              <li data-i18n="experience.job1.group1.bullet3">Integrated AI tools into the design workflow for research synthesis and documentation.</li>
             </ul>
           </div>
-
-          <div class="timeline-group">
+          <div class="job__group">
             <h4 data-i18n="experience.job1.group2.title">Data-Driven IoT &amp; Custom Dashboards</h4>
             <ul>
-              <li data-i18n="experience.job1.group2.bullet1">Designed monitoring dashboards for industrial IoT sensor data using Apache ECharts, helping operations teams identify system anomalies roughly 40% faster during pilot testing.</li>
-              <li data-i18n="experience.job1.group2.bullet2">Partnered with frontend engineers to spec and review component behavior in React, Ant Design, and Tailwind CSS — making sure dense data views stayed performant and didn't break under real sensor load.</li>
+              <li data-i18n="experience.job1.group2.bullet1">Designed monitoring dashboards for industrial IoT sensor data using Apache ECharts.</li>
+              <li data-i18n="experience.job1.group2.bullet2">Partnered with frontend engineers to spec and review component behavior.</li>
             </ul>
           </div>
-
-          <div class="timeline-group">
+          <div class="job__group">
             <h4 data-i18n="experience.job1.group3.title">Stakeholder Collaboration &amp; Government Solutions</h4>
             <ul>
-              <li data-i18n="experience.job1.group3.bullet1">Ran requirement-gathering sessions directly with Product Owners and Project Managers, translating high-level business goals into user flows and high-fidelity wireframes for large-scale government projects.</li>
-              <li data-i18n="experience.job1.group3.bullet2">Designed a unified status-tracking dashboard for a government client, prioritizing accessibility and plain-language UI for users across age groups and technical literacy — achieving a 30% lift in task completion rate during usability testing (n=12).</li>
-              <li data-i18n="experience.job1.group3.bullet3">Presented design decisions and trade-offs to cross-functional stakeholders (PM, PO, engineering leads, client representatives) on a weekly basis.</li>
+              <li data-i18n="experience.job1.group3.bullet1">Ran requirement-gathering sessions with Product Owners and Project Managers.</li>
+              <li data-i18n="experience.job1.group3.bullet2">Designed a unified status-tracking dashboard for a government client.</li>
+              <li data-i18n="experience.job1.group3.bullet3">Presented design decisions and trade-offs to cross-functional stakeholders weekly.</li>
             </ul>
           </div>
         </article>
 
-        <article class="timeline-item glow-border">
-          <div class="timeline-header">
-            <div class="timeline-heading">
+        <article class="job" data-reveal>
+          <div class="job__head">
+            <div>
               <h3 data-i18n="experience.job2.role">UI Designer</h3>
-              <span class="timeline-company" data-i18n="experience.job2.company">Yes Web Design Studio Co., Ltd.</span>
+              <p class="job__company" data-i18n="experience.job2.company">Yes Web Design Studio Co., Ltd.</p>
             </div>
-            <span class="timeline-date" data-i18n="experience.job2.date">Apr 2022 – Aug 2022</span>
+            <span class="job__date" data-i18n="experience.job2.date">Apr 2022 – Aug 2022</span>
           </div>
           <ul>
-            <li data-i18n="experience.job2.bullet1">Designed high-fidelity UI for 3+ WordPress websites in Figma, customizing ThemeForest templates to match each client's brand and content needs.</li>
-            <li data-i18n="experience.job2.bullet2">Built reusable component libraries and site maps that cut design time on follow-up projects, while keeping visual consistency across the studio's deliverables.</li>
+            <li data-i18n="experience.job2.bullet1">Designed high-fidelity UI for 3+ WordPress websites in Figma.</li>
+            <li data-i18n="experience.job2.bullet2">Built reusable component libraries and site maps.</li>
           </ul>
         </article>
 
-        <article class="timeline-item glow-border">
-          <div class="timeline-header">
-            <div class="timeline-heading">
+        <article class="job" data-reveal>
+          <div class="job__head">
+            <div>
               <h3 data-i18n="experience.job3.role">UI Designer (Internship)</h3>
-              <span class="timeline-company" data-i18n="experience.job3.company">Online Asset Co., Ltd.</span>
+              <p class="job__company" data-i18n="experience.job3.company">Online Asset Co., Ltd.</p>
             </div>
-            <span class="timeline-date" data-i18n="experience.job3.date">Nov 2021 – Mar 2022</span>
+            <span class="job__date" data-i18n="experience.job3.date">Nov 2021 – Mar 2022</span>
           </div>
           <ul>
-            <li data-i18n="experience.job3.bullet1">Designed the full mobile UI for DR.in (medical app) in Adobe XD — from wireframes to high-fidelity prototypes — and shipped responsive front-end pages for SUSCO.co.th using HTML, CSS, and JavaScript.</li>
+            <li data-i18n="experience.job3.bullet1">Designed the full mobile UI for DR.in in Adobe XD and shipped responsive pages for SUSCO.co.th.</li>
           </ul>
         </article>
-
       </div>
     </div>
   </section>
 
-  <!-- ===== Skills ===== -->
-  <section class="skills" id="skills">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <p class="section-eyebrow"><span class="eyebrow-index">03</span><span data-i18n="skills.eyebrow">What I Do</span></p>
-        <h2 data-i18n="skills.title">Skills &amp; Tools</h2>
-        <p class="section-desc" data-i18n="skills.desc">A blend of design strategy, research methods, and the tools I use every day to bring ideas to life.</p>
-      </div>
-
-      <div class="skills-grid" data-reveal>
-        <div class="skill-card glow-border">
-          <div class="skill-icon">🧭</div>
-          <h3 data-i18n="skills.card1.title">Design Strategy</h3>
-          <p data-i18n="skills.card1.desc">Scalable Design Systems (Tokens/Variables), Information Architecture, Service Blueprinting, Product Roadmap Alignment.</p>
+  <!-- ===== 9. CTA block ===== -->
+  <section class="cta-block">
+    <div class="wrap">
+      <div class="cta" data-reveal>
+        <div class="cta__bg" aria-hidden="true">
+          <svg viewBox="0 0 809 405" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0"/><stop offset="1"/></linearGradient>
+              <linearGradient id="g4" x1="0" y1="1" x2="1" y2="0"><stop offset="0"/><stop offset="1"/></linearGradient>
+            </defs>
+            <circle cx="607" cy="203" r="202" fill="url(#g3)"/>
+            <path d="M0 202.5C0 314 91 405 203 405V0C91 0 0 91 0 202.5z" fill="url(#g4)"/>
+            <path d="M202 203c0 111.6 90.4 202 202 202V1c-111.6 0-202 90.4-202 202z" fill="url(#g3)"/>
+          </svg>
         </div>
-        <div class="skill-card glow-border">
-          <div class="skill-icon">🔍</div>
-          <h3 data-i18n="skills.card2.title">UX Research</h3>
-          <p data-i18n="skills.card2.desc">Usability Testing, User Persona Mapping, User Flows, Site Maps, A/B Testing.</p>
-        </div>
-        <div class="skill-card glow-border">
-          <div class="skill-icon">💻</div>
-          <h3 data-i18n="skills.card3.title">Development</h3>
-          <p data-i18n="skills.card3.desc">React, Ant Design, shadcn/ui, Tailwind CSS, Apache ECharts, Design-to-Code Handover.</p>
-        </div>
-        <div class="skill-card glow-border">
-          <div class="skill-icon">🤖</div>
-          <h3 data-i18n="skills.card4.title">AI Productivity</h3>
-          <p data-i18n="skills.card4.desc">Claude, Gemini, ChatGPT, Google Stitch — for research synthesis, prompt engineering, and rapid prototyping.</p>
-        </div>
-        <div class="skill-card glow-border">
-          <div class="skill-icon">🎨</div>
-          <h3 data-i18n="skills.card5.title">Design Tools</h3>
-          <p data-i18n="skills.card5.desc">Figma (Advanced), FigJam, Adobe XD.</p>
-        </div>
-        <div class="skill-card glow-border">
-          <div class="skill-icon">🤝</div>
-          <h3 data-i18n="skills.card6.title">Collaboration</h3>
-          <p data-i18n="skills.card6.desc">Jira, Miro, Slack.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Work ===== -->
-  <section class="work" id="work">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <p class="section-eyebrow"><span class="eyebrow-index">04</span><span data-i18n="work.eyebrow">Selected Work</span></p>
-        <h2 data-i18n="work.title">Featured Projects</h2>
-        <p class="section-desc" data-i18n="work.desc">A few case studies that show how I approach problems from research to final UI.</p>
-      </div>
-
-      <div class="filter-row" data-reveal>
-        <button class="filter-btn is-active" data-filter="all" data-i18n="work.filterAll">All</button>
-        <button class="filter-btn" data-filter="mobile" data-i18n="work.filterMobile">Mobile App</button>
-        <button class="filter-btn" data-filter="web" data-i18n="work.filterWeb">Web App</button>
-        <button class="filter-btn" data-filter="design-system" data-i18n="work.filterDesignSystem">Design System</button>
-      </div>
-
-      <!-- Cards are rendered from js/projects-data.js by renderWorkGrid() in js/script.js -->
-      <div class="work-grid" id="workGrid" data-reveal></div>
-    </div>
-  </section>
-
-  <!-- ===== Process ===== -->
-  <section class="process" id="process">
-    <div class="container">
-      <div class="section-head light" data-reveal>
-        <p class="section-eyebrow"><span class="eyebrow-index">05</span><span data-i18n="process.eyebrow">How I Work</span></p>
-        <h2 data-i18n="process.title">My Design Process</h2>
-        <p class="section-desc" data-i18n="process.desc">A structured yet flexible process that keeps users at the center of every decision.</p>
-      </div>
-
-      <div class="process-grid" data-reveal>
-        <div class="process-card glow-border">
-          <span class="process-num">01</span>
-          <h3 data-i18n="process.step1.title">Discover</h3>
-          <p data-i18n="process.step1.desc">Understand the business goals, users, and constraints through research and stakeholder interviews.</p>
-        </div>
-        <div class="process-card glow-border">
-          <span class="process-num">02</span>
-          <h3 data-i18n="process.step2.title">Define</h3>
-          <p data-i18n="process.step2.desc">Synthesize findings into clear problem statements, user flows, and information architecture.</p>
-        </div>
-        <div class="process-card glow-border">
-          <span class="process-num">03</span>
-          <h3 data-i18n="process.step3.title">Design</h3>
-          <p data-i18n="process.step3.desc">Explore wireframes and visual concepts, then refine into high-fidelity, testable prototypes.</p>
-        </div>
-        <div class="process-card glow-border">
-          <span class="process-num">04</span>
-          <h3 data-i18n="process.step4.title">Deliver</h3>
-          <p data-i18n="process.step4.desc">Test with real users, iterate, and hand off polished, developer-ready designs.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Contact ===== -->
-  <section class="contact" id="contact">
-    <div class="container contact-inner">
-      <div class="contact-copy" data-reveal>
-        <p class="section-eyebrow"><span class="eyebrow-index">06</span><span data-i18n="contact.eyebrow">Get In Touch</span></p>
-        <h2 data-i18n="contact.title">Let's create something great together.</h2>
-        <p class="section-desc" data-i18n="contact.desc">Have a project in mind or just want to say hi? My inbox is always open.</p>
-        <div class="contact-details">
-          <a href="mailto:phatiyuttana@gmail.com" class="contact-item">
-            <span class="contact-icon">✉️</span> phatiyuttana@gmail.com
+        <div class="cta__media"><div class="media-block" data-tone="green"><span>Let's talk</span></div></div>
+        <div class="cta__content">
+          <h2 class="cta__title" data-i18n="contact.title">Let's create something great together.</h2>
+          <p class="cta__text" data-i18n="contact.desc">Have a project in mind or just want to say hi? My inbox is always open.</p>
+          <a href="#contact" class="btn btn--primary" data-hover>
+            <span class="btn__circle">↗</span>
+            <span class="btn__label" data-i18n="contact.cta">Plan a chat</span>
+            <span class="btn__circle">↗</span>
           </a>
-          <div class="contact-item">
-            <span class="contact-icon">📍</span> Phahonyothin Rd, Anusawari, Bang Khen, Bangkok 10220
-          </div>
         </div>
-        <div class="social-row">
-          <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
-          <a href="#" aria-label="Dribbble">Dribbble</a>
-          <a href="#" aria-label="Behance">Behance</a>
-          <a href="#" aria-label="Instagram">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 10. Contact ===== -->
+  <section class="contact" id="contact">
+    <div class="wrap contact__inner">
+      <div class="contact__info" data-reveal>
+        <p class="pretitle" data-i18n="contact.eyebrow">Get in touch</p>
+        <a href="mailto:phatiyuttana@gmail.com" class="contact__mail" data-hover>phatiyuttana@gmail.com</a>
+        <p class="contact__addr">Phahonyothin Rd, Anusawari, Bang Khen, Bangkok 10220</p>
+        <div class="contact__social">
+          <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener" data-hover>LinkedIn</a>
+          <a href="#" data-hover>Dribbble</a>
+          <a href="#" data-hover>Behance</a>
+          <a href="#" data-hover>Instagram</a>
         </div>
       </div>
 
-      <form class="contact-form" id="contactForm" data-reveal>
-        <div class="form-row">
-          <div class="form-group">
+      <form class="form" id="contactForm" data-reveal novalidate>
+        <div class="form__row">
+          <div class="field">
             <label for="name" data-i18n="form.labelName">Name</label>
             <input type="text" id="name" name="name" placeholder="Your name" data-i18n-placeholder="form.placeholderName" required>
           </div>
-          <div class="form-group">
+          <div class="field">
             <label for="email" data-i18n="form.labelEmail">Email</label>
             <input type="email" id="email" name="email" placeholder="you@example.com" data-i18n-placeholder="form.placeholderEmail" required>
           </div>
         </div>
-        <div class="form-group">
+        <div class="field">
           <label for="subject" data-i18n="form.labelSubject">Subject</label>
           <input type="text" id="subject" name="subject" placeholder="Project inquiry" data-i18n-placeholder="form.placeholderSubject">
         </div>
-        <div class="form-group">
+        <div class="field">
           <label for="message" data-i18n="form.labelMessage">Message</label>
           <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." data-i18n-placeholder="form.placeholderMessage" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary btn-block" data-i18n="form.sendBtn">Send Message</button>
-        <p class="form-note" id="formNote"></p>
+        <button type="submit" class="btn btn--primary btn--block" data-hover>
+          <span class="btn__label" data-i18n="form.sendBtn">Send Message</span>
+          <span class="btn__circle">↗</span>
+        </button>
+        <p class="form__note" id="formNote" role="status"></p>
       </form>
     </div>
   </section>
@@ -326,22 +710,76 @@
 </main>
 
 <!-- ===== Footer ===== -->
-<footer class="site-footer">
-  <div class="container footer-top">
-    <div class="footer-brand">
-      <span class="footer-monogram">MP</span>
-      <p class="footer-tagline" data-i18n="footer.tagline">UX/UI Designer based in Bangkok, Thailand.</p>
-    </div>
-    <a href="#home" class="back-to-top" aria-label="Back to top">↑</a>
+<footer class="footer">
+  <!-- Service tiles, like the reference site's footer tiles-group.
+       Outside .wrap on purpose: they run the full width of the page. -->
+  <div class="tiles">
+      <a class="tile" href="#services" data-tone="blue" data-hover>
+        <span class="tile__icon" aria-hidden="true"></span>
+        <span class="tile__title" data-i18n="skills.card1.title">Design Strategy</span>
+      </a>
+      <a class="tile" href="#services" data-tone="orange" data-hover>
+        <span class="tile__icon" aria-hidden="true"></span>
+        <span class="tile__title" data-i18n="skills.card2.title">UX Research</span>
+      </a>
+      <a class="tile" href="#services" data-tone="pink" data-hover>
+        <span class="tile__icon" aria-hidden="true"></span>
+        <span class="tile__title" data-i18n="skills.card3.title">Development</span>
+      </a>
+      <a class="tile" href="#services" data-tone="purple-dark" data-hover>
+        <span class="tile__icon" aria-hidden="true"></span>
+        <span class="tile__title" data-i18n="skills.card4.title">AI Productivity</span>
+      </a>
+      <a class="tile" href="#services" data-tone="yellow" data-hover>
+        <span class="tile__icon" aria-hidden="true"></span>
+        <span class="tile__title" data-i18n="skills.card5.title">Design Tools</span>
+      </a>
   </div>
-  <div class="container footer-bottom">
-    <a href="#home" class="logo">Mick<span class="dot">.</span>Pati</a>
+
+  <div class="wrap footer__cols">
+    <div class="footer__col">
+      <p class="footer__label" data-i18n="footer.nowPlaying">In my studio I'm listening to</p>
+      <div class="song">
+        <span class="song__artist">Phum Viphurit</span>
+        <span class="song__title">Lover Boy</span>
+        <a class="song__link" href="#" aria-label="Open playlist" data-hover>↗</a>
+      </div>
+    </div>
+
+    <nav class="footer__col footer__nav" aria-label="Footer">
+      <a href="#work" data-i18n="nav.work">Work</a>
+      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#about" data-i18n="nav.about">About</a>
+      <a href="#process" data-i18n="nav.process">Process</a>
+      <a href="#experience" data-i18n="nav.experience">Experience</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="footer__col footer__info">
+      <p>
+        <a href="mailto:phatiyuttana@gmail.com">phatiyuttana@gmail.com</a><br>
+        Bangkok, Thailand<br><br>
+        <span data-i18n="footer.tagline">UX/UI Designer based in Bangkok, Thailand.</span>
+      </p>
+      <div class="footer__social">
+        <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">Dribbble</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap footer__bottom">
+    <a href="#home" class="footer__logo">Mick<span>.</span>Pati</a>
     <p>&copy; <span id="year"></span> Mick Yuttana Pati. <span data-i18n="footer.rights">All rights reserved.</span></p>
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="js/i18n.js"></script>
-<script src="js/projects-data.js"></script>
-<script src="js/script.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
