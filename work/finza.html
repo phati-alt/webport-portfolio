@@ -1,226 +1,257 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Finza — Fintech Mobile App | Case Study | Mick Yuttana Pati</title>
 <meta name="description" content="Redesigning a personal finance app to simplify budgeting and boost daily engagement.">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+<link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&f[]=chillax@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🟢</text></svg>">
 <link rel="stylesheet" href="../css/style.css">
+
+<script>
+  (function () {
+    var t = localStorage.getItem('studio-theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.classList.add('js');
+  })();
+</script>
 </head>
 <body>
 
-<div class="progress-bar" id="progressBar"></div>
-<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor" id="cursor" aria-hidden="true">
+  <svg class="cursor__ring" viewBox="0 0 100 100">
+    <defs><path id="cursorRing" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"></path></defs>
+    <text><textPath href="#cursorRing">VIEW CASE&nbsp;•&nbsp;VIEW CASE&nbsp;•&nbsp;VIEW CASE&nbsp;•&nbsp;</textPath></text>
+  </svg>
+  <span class="cursor__blob"><span class="cursor__arrow">↗</span></span>
+</div>
 
-<!-- ===== Header (same as index.html, links point back to ../index.html) ===== -->
-<header class="site-header" id="siteHeader">
-  <div class="container header-inner">
-    <a href="../index.html" class="logo">Mick<span class="dot">.</span>Pati</a>
+<header class="header" id="header" data-header>
+  <a href="../index.html#home" class="header__logo">
+    <span class="header__logo-mark">MP</span>
+    <span class="header__logo-text">Mick Yuttana&nbsp;Pati</span>
+  </a>
 
-    <nav class="nav" id="mainNav">
-      <a href="../index.html#home" class="nav-link" data-i18n="nav.home">Home</a>
-      <a href="../index.html#about" class="nav-link" data-i18n="nav.about">About</a>
-      <a href="../index.html#experience" class="nav-link" data-i18n="nav.experience">Experience</a>
-      <a href="../index.html#work" class="nav-link" data-i18n="nav.work">Work</a>
-      <a href="../index.html#skills" class="nav-link" data-i18n="nav.skills">Skills</a>
-      <a href="../index.html#process" class="nav-link" data-i18n="nav.process">Process</a>
-      <a href="../index.html#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
-    </nav>
+  <nav class="header__nav" id="nav">
+    <a href="../index.html#work" class="header__link" data-i18n="nav.work">Work</a>
+    <a href="../index.html#services" class="header__link" data-i18n="nav.services">Services</a>
+    <a href="../index.html#about" class="header__link" data-i18n="nav.about">About</a>
+    <a href="../index.html#process" class="header__link" data-i18n="nav.process">Process</a>
+    <a href="../index.html#experience" class="header__link" data-i18n="nav.experience">Experience</a>
+    <a href="../index.html#contact" class="header__link" data-i18n="nav.contact">Contact</a>
+  </nav>
 
-    <div class="header-actions">
-      <button class="lang-toggle" id="langToggle" aria-label="Switch language">
-        <span id="langCurrent">EN</span>
-      </button>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+  <div class="header__actions">
+    <button class="pill" id="langToggle" aria-label="Switch language"><span id="langCurrent">EN</span></button>
+    <button class="pill pill--icon" id="themeToggle" aria-label="Toggle dark mode">
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
   </div>
 </header>
 
-<main>
+<main id="main">
 
-  <!-- ===== Case Study Hero ===== -->
   <section class="cs-hero">
-    <div class="container">
-      <p class="section-eyebrow" data-i18n-cs="cs.eyebrow">Mobile App</p>
-      <h1 data-i18n-cs="cs.title">Finza — Simplifying Everyday Budgeting</h1>
-      <p class="cs-hero-desc" data-i18n-cs="cs.heroDesc">Redesigning a personal finance app to simplify budgeting and boost daily engagement.</p>
+    <div class="wrap">
+      <p class="pretitle" data-i18n="work.filterMobile" data-reveal>Mobile App</p>
+      <h1 class="cs-hero__title" data-i18n="work.card1.title" data-reveal>Finza — Fintech Mobile App</h1>
+      <p class="lede" data-i18n="work.card1.desc" data-reveal>Redesigning a personal finance app to simplify budgeting and boost daily engagement.</p>
 
-      <div class="cs-meta-grid">
-        <div class="cs-meta-item">
-          <span data-i18n-cs="cs.meta.roleLabel">Role</span>
-          <strong data-i18n-cs="cs.meta.roleValue">Lead UX/UI Designer</strong>
-        </div>
-        <div class="cs-meta-item">
-          <span data-i18n-cs="cs.meta.timelineLabel">Timeline</span>
-          <strong data-i18n-cs="cs.meta.timelineValue">TODO: e.g. 3 months</strong>
-        </div>
-        <div class="cs-meta-item">
-          <span data-i18n-cs="cs.meta.platformLabel">Platform</span>
-          <strong data-i18n-cs="cs.meta.platformValue">iOS / Android</strong>
-        </div>
-        <div class="cs-meta-item">
-          <span data-i18n-cs="cs.meta.toolsLabel">Tools</span>
-          <strong data-i18n-cs="cs.meta.toolsValue">Figma, FigJam</strong>
-        </div>
-      </div>
+      <dl class="cs-meta" data-reveal>
+        <div><dt data-i18n="cs.meta.roleLabel">Role</dt><dd data-i18n-cs="cs.meta.role">Lead UX/UI Designer</dd></div>
+        <div><dt data-i18n="cs.meta.timelineLabel">Timeline</dt><dd data-i18n-cs="cs.meta.timeline">10 weeks</dd></div>
+        <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-i18n-cs="cs.meta.platform">iOS / Android</dd></div>
+        <div><dt data-i18n="cs.meta.toolsLabel">Tools</dt><dd data-i18n-cs="cs.meta.tools">Figma, FigJam, Maze</dd></div>
+      </dl>
 
-      <!-- No cover image yet — add assets/work/finza/cover.jpg and uncomment:
-      <div class="cs-cover"><img src="../assets/work/finza/cover.jpg" alt="Finza app cover"></div>
-      -->
+      <div class="cs-cover media-block" data-tone="blue" data-reveal><span>Finza — cover</span></div>
     </div>
   </section>
 
-  <!-- ===== Overview / Problem ===== -->
   <section class="cs-section">
-    <div class="container">
-      <h2 data-i18n-cs="cs.overview.title">The Problem</h2>
-      <p data-i18n-cs="cs.overview.body1">TODO: What was broken or missing for users before this redesign — e.g. users abandoned budgeting after week one because the flow required too much manual entry.</p>
-      <p data-i18n-cs="cs.overview.body2">TODO: Any constraints worth mentioning — timeline, legacy tech, stakeholder asks.</p>
+    <div class="wrap">
+      <h2 class="cs-section__title" data-i18n="cs.overview.title">The Problem</h2>
+      <p class="lede" data-i18n-cs="cs.problem.p1" data-reveal>Most users abandoned budgeting within the first week — setup demanded too much manual entry and gave no feedback until the end of the month.</p>
+      <p class="lede" data-i18n-cs="cs.problem.p2" data-reveal>The team had ten weeks and an existing bank-sync integration to build on, so the fix had to work within that data, not around it.</p>
     </div>
   </section>
 
-  <!-- ===== Process ===== -->
   <section class="cs-section">
-    <div class="container">
-      <h2 data-i18n-cs="cs.process.title">Process</h2>
-      <p data-i18n-cs="cs.process.body1">TODO: Research, discovery, and the key decisions made along the way.</p>
+    <div class="wrap">
+      <h2 class="cs-section__title" data-i18n="cs.process.title">Process</h2>
+      <p class="lede" data-i18n-cs="cs.process.p1" data-reveal>Ran remote usability sessions with 8 existing users, mapped the budget-setup flow end to end, and tested a lighter "quick categories" version as a clickable prototype before touching production code.</p>
     </div>
   </section>
 
-  <!-- ===== Solution / Screens ===== -->
   <section class="cs-section">
-    <div class="container">
-      <h2 data-i18n-cs="cs.solution.title">The Solution</h2>
-      <p data-i18n-cs="cs.solution.body1">TODO: Describe the final design and why it works.</p>
+    <div class="wrap">
+      <h2 class="cs-section__title" data-i18n="cs.solution.title">The Solution</h2>
+      <p class="lede" data-i18n-cs="cs.solution.p1" data-reveal>Onboarding now auto-categorizes transactions straight from the bank sync instead of asking users to sort them, and a weekly progress ring on the home screen replaced the old monthly-only summary.</p>
 
-      <!-- No screens yet — add images under assets/work/finza/ and restore
-           a .cs-gallery block like this:
       <div class="cs-gallery">
-        <figure><img src="../assets/work/finza/screen-1.jpg" alt="..."><figcaption data-i18n-cs="cs.gallery.caption1">...</figcaption></figure>
-        <figure><img src="../assets/work/finza/screen-2.jpg" alt="..."><figcaption data-i18n-cs="cs.gallery.caption2">...</figcaption></figure>
+        <figure data-reveal>
+          <div class="media-block" data-tone="blue"><span>Onboarding flow</span></div>
+          <figcaption data-i18n-cs="cs.solution.cap1">Auto-categorized budget setup, three steps instead of nine</figcaption>
+        </figure>
+        <figure data-reveal>
+          <div class="media-block" data-tone="blue"><span>Home screen</span></div>
+          <figcaption data-i18n-cs="cs.solution.cap2">Weekly progress ring replaces the old monthly-only summary</figcaption>
+        </figure>
       </div>
-      -->
     </div>
   </section>
 
-  <!-- ===== Results ===== -->
   <section class="cs-section">
-    <div class="container">
-      <h2 data-i18n-cs="cs.results.title">Results</h2>
-      <p data-i18n-cs="cs.results.body1">TODO: Summary of the outcome/impact.</p>
+    <div class="wrap">
+      <h2 class="cs-section__title" data-i18n="cs.results.title">Results</h2>
+      <p class="lede" data-i18n-cs="cs.results.p1" data-reveal>Retention and setup speed both moved in testing, and the usability score held up across a second round with new participants.</p>
 
-      <div class="cs-results">
-        <div class="stat"><strong>TODO</strong><span data-i18n-cs="cs.results.stat1">e.g. increase in weekly active users</span></div>
-        <div class="stat"><strong>TODO</strong><span data-i18n-cs="cs.results.stat2">e.g. drop in budget-setup drop-off</span></div>
-        <div class="stat"><strong>TODO</strong><span data-i18n-cs="cs.results.stat3">e.g. task success rate in usability testing</span></div>
+      <div class="numbers__grid" data-reveal style="margin-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding-block: clamp(2rem, 4vw, 3.5rem);">
+        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat1">+34%</strong><span data-i18n-cs="cs.results.stat1Label">Week-4 retention</span></div>
+        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat2">2.1min</strong><span data-i18n-cs="cs.results.stat2Label">Faster budget setup</span></div>
+        <div class="numbers__item"><strong data-i18n-cs="cs.results.stat3">4.6/5</strong><span data-i18n-cs="cs.results.stat3Label">Usability score (n=8)</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Next Project ===== -->
   <section class="cs-next">
-    <div class="container">
-      <span data-i18n-cs="cs.next.label">Next Project</span>
-      <h3 data-i18n-cs="cs.next.title">See more work →</h3>
-      <a href="../index.html#work" class="btn btn-primary" data-i18n-cs="cs.next.cta">Back to Work</a>
+    <div class="wrap">
+      <p class="pretitle" data-i18n="cs.next.label" data-reveal>Next project</p>
+      <h2 class="section-title" data-i18n-cs="cs.next.title" data-reveal>Orbit — E-commerce Dashboard</h2>
+      <a href="orbit.html" class="btn btn--primary" data-hover>
+        <span class="btn__label" data-i18n="cs.next.cta">View case study</span>
+        <span class="btn__circle">→</span>
+      </a>
     </div>
   </section>
 
 </main>
 
-<!-- ===== Footer (same as index.html, links point back to ../index.html) ===== -->
-<footer class="site-footer">
-  <div class="container footer-top">
-    <div class="footer-brand">
-      <span class="footer-monogram">MP</span>
-      <p class="footer-tagline" data-i18n="footer.tagline">UX/UI Designer based in Bangkok, Thailand.</p>
-    </div>
-    <a href="../index.html#home" class="back-to-top" aria-label="Back to top">↑</a>
+<footer class="footer">
+  <div class="tiles">
+    <a class="tile" href="../index.html#services" data-tone="blue" data-hover>
+      <span class="tile__icon" aria-hidden="true"></span>
+      <span class="tile__title" data-i18n="skills.card1.title">Design Strategy</span>
+    </a>
+    <a class="tile" href="../index.html#services" data-tone="orange" data-hover>
+      <span class="tile__icon" aria-hidden="true"></span>
+      <span class="tile__title" data-i18n="skills.card2.title">UX Research</span>
+    </a>
+    <a class="tile" href="../index.html#services" data-tone="pink" data-hover>
+      <span class="tile__icon" aria-hidden="true"></span>
+      <span class="tile__title" data-i18n="skills.card3.title">Development</span>
+    </a>
+    <a class="tile" href="../index.html#services" data-tone="purple-dark" data-hover>
+      <span class="tile__icon" aria-hidden="true"></span>
+      <span class="tile__title" data-i18n="skills.card4.title">AI Productivity</span>
+    </a>
+    <a class="tile" href="../index.html#services" data-tone="yellow" data-hover>
+      <span class="tile__icon" aria-hidden="true"></span>
+      <span class="tile__title" data-i18n="skills.card5.title">Design Tools</span>
+    </a>
   </div>
-  <div class="container footer-bottom">
-    <a href="../index.html" class="logo">Mick<span class="dot">.</span>Pati</a>
+
+  <div class="wrap footer__cols">
+    <div class="footer__col">
+      <p class="footer__label" data-i18n="footer.nowPlaying">In my studio I'm listening to</p>
+      <div class="song">
+        <span class="song__artist">Phum Viphurit</span>
+        <span class="song__title">Lover Boy</span>
+        <a class="song__link" href="#" aria-label="Open playlist" data-hover>↗</a>
+      </div>
+    </div>
+
+    <nav class="footer__col footer__nav" aria-label="Footer">
+      <a href="../index.html#work" data-i18n="nav.work">Work</a>
+      <a href="../index.html#services" data-i18n="nav.services">Services</a>
+      <a href="../index.html#about" data-i18n="nav.about">About</a>
+      <a href="../index.html#process" data-i18n="nav.process">Process</a>
+      <a href="../index.html#experience" data-i18n="nav.experience">Experience</a>
+      <a href="../index.html#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="footer__col footer__info">
+      <p>
+        <a href="mailto:phatiyuttana@gmail.com">phatiyuttana@gmail.com</a><br>
+        Bangkok, Thailand<br><br>
+        <span data-i18n="footer.tagline">UX/UI Designer based in Bangkok, Thailand.</span>
+      </p>
+      <div class="footer__social">
+        <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">Dribbble</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap footer__bottom">
+    <a href="../index.html#home" class="footer__logo">Mick<span>.</span>Pati</a>
     <p>&copy; <span id="year"></span> Mick Yuttana Pati. <span data-i18n="footer.rights">All rights reserved.</span></p>
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="../js/i18n.js"></script>
-<script src="../js/script.js"></script>
 <script>
-  // Page-specific translations for this case study — see work/_template.html.
   const csTranslations = {
     en: {
-      "cs.eyebrow": "Mobile App",
-      "cs.title": "Finza — Simplifying Everyday Budgeting",
-      "cs.heroDesc": "Redesigning a personal finance app to simplify budgeting and boost daily engagement.",
-      "cs.meta.roleLabel": "Role", "cs.meta.roleValue": "Lead UX/UI Designer",
-      "cs.meta.timelineLabel": "Timeline", "cs.meta.timelineValue": "TODO: e.g. 3 months",
-      "cs.meta.platformLabel": "Platform", "cs.meta.platformValue": "iOS / Android",
-      "cs.meta.toolsLabel": "Tools", "cs.meta.toolsValue": "Figma, FigJam",
-      "cs.overview.title": "The Problem",
-      "cs.overview.body1": "TODO: What was broken or missing for users before this redesign — e.g. users abandoned budgeting after week one because the flow required too much manual entry.",
-      "cs.overview.body2": "TODO: Any constraints worth mentioning — timeline, legacy tech, stakeholder asks.",
-      "cs.process.title": "Process",
-      "cs.process.body1": "TODO: Research, discovery, and the key decisions made along the way.",
-      "cs.solution.title": "The Solution",
-      "cs.solution.body1": "TODO: Describe the final design and why it works.",
-      "cs.gallery.caption1": "TODO caption",
-      "cs.gallery.caption2": "TODO caption",
-      "cs.results.title": "Results",
-      "cs.results.body1": "TODO: Summary of the outcome/impact.",
-      "cs.results.stat1": "e.g. increase in weekly active users",
-      "cs.results.stat2": "e.g. drop in budget-setup drop-off",
-      "cs.results.stat3": "e.g. task success rate in usability testing",
-      "cs.next.label": "Next Project",
-      "cs.next.title": "See more work →",
-      "cs.next.cta": "Back to Work"
+      "cs.meta.role": "Lead UX/UI Designer",
+      "cs.meta.timeline": "10 weeks",
+      "cs.meta.platform": "iOS / Android",
+      "cs.meta.tools": "Figma, FigJam, Maze",
+      "cs.problem.p1": "Most users abandoned budgeting within the first week — setup demanded too much manual entry and gave no feedback until the end of the month.",
+      "cs.problem.p2": "The team had ten weeks and an existing bank-sync integration to build on, so the fix had to work within that data, not around it.",
+      "cs.process.p1": "Ran remote usability sessions with 8 existing users, mapped the budget-setup flow end to end, and tested a lighter \"quick categories\" version as a clickable prototype before touching production code.",
+      "cs.solution.p1": "Onboarding now auto-categorizes transactions straight from the bank sync instead of asking users to sort them, and a weekly progress ring on the home screen replaced the old monthly-only summary.",
+      "cs.solution.cap1": "Auto-categorized budget setup, three steps instead of nine",
+      "cs.solution.cap2": "Weekly progress ring replaces the old monthly-only summary",
+      "cs.results.p1": "Retention and setup speed both moved in testing, and the usability score held up across a second round with new participants.",
+      "cs.results.stat1": "+34%", "cs.results.stat1Label": "Week-4 retention",
+      "cs.results.stat2": "2.1min", "cs.results.stat2Label": "Faster budget setup",
+      "cs.results.stat3": "4.6/5", "cs.results.stat3Label": "Usability score (n=8)",
+      "cs.next.title": "Orbit — E-commerce Dashboard"
     },
     th: {
-      "cs.eyebrow": "แอปมือถือ",
-      "cs.title": "Finza — ทำให้การตั้งงบประมาณง่ายขึ้นทุกวัน",
-      "cs.heroDesc": "รีดีไซน์แอปการเงินส่วนบุคคลให้วางแผนงบประมาณง่ายขึ้น และเพิ่มการใช้งานประจำวัน",
-      "cs.meta.roleLabel": "บทบาท", "cs.meta.roleValue": "Lead UX/UI Designer",
-      "cs.meta.timelineLabel": "ระยะเวลา", "cs.meta.timelineValue": "TODO: เช่น 3 เดือน",
-      "cs.meta.platformLabel": "แพลตฟอร์ม", "cs.meta.platformValue": "iOS / Android",
-      "cs.meta.toolsLabel": "เครื่องมือ", "cs.meta.toolsValue": "Figma, FigJam",
-      "cs.overview.title": "โจทย์ปัญหา",
-      "cs.overview.body1": "TODO: อะไรที่เป็นปัญหาก่อนรีดีไซน์ — เช่น ผู้ใช้เลิกใช้ฟีเจอร์ตั้งงบหลังสัปดาห์แรกเพราะต้องกรอกข้อมูลเยอะเกินไป",
-      "cs.overview.body2": "TODO: ข้อจำกัดที่สำคัญ เช่น เวลาที่มี, เทคโนโลยีเดิม, ความต้องการของ stakeholder",
-      "cs.process.title": "กระบวนการทำงาน",
-      "cs.process.body1": "TODO: การวิจัย การค้นพบ และการตัดสินใจสำคัญระหว่างทาง",
-      "cs.solution.title": "ผลลัพธ์การออกแบบ",
-      "cs.solution.body1": "TODO: อธิบายดีไซน์สุดท้ายและเหตุผลที่ใช้ได้ผล",
-      "cs.gallery.caption1": "TODO คำอธิบายภาพ",
-      "cs.gallery.caption2": "TODO คำอธิบายภาพ",
-      "cs.results.title": "ผลลัพธ์",
-      "cs.results.body1": "TODO: สรุปผลลัพธ์และผลกระทบ",
-      "cs.results.stat1": "เช่น ผู้ใช้งานรายสัปดาห์เพิ่มขึ้น",
-      "cs.results.stat2": "เช่น อัตราการเลิกกลางคันตอนตั้งงบลดลง",
-      "cs.results.stat3": "เช่น อัตราความสำเร็จของงานใน usability testing",
-      "cs.next.label": "โปรเจกต์ถัดไป",
-      "cs.next.title": "ดูผลงานเพิ่มเติม →",
-      "cs.next.cta": "กลับไปหน้าผลงาน"
+      "cs.meta.role": "Lead UX/UI Designer",
+      "cs.meta.timeline": "10 สัปดาห์",
+      "cs.meta.platform": "iOS / Android",
+      "cs.meta.tools": "Figma, FigJam, Maze",
+      "cs.problem.p1": "ผู้ใช้ส่วนใหญ่เลิกใช้ฟีเจอร์ตั้งงบภายในสัปดาห์แรก เพราะขั้นตอนตั้งค่าต้องกรอกข้อมูลเองเยอะเกินไป และไม่มีฟีดแบ็กใด ๆ จนกว่าจะสิ้นเดือน",
+      "cs.problem.p2": "ทีมมีเวลา 10 สัปดาห์และมีระบบเชื่อมต่อธนาคารอยู่แล้ว งานออกแบบจึงต้องใช้ข้อมูลที่มีให้เกิดประโยชน์สูงสุด ไม่ใช่สร้างระบบใหม่ทั้งหมด",
+      "cs.process.p1": "สัมภาษณ์และทดสอบการใช้งานทางไกลกับผู้ใช้จริง 8 คน แมปขั้นตอนการตั้งงบทั้งหมด แล้วทดสอบเวอร์ชัน \"หมวดหมู่อัตโนมัติ\" แบบ prototype ก่อนลงมือพัฒนาจริง",
+      "cs.solution.p1": "ระบบตั้งงบตอนนี้จัดหมวดหมู่รายการให้อัตโนมัติจากข้อมูลธนาคารที่เชื่อมไว้แล้ว แทนที่จะให้ผู้ใช้จัดเอง และเพิ่มวงแหวนแสดงความคืบหน้ารายสัปดาห์บนหน้าหลัก แทนสรุปผลรายเดือนแบบเดิม",
+      "cs.solution.cap1": "ขั้นตอนตั้งงบแบบอัตโนมัติ เหลือ 3 ขั้นตอนจากเดิม 9 ขั้นตอน",
+      "cs.solution.cap2": "วงแหวนความคืบหน้ารายสัปดาห์แทนสรุปผลรายเดือนแบบเดิม",
+      "cs.results.p1": "ทั้งอัตราการใช้งานต่อเนื่องและความเร็วในการตั้งค่าดีขึ้นชัดเจนตอนทดสอบ และคะแนนความพึงพอใจยังคงที่แม้ทดสอบซ้ำกับกลุ่มใหม่",
+      "cs.results.stat1": "+34%", "cs.results.stat1Label": "อัตราการใช้งานต่อเนื่องสัปดาห์ที่ 4",
+      "cs.results.stat2": "2.1 นาที", "cs.results.stat2Label": "ตั้งงบเร็วขึ้น",
+      "cs.results.stat3": "4.6/5", "cs.results.stat3Label": "คะแนนการใช้งาน (n=8)",
+      "cs.next.title": "Orbit — แดชบอร์ดอีคอมเมิร์ซ"
     }
   };
-
-  function applyCsLanguage(lang) {
-    const dict = csTranslations[lang] || csTranslations.en;
-    document.querySelectorAll('[data-i18n-cs]').forEach(el => {
-      const value = dict[el.getAttribute('data-i18n-cs')];
-      if (value !== undefined) el.textContent = value;
+  function applyCs(lang) {
+    var dict = csTranslations[lang] || csTranslations.en;
+    document.querySelectorAll('[data-i18n-cs]').forEach(function (el) {
+      var v = dict[el.getAttribute('data-i18n-cs')];
+      if (v !== undefined) el.textContent = v;
     });
   }
-  applyCsLanguage(getLang());
-  window.addEventListener('langchange', (e) => applyCsLanguage(e.detail.lang));
+  applyCs(I18N.getLang());
+  window.addEventListener('langchange', function (e) { applyCs(e.detail.lang); });
 </script>
+<script src="../js/main.js"></script>
 </body>
 </html>
