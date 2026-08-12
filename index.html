@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mick Yuttana Pati — UX/UI Designer</title>
-<meta name="description" content="Mick Yuttana Pati — UX/UI Designer turning complex systems into experiences people trust.">
+<title>Mick Yuttana — UX/UI & Product Designer</title>
+<meta name="description" content="Mick Yuttana — UX/UI & Product Designer turning complex systems into experiences people trust.">
 
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,7 @@
 <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&f[]=chillax@600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🟢</text></svg>">
+<link rel="icon" type="image/png" href="assets/avatar-icon.png">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/style.css">
 
@@ -39,8 +39,8 @@
 <!-- ===== Header ===== -->
 <header class="header" id="header" data-header>
   <a href="#home" class="header__logo">
-    <span class="header__logo-mark">MP</span>
-    <span class="header__logo-text">Mick Yuttana&nbsp;Pati</span>
+    <span class="header__logo-mark"><img src="assets/avatar-icon.png" alt="Mick Yuttana"></span>
+    <span class="header__logo-text">Mick&nbsp;Yuttana</span>
   </a>
 
   <nav class="header__nav" id="nav">
@@ -95,7 +95,7 @@
     <div class="banner__foot">
       <div class="banner__text" data-banner-text>
         <p class="banner__eyebrow"><span class="dot"></span><span data-i18n="hero.eyebrow">Available for freelance work</span></p>
-        <p class="banner__desc" data-i18n="hero.desc">Hi, I'm Mick Yuttana Pati — a UX/UI Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.</p>
+        <p class="banner__desc" data-i18n="hero.desc">Hi, I'm Mick Yuttana — a UX/UI & Product Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.</p>
         <a href="#contact" class="btn btn--primary" data-hover>
           <span class="btn__label" data-i18n="hero.ctaTalk">Start a project</span>
           <span class="btn__circle">↗</span>
@@ -245,13 +245,6 @@
         </div>
       </div>
 
-      <div class="cases__cta" data-reveal>
-        <a href="#contact" class="btn btn--primary" data-hover>
-          <span class="btn__circle">↗</span>
-          <span class="btn__label" data-i18n="work.allCases">Talk about your project</span>
-          <span class="btn__circle">↗</span>
-        </a>
-      </div>
     </div>
   </section>
 
@@ -269,14 +262,14 @@
 
         <div class="about__media" data-reveal>
           <div class="about__media-frame">
-            <img src="assets/mick-profile.webp" alt="Mick Yuttana Pati" data-parallax loading="lazy">
+            <img src="assets/mick-profile.webp" alt="Mick Yuttana" data-parallax loading="lazy">
           </div>
           <div class="about__badge"><strong>3+</strong><span data-i18n="about.badgeLabel" data-i18n-html>Years of<br>Experience</span></div>
         </div>
 
         <div class="about__content" data-reveal>
           <h2 class="section-title" data-i18n="about.title">I turn complex problems into simple, beautiful interfaces.</h2>
-          <p class="lede" data-i18n="about.text1">UX/UI Designer with 3+ years specializing in enterprise IoT and government platforms.</p>
+          <p class="lede" data-i18n="about.text1">UX/UI & Product Designer with 3+ years specializing in enterprise IoT and government platforms.</p>
           <p class="lede" data-i18n="about.text2">My Computer Science background lets me collaborate with engineers in their own language.</p>
           <ul class="checks">
             <li data-i18n="about.list1">User-Centered Design Process</li>
@@ -386,11 +379,6 @@
           <h2 class="section-title" data-i18n="process.title">My Design Process</h2>
           <p class="section-desc" data-i18n="process.desc">A structured yet flexible process that keeps users at the center of every decision.</p>
         </header>
-        <a href="#contact" class="btn btn--primary" data-hover>
-          <span class="btn__circle">↗</span>
-          <span class="btn__label" data-i18n="process.cta">Discover my approach</span>
-          <span class="btn__circle">↗</span>
-        </a>
       </div>
     </div>
 
@@ -464,72 +452,88 @@
 
   <!-- ===== 8. Experience ===== -->
   <section class="experience" id="experience">
-    <div class="wrap">
+    <div class="wrap wrap--wide">
       <header class="section-head" data-reveal>
         <p class="pretitle" data-i18n="experience.eyebrow">Career</p>
         <h2 class="section-title" data-i18n="experience.title">Work Experience</h2>
         <p class="section-desc" data-i18n="experience.desc">A timeline of roles where I've shipped real products, systems, and design processes.</p>
       </header>
 
-      <div class="timeline">
+      <!-- Vertical timeline: dot on the center line per entry, date badge on
+           one side and the job card on the other, alternating per entry.
+           .timeline__line is the center rail; .job__dot marks each stop. -->
+      <div class="timeline" data-timeline>
+        <span class="timeline__line" aria-hidden="true">
+          <span class="timeline__line-fill" data-timeline-fill></span>
+        </span>
+
         <article class="job" data-reveal>
-          <div class="job__head">
-            <div>
-              <h3 data-i18n="experience.job1.role">UX/UI Designer</h3>
-              <p class="job__company" data-i18n="experience.job1.company">Swift Dynamics Co., Ltd.</p>
-            </div>
+          <div class="job__side job__side--date">
             <span class="job__date" data-i18n="experience.job1.date">Nov 2022 – Present</span>
           </div>
-          <div class="job__group">
-            <h4 data-i18n="experience.job1.group1.title">Product Architecture &amp; Design Systems</h4>
-            <ul>
-              <li data-i18n="experience.job1.group1.bullet1">Led end-to-end UX/UI design for a construction and facility management platform.</li>
-              <li data-i18n="experience.job1.group1.bullet2">Built and maintained a centralized Design System with Figma Variables, Tokens, and Auto-layout.</li>
-              <li data-i18n="experience.job1.group1.bullet3">Integrated AI tools into the design workflow for research synthesis and documentation.</li>
-            </ul>
-          </div>
-          <div class="job__group">
-            <h4 data-i18n="experience.job1.group2.title">Data-Driven IoT &amp; Custom Dashboards</h4>
-            <ul>
-              <li data-i18n="experience.job1.group2.bullet1">Designed monitoring dashboards for industrial IoT sensor data using Apache ECharts.</li>
-              <li data-i18n="experience.job1.group2.bullet2">Partnered with frontend engineers to spec and review component behavior.</li>
-            </ul>
-          </div>
-          <div class="job__group">
-            <h4 data-i18n="experience.job1.group3.title">Stakeholder Collaboration &amp; Government Solutions</h4>
-            <ul>
-              <li data-i18n="experience.job1.group3.bullet1">Ran requirement-gathering sessions with Product Owners and Project Managers.</li>
-              <li data-i18n="experience.job1.group3.bullet2">Designed a unified status-tracking dashboard for a government client.</li>
-              <li data-i18n="experience.job1.group3.bullet3">Presented design decisions and trade-offs to cross-functional stakeholders weekly.</li>
-            </ul>
+          <span class="job__dot" aria-hidden="true"></span>
+          <div class="job__side job__side--card">
+            <div class="job__card">
+              <h3 data-i18n="experience.job1.role">UX/UI Designer</h3>
+              <p class="job__company" data-i18n="experience.job1.company">Swift Dynamics Co., Ltd.</p>
+              <div class="job__group">
+                <h4 data-i18n="experience.job1.group1.title">Product Architecture &amp; Design Systems</h4>
+                <ul>
+                  <li data-i18n="experience.job1.group1.bullet1">Led end-to-end UX/UI design for a construction and facility management platform.</li>
+                  <li data-i18n="experience.job1.group1.bullet2">Built and maintained a centralized Design System with Figma Variables, Tokens, and Auto-layout.</li>
+                  <li data-i18n="experience.job1.group1.bullet3">Integrated AI tools into the design workflow for research synthesis and documentation.</li>
+                </ul>
+              </div>
+              <div class="job__group">
+                <h4 data-i18n="experience.job1.group2.title">Data-Driven IoT &amp; Custom Dashboards</h4>
+                <ul>
+                  <li data-i18n="experience.job1.group2.bullet1">Designed monitoring dashboards for industrial IoT sensor data using Apache ECharts.</li>
+                  <li data-i18n="experience.job1.group2.bullet2">Partnered with frontend engineers to spec and review component behavior.</li>
+                </ul>
+              </div>
+              <div class="job__group">
+                <h4 data-i18n="experience.job1.group3.title">Stakeholder Collaboration &amp; Government Solutions</h4>
+                <ul>
+                  <li data-i18n="experience.job1.group3.bullet1">Ran requirement-gathering sessions with Product Owners and Project Managers.</li>
+                  <li data-i18n="experience.job1.group3.bullet2">Designed a unified status-tracking dashboard for a government client.</li>
+                  <li data-i18n="experience.job1.group3.bullet3">Presented design decisions and trade-offs to cross-functional stakeholders weekly.</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </article>
 
         <article class="job" data-reveal>
-          <div class="job__head">
-            <div>
-              <h3 data-i18n="experience.job2.role">UI Designer</h3>
-              <p class="job__company" data-i18n="experience.job2.company">Yes Web Design Studio Co., Ltd.</p>
-            </div>
+          <div class="job__side job__side--date">
             <span class="job__date" data-i18n="experience.job2.date">Apr 2022 – Aug 2022</span>
           </div>
-          <ul>
-            <li data-i18n="experience.job2.bullet1">Designed high-fidelity UI for 3+ WordPress websites in Figma.</li>
-            <li data-i18n="experience.job2.bullet2">Built reusable component libraries and site maps.</li>
-          </ul>
+          <span class="job__dot" aria-hidden="true"></span>
+          <div class="job__side job__side--card">
+            <div class="job__card">
+              <h3 data-i18n="experience.job2.role">UI Designer</h3>
+              <p class="job__company" data-i18n="experience.job2.company">Yes Web Design Studio Co., Ltd.</p>
+              <ul>
+                <li data-i18n="experience.job2.bullet1">Designed high-fidelity UI for 3+ WordPress websites in Figma.</li>
+                <li data-i18n="experience.job2.bullet2">Built reusable component libraries and site maps.</li>
+              </ul>
+            </div>
+          </div>
         </article>
 
         <article class="job" data-reveal>
-          <div class="job__head">
-            <div>
-              <h3 data-i18n="experience.job3.role">UI Designer (Internship)</h3>
-              <p class="job__company" data-i18n="experience.job3.company">Online Asset Co., Ltd.</p>
-            </div>
+          <div class="job__side job__side--date">
             <span class="job__date" data-i18n="experience.job3.date">Nov 2021 – Mar 2022</span>
           </div>
-          <ul>
-            <li data-i18n="experience.job3.bullet1">Designed the full mobile UI for DR.in in Adobe XD and shipped responsive pages for SUSCO.co.th.</li>
-          </ul>
+          <span class="job__dot" aria-hidden="true"></span>
+          <div class="job__side job__side--card">
+            <div class="job__card">
+              <h3 data-i18n="experience.job3.role">UI Designer (Internship)</h3>
+              <p class="job__company" data-i18n="experience.job3.company">Online Asset Co., Ltd.</p>
+              <ul>
+                <li data-i18n="experience.job3.bullet1">Designed the full mobile UI for DR.in in Adobe XD and shipped responsive pages for SUSCO.co.th.</li>
+              </ul>
+            </div>
+          </div>
         </article>
       </div>
     </div>
@@ -639,7 +643,7 @@
       <p>
         <a href="mailto:phatiyuttana@gmail.com">phatiyuttana@gmail.com</a><br>
         Bangkok, Thailand<br><br>
-        <span data-i18n="footer.tagline">UX/UI Designer based in Bangkok, Thailand.</span>
+        <span data-i18n="footer.tagline">UX/UI & Product Designer based in Bangkok, Thailand.</span>
       </p>
       <div class="footer__social">
         <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener">LinkedIn</a>
@@ -650,8 +654,8 @@
   </div>
 
   <div class="wrap footer__bottom">
-    <a href="#home" class="footer__logo">Mick<span>.</span>Pati</a>
-    <p>&copy; <span id="year"></span> Mick Yuttana Pati. <span data-i18n="footer.rights">All rights reserved.</span></p>
+    <a href="#home" class="footer__logo">Mick<span>.</span>Yuttana</a>
+    <p>&copy; <span id="year"></span> Mick Yuttana. <span data-i18n="footer.rights">All rights reserved.</span></p>
   </div>
 </footer>
 

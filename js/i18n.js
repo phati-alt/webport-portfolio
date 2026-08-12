@@ -13,7 +13,7 @@ const translations = {
     "nav.contact": "Contact",
 
     "hero.eyebrow": "Available for freelance work",
-    "hero.desc": "Hi, I'm Mick Yuttana Pati — a UX/UI Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.",
+    "hero.desc": "Hi, I'm Mick Yuttana — a UX/UI & Product Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.",
     "hero.ctaTalk": "Start a project",
     "hero.scroll": "Scroll",
     "hero.stat1": "Years Experience",
@@ -63,8 +63,6 @@ const translations = {
     "tag.cms": "CMS",
     "tag.responsive": "Responsive Design",
 
-    "work.allCases": "Talk about your project",
-
     "services.pretitle": "Services",
     "services.title": "From strategy<br>to handover",
     "services.titleInline": "From strategy to handover",
@@ -83,7 +81,7 @@ const translations = {
 
     "about.eyebrow": "About me",
     "about.title": "I turn complex problems into simple, beautiful interfaces.",
-    "about.text1": "UX/UI Designer with 3+ years specializing in enterprise IoT and government platforms. I turn complex sensor data and operational workflows into interfaces that non-technical users can actually use.",
+    "about.text1": "UX/UI & Product Designer with 3+ years specializing in enterprise IoT and government platforms. I turn complex sensor data and operational workflows into interfaces that non-technical users can actually use.",
     "about.text2": "My Computer Science background lets me collaborate with engineers in their own language — and ship design systems that hold up at scale.",
     "about.list1": "User-Centered Design Process",
     "about.list2": "Cross-Platform Design Systems",
@@ -102,7 +100,6 @@ const translations = {
     "process.step3.desc": "Explore wireframes and visual concepts, then refine into high-fidelity, testable prototypes.",
     "process.step4.title": "Deliver",
     "process.step4.desc": "Test with real users, iterate, and hand off polished, developer-ready designs.",
-    "process.cta": "Discover my approach",
 
     "tools.pretitle": "Toolbox",
 
@@ -149,7 +146,7 @@ const translations = {
     "form.errorNote": "Please fill in your name, a valid email, and a message.",
     "form.successNote": "Thanks for reaching out! I'll get back to you within 1-2 business days.",
 
-    "footer.tagline": "UX/UI Designer based in Bangkok, Thailand.",
+    "footer.tagline": "UX/UI & Product Designer based in Bangkok, Thailand.",
     "footer.nowPlaying": "In my studio I'm listening to",
     "footer.rights": "All rights reserved.",
 
@@ -176,7 +173,7 @@ const translations = {
     "nav.contact": "ติดต่อ",
 
     "hero.eyebrow": "พร้อมรับงานฟรีแลนซ์",
-    "hero.desc": "สวัสดีครับ ผมมิค ยุทธนา พาที — UX/UI Designer ที่เน้นแปลงระบบซับซ้อนให้กลายเป็นประสบการณ์ดิจิทัลที่ใช้งานง่ายและน่าเชื่อถือ",
+    "hero.desc": "สวัสดีครับ ผมมิค ยุทธนา — UX/UI & Product Designer ที่เน้นแปลงระบบซับซ้อนให้กลายเป็นประสบการณ์ดิจิทัลที่ใช้งานง่ายและน่าเชื่อถือ",
     "hero.ctaTalk": "เริ่มโปรเจกต์",
     "hero.scroll": "เลื่อนลง",
     "hero.stat1": "ปีประสบการณ์",
@@ -226,8 +223,6 @@ const translations = {
     "tag.cms": "CMS",
     "tag.responsive": "ออกแบบ Responsive",
 
-    "work.allCases": "คุยเรื่องโปรเจกต์ของคุณ",
-
     "services.pretitle": "บริการ",
     "services.title": "ตั้งแต่กลยุทธ์<br>จนถึงการส่งมอบ",
     "services.titleInline": "ตั้งแต่กลยุทธ์จนถึงการส่งมอบ",
@@ -246,7 +241,7 @@ const translations = {
 
     "about.eyebrow": "เกี่ยวกับผม",
     "about.title": "ผมเปลี่ยนปัญหาที่ซับซ้อน ให้กลายเป็นอินเทอร์เฟซที่เรียบง่ายและสวยงาม",
-    "about.text1": "UX/UI Designer ที่มีประสบการณ์กว่า 3 ปี เชี่ยวชาญด้าน Enterprise IoT และแพลตฟอร์มภาครัฐ ผมเปลี่ยนข้อมูลเซนเซอร์ที่ซับซ้อนและขั้นตอนการทำงานให้กลายเป็นอินเทอร์เฟซที่ผู้ใช้ทั่วไปใช้งานได้จริง",
+    "about.text1": "UX/UI & Product Designer ที่มีประสบการณ์กว่า 3 ปี เชี่ยวชาญด้าน Enterprise IoT และแพลตฟอร์มภาครัฐ ผมเปลี่ยนข้อมูลเซนเซอร์ที่ซับซ้อนและขั้นตอนการทำงานให้กลายเป็นอินเทอร์เฟซที่ผู้ใช้ทั่วไปใช้งานได้จริง",
     "about.text2": "พื้นฐานด้าน Computer Science ทำให้ผมสื่อสารกับวิศวกรได้ในภาษาเดียวกัน และส่งมอบ Design System ที่รองรับการขยายตัวได้จริง",
     "about.list1": "กระบวนการออกแบบที่ยึดผู้ใช้เป็นศูนย์กลาง",
     "about.list2": "Design System ที่ใช้ได้ทุกแพลตฟอร์ม",
@@ -265,7 +260,6 @@ const translations = {
     "process.step3.desc": "สำรวจ Wireframe และแนวคิดภาพ แล้วพัฒนาเป็น Prototype ความละเอียดสูงที่พร้อมทดสอบ",
     "process.step4.title": "ส่งมอบ",
     "process.step4.desc": "ทดสอบกับผู้ใช้จริง ปรับปรุงซ้ำ และส่งมอบงานออกแบบที่พร้อมสำหรับนักพัฒนา",
-    "process.cta": "ดูวิธีการทำงานของผม",
 
     "tools.pretitle": "เครื่องมือที่ใช้",
 
@@ -312,7 +306,7 @@ const translations = {
     "form.errorNote": "กรุณากรอกชื่อ อีเมลที่ถูกต้อง และข้อความ",
     "form.successNote": "ขอบคุณที่ติดต่อมาครับ! ผมจะตอบกลับภายใน 1-2 วันทำการ",
 
-    "footer.tagline": "UX/UI Designer ประจำกรุงเทพฯ ประเทศไทย",
+    "footer.tagline": "UX/UI & Product Designer ประจำกรุงเทพฯ ประเทศไทย",
     "footer.nowPlaying": "ตอนนี้ในสตูดิโอผมกำลังฟัง",
     "footer.rights": "สงวนลิขสิทธิ์",
 
