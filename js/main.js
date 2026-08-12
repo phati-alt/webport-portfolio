@@ -183,6 +183,43 @@
     });
   }
 
+  /* ---------- 3b. Process cards: staggered entrance ----------
+     Replaces the generic data-reveal on these 4 cards so they read as one
+     connected sequence instead of fading in independently. */
+  function initProcessTimeline() {
+    const cards = gsap.utils.toArray('[data-process-cards] .card');
+    if (!MOTION || !cards.length) return;
+
+    gsap.fromTo(cards, { opacity: 0, y: 40 }, {
+      opacity: 1, y: 0, duration: .8, ease: 'power3.out', stagger: .15,
+      scrollTrigger: { trigger: '[data-process-cards]', start: 'top 85%', once: true }
+    });
+  }
+
+  /* ---------- 3c. Cases: horizontal scroll pinned to vertical scroll ----------
+     Desktop/hover only — pins .cases__pin (heading + filters + track, so
+     they all stay locked together, not just the card row) for one row's
+     worth of scroll distance and translates .cases__grid sideways to
+     match. Touch devices keep the plain overflow-x swipe scroll from CSS. */
+  function initCasesScroll() {
+    const pinEl = document.querySelector('[data-cases-pin]');
+    const scroller = document.querySelector('[data-cases-scroller]');
+    const track = document.getElementById('casesGrid');
+    if (!MOTION || !pinEl || !scroller || !track) return;
+    if (!window.matchMedia('(hover: hover)').matches) return;
+
+    const getDistance = () => Math.max(0, track.scrollWidth - scroller.clientWidth);
+    // Pin just below the fixed site header, not under it.
+    const getStart = () => `top ${getComputedStyle(root).getPropertyValue('--header-h').trim()}`;
+
+    ScrollTrigger.create({
+      trigger: pinEl, start: getStart,
+      end: () => `+=${getDistance()}`,
+      pin: true, scrub: .6, invalidateOnRefresh: true,
+      onUpdate: self => gsap.set(track, { x: -getDistance() * self.progress })
+    });
+  }
+
   /* ---------- 4. Parallax media ---------- */
   function initParallax() {
     if (!MOTION) return;
@@ -457,6 +494,8 @@
     initMarquee();
     initParallax();
     initReveal();
+    initProcessTimeline();
+    initCasesScroll();
     initBanner();
     initTextReveal();
 
