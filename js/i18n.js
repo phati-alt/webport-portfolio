@@ -136,7 +136,6 @@ const translations = {
     "contact.eyebrow": "Get in touch",
     "contact.title": "Let's create something great together.",
     "contact.desc": "Have a project in mind or just want to say hi? My inbox is always open.",
-    "contact.cta": "Plan a chat",
 
     "form.labelName": "Name",
     "form.labelEmail": "Email",
@@ -300,7 +299,6 @@ const translations = {
     "contact.eyebrow": "ติดต่อผม",
     "contact.title": "มาสร้างสรรค์สิ่งดี ๆ ไปด้วยกัน",
     "contact.desc": "มีโปรเจกต์ในใจ หรือแค่อยากทักทาย? กล่องข้อความของผมเปิดรับเสมอ",
-    "contact.cta": "นัดคุยกัน",
 
     "form.labelName": "ชื่อ",
     "form.labelEmail": "อีเมล",

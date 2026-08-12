@@ -7,82 +7,8 @@
    marquees, tile footer.
    ============================================================ */
 
-/* ---------- Tokens ---------- */
-:root {
-  --paper:        #fdf6ee;
-  --paper-2:      #f3ece3;
-  --ink:          #0d1512;
-  --muted:        #5d6b64;
-  --rule:         rgba(13, 21, 18, .12);
-  --primary:      #1f4438;
-  --primary-ink:  #fdf6ee;
-  --reveal-dim:   #a09a92;
-
-  /* accent blocks */
-  --blue:        #bad6ff;
-  --pink:        #ffb1eb;
-  --orange:      #ff6a42;
-  --purple:      #cdb7f1;
-  --purple-dark: #5c2447;
-  --yellow:      #f7e08a;
-  --green:       #1f4438;
-
-  /* the green band keeps its own pair so it never flips with the theme */
-  --band:        #1f4438;
-  --band-ink:    #fdf6ee;
-
-  /* nav capsule — translucent so it tints to whatever scrolls under it */
-  --nav-bg:    rgba(255, 255, 255, .7);
-  --nav-ink:   #0d1512;
-  --nav-hover: rgba(13, 21, 18, .07);
-
-  --font: "Switzer", "Noto Sans Thai", "Helvetica Neue", Arial, sans-serif;
-  /* hero wordmark only — Chillax is loaded at 600 only, so no faux bold */
-  --font-display: "Chillax", var(--font);
-  --wordmark: #1f4438;        /* stays in the green family in both schemes */
-  --fs-body: clamp(1rem, .92rem + .38vw, 1.25rem);
-  --fs-lede: clamp(1.06rem, .96rem + .5vw, 1.4rem);
-  --fs-h2:   clamp(2.2rem, 1.4rem + 3.6vw, 5rem);
-  --fs-h3:   clamp(1.35rem, 1.1rem + 1.1vw, 2.1rem);
-  /* 380px on a desktop column; cqw (a % of .banner__logo) scales it down on
-     narrower columns. At this size the lines are wider than the column, so
-     they run past the right edge and .banner clips them. */
-  --fs-huge: min(380px, 33cqw);
-
-  /* one side inset for the whole page: header, hero and every section share it */
-  --gutter: clamp(1.25rem, 9.5vw, 200px);
-  /* …except the hero wordmark, which keeps its own narrower inset */
-  --hero-pad: clamp(1.5rem, 5.5vw, 96px);
-  --section: clamp(5.5rem, 3rem + 9vw, 12.5rem);
-  --gap: clamp(1.25rem, .8rem + 1.6vw, 2.5rem);
-  --radius: clamp(15px, 1.6vw, 30px);
-  --radius-sm: clamp(10px, .9vw, 16px);
-  /* --header-h is the measured height of the header block; main.js keeps it in
-     sync so the hero, the mobile drop-down and the sticky cards all follow. */
-  --header-h: 118px;
-  --nav-h: 64px;              /* capsule height, re-measured by main.js */
-  --header-pad: var(--gutter);
-  --wrap: 1560px;
-
-  --ease: cubic-bezier(.22, 1, .36, 1);
-  --speed: .35s;
-}
-
-:root[data-theme="dark"] {
-  --paper:       #0b1311;
-  --paper-2:     #131f1c;
-  --ink:         #eef1ea;
-  --muted:       #9aa8a1;
-  --rule:        rgba(238, 241, 234, .14);
-  --primary:     #bad6ff;
-  --primary-ink: #0b1311;
-  --reveal-dim:  #4e5a55;
-  --band:        #16302a;
-  --wordmark:    #7cbba3;
-  --nav-bg:      rgba(238, 241, 234, .13);
-  --nav-ink:     #eef1ea;
-  --nav-hover:   rgba(238, 241, 234, .2);
-}
+/* ---------- Tokens ----------
+   Moved to css/tokens.css — load that file before this one. */
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -108,6 +34,10 @@ body {
 :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 4px; }
 
 .wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
+/* a roomier cap for sections that want more breathing room than the
+   default 1560px — smaller gutter too, so content actually gets wider,
+   not just the empty margins. .band__content overrides this further. */
+.wrap--wide { max-width: 1920px; padding-inline: clamp(1.25rem, 6vw, 120px); }
 
 /* ---------- Shared type ---------- */
 .pretitle {
@@ -378,28 +308,39 @@ body {
 .filter:hover { border-color: currentColor; }
 .filter.is-active { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
 
-/* True masonry: each column packs independently (via CSS multi-column),
-   instead of a 2-row CSS grid where a short card leaves dead space under it
-   while it waits for its taller row partner to finish. */
-.cases__grid { column-count: 2; column-gap: var(--gap); }
+/* Horizontal-scroll track: one row of fixed-width cards. On desktop
+   initCasesScroll() pins .cases__scroller and scrubs .cases__grid
+   sideways with vertical scroll; .cases__scroller's own overflow-x
+   is the fallback everywhere that doesn't get the pin (touch, no-motion). */
+.cases__scroller {
+  overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.cases__scroller::-webkit-scrollbar { display: none; }
+.cases__grid {
+  display: flex; align-items: stretch; gap: var(--gap);
+  width: max-content; padding-bottom: .5rem;
+}
+/* .case stretches to the row's tallest card; .case__frame and .case__body
+   fill that height so every frame ends up the same size regardless of how
+   much a title/tag list wraps. */
 .case {
-  display: block; break-inside: avoid;
-  margin-bottom: clamp(1.5rem, 3.5vw, 4.5rem);
+  display: flex; flex-direction: column; flex: 0 0 clamp(280px, 34vw, 420px);
   text-decoration: none; color: inherit;
 }
 .case.is-hidden { display: none; }
+.case__frame { display: flex; flex-direction: column; flex: 1; }
 .case__media {
   border-radius: var(--radius); overflow: hidden; position: relative;
   aspect-ratio: 4 / 3; display: grid; place-items: center; background: var(--paper-2);
 }
-.case--tall .case__media { aspect-ratio: 3 / 4; }
 .case__index {
   font-size: clamp(3rem, 8vw, 8rem); font-weight: 600; letter-spacing: -.05em;
   color: color-mix(in srgb, #0d1512 22%, transparent); mix-blend-mode: multiply;
   transition: transform .9s var(--ease);
 }
 .case:hover .case__index { transform: scale(1.08); }
-.case__body { padding-top: 1.35rem; }
+.case__body { padding-top: 1.35rem; flex: 1; display: flex; flex-direction: column; }
 .case__title { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
 .case__desc { color: var(--muted); margin-top: .5rem; max-width: 44ch; }
 .cases__cta { display: flex; justify-content: center; margin-top: clamp(2.5rem, 5vw, 5rem); }
@@ -515,7 +456,9 @@ body {
 
 /* ---------- 5. Approach ---------- */
 .approach { padding-block: var(--section); }
-.approach__grid { max-width: 62ch; }
+/* left-started, full-width like every other .section-head — no longer
+   shrunk into its own centered mini-column. */
+.approach__content .section-head { margin-bottom: 0; }
 .media-block {
   border-radius: var(--radius); aspect-ratio: 3 / 4; overflow: hidden;
   display: grid; place-items: center; font-weight: 600;
@@ -523,21 +466,23 @@ body {
 }
 .approach__content .btn { margin-top: 2rem; }
 
+/* Bigger cards: taller media block (was 16:9), roomier body and type. */
 .grid-cards {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap);
   margin-top: clamp(3rem, 6vw, 6rem);
 }
 .card {
-  border-radius: var(--radius); overflow: hidden; background: var(--paper-2);
-  border: 1px solid var(--rule); display: flex; flex-direction: column;
-  transition: transform .5s var(--ease);
+  border-radius: var(--radius); overflow: hidden; background: var(--paper);
+  box-shadow: 0 1px 2px rgba(13, 21, 18, .06);
+  display: flex; flex-direction: column;
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease);
 }
-.card:hover { transform: translateY(-8px); }
-.card__media { aspect-ratio: 16 / 9; display: grid; place-items: center; }
-.card__num { font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; letter-spacing: -.04em; opacity: .55; }
-.card__body { padding: clamp(1.15rem, 1.8vw, 1.75rem); }
-.card__body h3 { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; }
-.card__body p { color: var(--muted); margin-top: .5rem; font-size: .98rem; }
+.card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(13, 21, 18, .12); }
+.card__media { aspect-ratio: 4 / 3; display: grid; place-items: center; }
+.card__num { font-size: clamp(2.4rem, 4.5vw, 3.75rem); font-weight: 600; letter-spacing: -.04em; opacity: .55; }
+.card__body { padding: clamp(1.5rem, 2.2vw, 2.25rem); }
+.card__body h3 { font-size: clamp(1.3rem, 1vw + 1rem, 1.7rem); font-weight: 600; letter-spacing: -.02em; }
+.card__body p { color: var(--muted); margin-top: .6rem; font-size: 1.02rem; }
 
 /* ---------- 6. Numbers (now embedded inside the About section) ---------- */
 .numbers__grid {
@@ -576,26 +521,6 @@ body {
 .job li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); margin-top: .62em; }
 
 /* ---------- 9. CTA block ---------- */
-.cta-block { padding-block: clamp(2rem, 4vw, 4rem); }
-.cta {
-  position: relative; overflow: hidden; border-radius: var(--radius);
-  background: var(--blue); color: #0d1512;
-  display: grid; grid-template-columns: 5fr 7fr; gap: clamp(1.5rem, 4vw, 5rem);
-  align-items: center; padding: clamp(1.5rem, 3.5vw, 4rem);
-}
-.cta__bg { position: absolute; inset: auto 0 0 0; height: 80%; opacity: .55; pointer-events: none; }
-.cta__bg svg { width: 100%; height: 100%; }
-.cta__bg stop:first-child { stop-color: #ffffff; }
-.cta__bg stop:last-child { stop-color: var(--blue); }
-.cta__media, .cta__content { position: relative; }
-.cta__media .media-block { aspect-ratio: 4 / 5; }
-.cta__title { font-size: clamp(1.8rem, 1.1rem + 2.6vw, 3.6rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.04; text-wrap: balance; }
-.cta__text { margin-top: 1.1rem; opacity: .78; font-size: var(--fs-lede); max-width: 44ch; }
-.cta__content .btn { margin-top: 2rem; --btn-bg: #1f4438; --btn-fg: #fdf6ee; --btn-line: #1f4438; }
-.cta__content .btn .btn__circle { background: #fdf6ee; color: #1f4438; }
-.cta__content .btn:hover { --btn-bg: transparent; --btn-fg: #0d1512; --btn-line: rgba(13,21,18,.25); }
-.cta__content .btn:hover .btn__circle { background: #1f4438; color: #fdf6ee; }
-
 /* ---------- 10. Contact ---------- */
 .contact { padding-block: var(--section); }
 .contact__inner { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 5vw, 6rem); align-items: start; }
@@ -739,11 +664,8 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   .banner__foot { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .banner__scroll { width: 84px; align-self: flex-end; }
 
-  .cases__grid { column-count: 1; }
-  .case--tall .case__media { aspect-ratio: 4 / 3; }
-
   .stack__item { position: static; }
-  .about, .contact__inner, .cta { grid-template-columns: 1fr; }
+  .about, .contact__inner { grid-template-columns: 1fr; }
   .approach__grid { max-width: 100%; }
   .about__badge { right: 1rem; bottom: -1rem; }
   .tiles { grid-template-columns: repeat(2, 1fr); }

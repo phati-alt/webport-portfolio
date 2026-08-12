@@ -1,0 +1,87 @@
+/* ============================================================
+   Design tokens — Mick Yuttana Pati portfolio
+   Every color/type/spacing/motion value the rest of the CSS
+   builds on. Change a theme's look by editing values here only;
+   nothing in style.css should hardcode a color, font, or spacing
+   number outside of this file.
+
+   The accent palette + font pairing currently mirror the
+   studiomodular.be reference this redesign started from — swap
+   the color block below to move away from it.
+   ============================================================ */
+
+:root {
+  --paper:        #fdf6ee;
+  --paper-2:      #f3ece3;
+  --ink:          #0d1512;
+  --muted:        #5d6b64;
+  --rule:         rgba(13, 21, 18, .12);
+  --primary:      #1f4438;
+  --primary-ink:  #fdf6ee;
+  --reveal-dim:   #a09a92;
+
+  /* accent blocks */
+  --blue:        #bad6ff;
+  --pink:        #ffb1eb;
+  --orange:      #ff6a42;
+  --purple:      #cdb7f1;
+  --purple-dark: #5c2447;
+  --yellow:      #f7e08a;
+  --green:       #1f4438;
+
+  /* the green band keeps its own pair so it never flips with the theme */
+  --band:        #1f4438;
+  --band-ink:    #fdf6ee;
+
+  /* nav capsule — translucent so it tints to whatever scrolls under it */
+  --nav-bg:    rgba(255, 255, 255, .7);
+  --nav-ink:   #0d1512;
+  --nav-hover: rgba(13, 21, 18, .07);
+
+  --font: "Switzer", "Noto Sans Thai", "Helvetica Neue", Arial, sans-serif;
+  /* hero wordmark only — Chillax is loaded at 600 only, so no faux bold */
+  --font-display: "Chillax", var(--font);
+  --wordmark: #1f4438;        /* stays in the green family in both schemes */
+  --fs-body: clamp(1rem, .92rem + .38vw, 1.25rem);
+  --fs-lede: clamp(1.06rem, .96rem + .5vw, 1.4rem);
+  --fs-h2:   clamp(2.2rem, 1.4rem + 3.6vw, 5rem);
+  --fs-h3:   clamp(1.35rem, 1.1rem + 1.1vw, 2.1rem);
+  /* 380px on a desktop column; cqw (a % of .banner__logo) scales it down on
+     narrower columns. At this size the lines are wider than the column, so
+     they run past the right edge and .banner clips them. */
+  --fs-huge: min(380px, 33cqw);
+
+  /* one side inset for the whole page: header, hero and every section share it */
+  --gutter: clamp(1.25rem, 9.5vw, 200px);
+  /* …except the hero wordmark, which keeps its own narrower inset */
+  --hero-pad: clamp(1.5rem, 5.5vw, 96px);
+  --section: clamp(5.5rem, 3rem + 9vw, 12.5rem);
+  --gap: clamp(1.25rem, .8rem + 1.6vw, 2.5rem);
+  --radius: clamp(15px, 1.6vw, 30px);
+  --radius-sm: clamp(10px, .9vw, 16px);
+  /* --header-h is the measured height of the header block; main.js keeps it in
+     sync so the hero, the mobile drop-down and the sticky cards all follow. */
+  --header-h: 118px;
+  --nav-h: 64px;              /* capsule height, re-measured by main.js */
+  --header-pad: var(--gutter);
+  --wrap: 1560px;
+
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --speed: .35s;
+}
+
+:root[data-theme="dark"] {
+  --paper:       #0b1311;
+  --paper-2:     #131f1c;
+  --ink:         #eef1ea;
+  --muted:       #9aa8a1;
+  --rule:        rgba(238, 241, 234, .14);
+  --primary:     #bad6ff;
+  --primary-ink: #0b1311;
+  --reveal-dim:  #4e5a55;
+  --band:        #16302a;
+  --wordmark:    #7cbba3;
+  --nav-bg:      rgba(238, 241, 234, .13);
+  --nav-ink:     #eef1ea;
+  --nav-hover:   rgba(238, 241, 234, .2);
+}
