@@ -1,5 +1,5 @@
 /* ============================================================
-   Mick Yuttana Pati — studio edition
+   Mick Yuttana — studio edition
    Structure and motion modelled on studiomodular.be:
    banner with split wordmark, scrubbed line reveal, masonry
    cases with a hover circle, a green band that opens out of a
@@ -135,7 +135,9 @@ body {
 .header__logo-mark {
   display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
   background: var(--primary); color: var(--primary-ink); font-size: .95rem; font-weight: 600;
+  overflow: hidden;
 }
+.header__logo-mark img { width: 100%; height: 100%; object-fit: cover; }
 .header__logo-text { font-weight: 600; font-size: 1.05rem; letter-spacing: -.015em; line-height: 1.15; max-width: 7ch; }
 
 /* the capsule */
@@ -343,7 +345,6 @@ body {
 .case__body { padding-top: 1.35rem; flex: 1; display: flex; flex-direction: column; }
 .case__title { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
 .case__desc { color: var(--muted); margin-top: .5rem; max-width: 44ch; }
-.cases__cta { display: flex; justify-content: center; margin-top: clamp(2.5rem, 5vw, 5rem); }
 
 /* colour blocks, shared by cases / media blocks / tiles / cards */
 [data-tone="blue"]        { background: var(--blue);        color: #0d1512; }
@@ -362,7 +363,7 @@ body {
    translate pair reserves layout space below while painting in place, and the
    content is pulled back up over the circle's crown. */
 .band__circle {
-  position: relative; width: 100%; height: 100vh;
+  position: relative; width: 100%; height: 150vh;
   margin-top: 100vw; transform: translateY(-100vw);
   overflow-x: clip;              /* clip, not hidden — the circle bleeds down */
   z-index: 5; pointer-events: none;
@@ -464,7 +465,6 @@ body {
   display: grid; place-items: center; font-weight: 600;
   font-size: clamp(1rem, 1.4vw, 1.6rem); letter-spacing: -.01em;
 }
-.approach__content .btn { margin-top: 2rem; }
 
 /* Bigger cards: taller media block (was 16:9), roomier body and type. */
 .grid-cards {
@@ -502,23 +502,79 @@ body {
 .marquee--reverse .marquee__item { -webkit-text-stroke: 1px var(--ink); color: transparent; }
 .marquee__sep { color: var(--orange); font-size: clamp(1rem, 1.6vw, 2rem); }
 
-/* ---------- 8. Experience ---------- */
-.experience { padding-block: var(--section); }
-.timeline { display: grid; gap: var(--gap); }
-.job { border-radius: var(--radius); border: 1px solid var(--rule); padding: clamp(1.35rem, 2.6vw, 3rem); background: var(--paper-2); }
-.job__head { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: baseline; padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule); }
-.job__head h3 { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; }
-.job__company { color: var(--muted); }
+/* ---------- 8. Experience — vertical timeline ---------- */
+/* the tinted panel now runs full-bleed on the section itself (no
+   border-radius, no max-width) instead of being boxed inside the wrap;
+   distinct from both the page (--paper) and the job cards (--paper-2) —
+   otherwise the cards blend into this background */
+.experience {
+  padding-block: var(--section);
+  background: color-mix(in srgb, var(--ink) 4%, var(--paper));
+}
+/* date/dot column sizes shared between .timeline and .job so the line
+   (positioned here via calc) always lines up with the dots (positioned
+   by the grid in .job) — a fixed date-column width instead of max-content
+   is what makes that calc possible. */
+.timeline {
+  --date-col: clamp(140px, 14vw, 190px); --dot-col: 28px;
+  --job-gap: clamp(1.25rem, 3vw, 3rem);
+  position: relative; display: grid; gap: clamp(2rem, 4vw, 3.5rem);
+}
+.timeline__line {
+  position: absolute;
+  left: calc(var(--date-col) + var(--job-gap) + var(--dot-col) / 2);
+  top: 0; bottom: 0; width: 2px;
+  background: var(--rule); transform: translateX(-50%); z-index: 0;
+  overflow: hidden;
+}
+/* draws downward in sync with normal page scroll — see initTimelineFill
+   in main.js. No pin: the section scrolls past as usual. clip-path (not
+   transform: scaleY) to match the same technique already proven on the
+   band's iris-open circle. */
+.timeline__line-fill {
+  position: absolute; inset: 0;
+  background: var(--primary);
+  clip-path: inset(0 0 100% 0);
+}
+/* Reverted from sticky-stacking: with job cards this different in height
+   (job1 is ~4x taller than job2/3), pinning each one only ever produced
+   real overlap — the shorter cards stacking underneath the tall one with
+   no way to avoid it. Normal flow instead; each entry sits below the last. */
+/* date column is a fixed width (from .timeline's shared vars, not
+   max-content) — the whole row shifts left and the card fills the width
+   that dead space used to waste. Fixed width (not max-content) is what
+   lets .timeline__line calc() land exactly on the dot column every time. */
+.job {
+  display: grid;
+  grid-template-columns: var(--date-col) var(--dot-col) 1fr; align-items: start;
+  column-gap: var(--job-gap);
+}
+/* date badge hugs the center line instead of sitting at the far column edge */
+.job__side--date { display: flex; justify-content: flex-end; }
+.job__side--date:last-child { justify-content: flex-start; }
+.job__dot {
+  grid-column: 2; justify-self: center; margin-top: .3rem;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--primary); border: 4px solid var(--paper);
+  position: relative; z-index: 1;
+}
+.job__side--date:first-child { grid-column: 1; }
+.job__side--card:first-child { grid-column: 1; }
+.job__side--date:last-child { grid-column: 3; }
+.job__side--card:last-child { grid-column: 3; }
 .job__date {
-  font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  display: inline-block; font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
   padding: .4rem .9rem; border-radius: 999px; border: 1px solid var(--rule); white-space: nowrap;
 }
+.job__card { border-radius: var(--radius); border: 1px solid var(--rule); padding: clamp(1.35rem, 2.6vw, 2.5rem); background: var(--paper-2); }
+.job__card h3 { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; }
+.job__company { color: var(--muted); margin-top: .3rem; }
 .job__group { margin-top: 1.5rem; }
 .job__group h4 { font-size: .85rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
-.job ul { display: grid; gap: .6rem; margin-top: 1.25rem; }
-.job__group ul { margin-top: 0; }
-.job li { display: flex; gap: .75rem; color: var(--muted); }
-.job li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); margin-top: .62em; }
+.job__card > ul { display: grid; gap: .6rem; margin-top: 1.25rem; }
+.job__group ul { display: grid; gap: .6rem; margin-top: 0; }
+.job__card li { display: flex; gap: .75rem; color: var(--muted); }
+.job__card li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); margin-top: .62em; }
 
 /* ---------- 9. CTA block ---------- */
 /* ---------- 10. Contact ---------- */
@@ -669,6 +725,17 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   .approach__grid { max-width: 100%; }
   .about__badge { right: 1rem; bottom: -1rem; }
   .tiles { grid-template-columns: repeat(2, 1fr); }
+
+  /* timeline collapses to one column: line + dots on the left, every
+     .job__side stacks in document order regardless of which side it was */
+  .timeline__line { left: 6px; transform: none; }
+  .job { grid-template-columns: 14px 1fr; column-gap: 1rem; }
+  .job__dot { grid-column: 1; margin-top: .35rem; }
+  .job__side--date:first-child,
+  .job__side--card:first-child,
+  .job__side--date:last-child,
+  .job__side--card:last-child { grid-column: 2; }
+  .job__side--date { margin-bottom: .75rem; }
 }
 
 @media (max-width: 560px) {

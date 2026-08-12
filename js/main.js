@@ -196,6 +196,25 @@
     });
   }
 
+  /* ---------- 3b2. Experience timeline: line draws in with scroll ----------
+     Not pinned — the fill just scrubs from 0 to full height as the
+     timeline passes through the viewport. Uses clip-path (not
+     transform: scaleY) — the same reveal technique as the band's
+     iris-open circle, which is proven to render correctly everywhere. */
+  function initTimelineFill() {
+    const timeline = document.querySelector('[data-timeline]');
+    const fill = document.querySelector('[data-timeline-fill]');
+    if (!MOTION || !timeline || !fill) return;
+
+    gsap.fromTo(fill,
+      { clipPath: 'inset(0 0 100% 0)' },
+      {
+        clipPath: 'inset(0 0 0% 0)', ease: 'none',
+        scrollTrigger: { trigger: timeline, start: 'top 75%', end: 'bottom 75%', scrub: true }
+      }
+    );
+  }
+
   /* ---------- 3c. Cases: horizontal scroll pinned to vertical scroll ----------
      Desktop/hover only — pins .cases__pin (heading + filters + track, so
      they all stay locked together, not just the card row) for one row's
@@ -495,6 +514,7 @@
     initParallax();
     initReveal();
     initProcessTimeline();
+    initTimelineFill();
     initCasesScroll();
     initBanner();
     initTextReveal();
