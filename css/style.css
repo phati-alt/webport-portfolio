@@ -305,34 +305,19 @@ body {
 
 /* ---------- 3. Cases ---------- */
 .cases { padding-block: var(--section); }
-.filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); justify-content: center; }
-.filter {
-  min-height: 44px; padding: 0 1.15rem; border-radius: 999px;
-  border: 1px solid var(--rule); background: transparent; cursor: pointer;
-  font-size: .9rem; font-weight: 500;
-  transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease), border-color var(--speed) var(--ease);
-}
-.filter:hover { border-color: currentColor; }
-.filter.is-active { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
 
-/* Horizontal-scroll track: one row of fixed-width cards. On desktop
-   initCasesScroll() pins .cases__scroller and scrubs .cases__grid
-   sideways with vertical scroll; .cases__scroller's own overflow-x
-   is the fallback everywhere that doesn't get the pin (touch, no-motion). */
-.cases__scroller {
-  overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.cases__scroller::-webkit-scrollbar { display: none; }
+/* Plain wrapping row — cards lay out left-to-right and wrap onto as many
+   rows as needed, no horizontal scroll (used to be a horizontal-scroll
+   track, JS-pinned on desktop; both the pin and the scroll-track behavior
+   were pulled, see git history). */
 .cases__grid {
-  display: flex; align-items: stretch; gap: var(--gap);
-  width: max-content; padding-bottom: .5rem;
+  display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--gap);
 }
 /* .case stretches to the row's tallest card; .case__frame and .case__body
    fill that height so every frame ends up the same size regardless of how
    much a title/tag list wraps. */
 .case {
-  display: flex; flex-direction: column; flex: 0 0 clamp(280px, 34vw, 420px);
+  display: flex; flex-direction: column; flex: 1 1 clamp(320px, 40vw, 520px);
   text-decoration: none; color: inherit;
 }
 .case.is-hidden { display: none; }
@@ -400,11 +385,12 @@ body {
 }
 /* the band runs wider than the rest of the page */
 .band__content .wrap { padding-inline: var(--hero-pad); }
-/* …and the stacking cards wider still, matched to the reference: 4.2% inset
-   each side and a cap high enough to stay percentage-driven on big screens */
+/* …and the stacking cards a bit wider than the rest of the page, but capped
+   well short of the viewport — 2560px let them run edge-to-edge (overlapping
+   the header logo) on anything wider than a standard desktop monitor. */
 .band__content .wrap--wide {
-  padding-inline: clamp(1rem, 4.2vw, 90px);
-  max-width: 2560px;
+  padding-inline: clamp(1.25rem, 4.2vw, 90px);
+  max-width: 1680px;
 }
 
 /* 4a. Scroll title — just the two headlines, stacked and centred. (Used to
@@ -476,12 +462,19 @@ body {
   font-size: clamp(1rem, 1.4vw, 1.6rem); letter-spacing: -.01em;
 }
 
-/* Bigger cards: taller media block (was 16:9), roomier body and type. */
+/* Bigger cards: taller media block (was 16:9), roomier body and type.
+   Horizontal-scroll row — plain CSS overflow-x, no JS/ScrollTrigger
+   involved (the Cases section went through several rounds of exactly that
+   causing bugs; this reuses the lesson without the pin). */
 .grid-cards {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap);
+  display: flex; gap: var(--gap);
   margin-top: clamp(3rem, 6vw, 6rem);
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  scroll-snap-type: x proximity; padding-bottom: .5rem;
 }
+.grid-cards::-webkit-scrollbar { display: none; }
 .card {
+  flex: 0 0 clamp(260px, 24vw, 360px); scroll-snap-align: start;
   border-radius: var(--radius); overflow: hidden; background: var(--paper);
   box-shadow: 0 1px 2px rgba(13, 21, 18, .06);
   display: flex; flex-direction: column;
@@ -656,7 +649,6 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 /* ---------- Responsive ---------- */
 @media (max-width: 1180px) {
   .stack__card { grid-template-columns: 1fr; }
-  .grid-cards { grid-template-columns: repeat(2, 1fr); }
   .numbers__grid { grid-template-columns: repeat(2, 1fr); row-gap: 2rem; }
   .footer__cols { grid-template-columns: 1fr 1fr; }
 }
@@ -709,7 +701,7 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 }
 
 @media (max-width: 560px) {
-  .grid-cards, .form__row, .numbers__grid, .footer__cols { grid-template-columns: 1fr; }
+  .form__row, .numbers__grid, .footer__cols { grid-template-columns: 1fr; }
   .btn { width: 100%; justify-content: space-between; }
   .btn--sm { width: auto; }
 }

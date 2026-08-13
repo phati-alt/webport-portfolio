@@ -31,13 +31,12 @@
   // Call this after ANY layout-affecting change — not just on initial
   // load — so a settled second refresh always lands after that dust clears.
   //
-  // (Tried adding a forced-repaint nudge here too, for a separate ghosting
-  // issue on the Cases filters — toggling body transform/display to force
-  // Chrome to recomposite. It didn't fix the ghosting, and toggling
+  // (Once tried adding a forced-repaint nudge here too, for a ghosting bug
+  // on the since-removed Work filters — toggling body transform/display to
+  // force Chrome to recomposite. It didn't fix the ghosting, and toggling
   // display:none on <body> introduced a worse bug: it resets window.scrollY
   // to 0 as a side effect of removing the scrolling element from layout.
-  // Backed both out; see initFilters for how that issue actually got
-  // fixed — by not refreshing an already-active pin at all.)
+  // Backed both out — don't reach for that trick here again.)
   function refreshSettled() {
     if (!MOTION) return;
     setTimeout(() => { lenis?.resize(); ScrollTrigger.refresh(); }, 120);
@@ -91,9 +90,20 @@
 
     // On scroll the two lines pull apart — a full line-width of travel over the
     // hero, and a short scrub so the type tracks the wheel almost 1:1.
-    const st = { trigger: banner, start: 'top top', end: 'bottom top', scrub: 0.4, invalidateOnRefresh: true };
-    gsap.fromTo(top, { xPercent: 0 }, { scrollTrigger: st, xPercent: 100, ease: 'none' });
-    gsap.fromTo(btm, { xPercent: 0 }, { scrollTrigger: st, xPercent: -100, ease: 'none' });
+    //
+    // Created only after the entrance timeline finishes (not immediately)
+    // so it never fights the entrance tween for control of the same
+    // xPercent property on the same elements. They used to be set up back
+    // to back: harmless on first load (nothing scrolls during that first
+    // 1.4s), but clicking the header logo to jump back to #home mid-visit
+    // sends Lenis into a fast scroll-to right as the scroll-scrub trigger
+    // is *also* live — the two competing for xPercent left the halves of
+    // the wordmark stuck mid-slide instead of settling back together.
+    tl.eventCallback('onComplete', () => {
+      const st = { trigger: banner, start: 'top top', end: 'bottom top', scrub: 0.4, invalidateOnRefresh: true };
+      gsap.fromTo(top, { xPercent: 0 }, { scrollTrigger: st, xPercent: 100, ease: 'none' });
+      gsap.fromTo(btm, { xPercent: 0 }, { scrollTrigger: st, xPercent: -100, ease: 'none' });
+    });
   }
 
   /* ---------- 2. Line-by-line text reveal (scrubbed) ---------- */
@@ -239,42 +249,14 @@
     );
   }
 
-  /* ---------- 3c. Cases: horizontal scroll pinned to vertical scroll ----------
-     Desktop/hover only — pins .cases__pin (heading + filters + track, so
-     they all stay locked together, not just the card row) for one row's
-     worth of scroll distance and translates .cases__grid sideways to
-     match. Touch devices keep the plain overflow-x swipe scroll from CSS. */
-  function initCasesScroll() {
-    const pinEl = document.querySelector('[data-cases-pin]');
-    const scroller = document.querySelector('[data-cases-scroller]');
-    const track = document.getElementById('casesGrid');
-    if (!MOTION || !pinEl || !scroller || !track) return;
-    if (!window.matchMedia('(hover: hover)').matches) return;
-
-    const getDistance = () => Math.max(0, track.scrollWidth - scroller.clientWidth);
-    // Measured once, while every card is still visible (the "All" filter is
-    // the default state on load) — filtering down to a category with fewer
-    // cards must NOT shorten how far the user has to scroll through this
-    // section; that changing per filter felt inconsistent, and it was also
-    // what caused "dead" empty scroll space when Lenis's cached scroll
-    // limit didn't shrink/grow to match. Keeping the pin's own scroll
-    // distance fixed sidesteps that whole class of bug rather than just
-    // patching around it.
-    const fullDistance = getDistance();
-    // Pin just below the fixed site header, not under it.
-    const getStart = () => `top ${getComputedStyle(root).getPropertyValue('--header-h').trim()}`;
-
-    ScrollTrigger.create({
-      trigger: pinEl, start: getStart,
-      end: () => `+=${fullDistance}`,
-      pin: true, scrub: .6, invalidateOnRefresh: true,
-      // Track still only ever slides as far as its current (possibly
-      // filtered-down) content actually needs — clamped to getDistance() —
-      // it just may finish sliding before the fixed-length pin scroll ends,
-      // rather than the pin's own length changing with it.
-      onUpdate: self => gsap.set(track, { x: -Math.min(getDistance(), fullDistance * self.progress) })
-    });
-  }
+  /* ---------- 3c. Cases ----------
+     Used to pin .cases__pin and drive the card row sideways off of vertical
+     scroll (scrub-linked, GSAP ScrollTrigger), then (after that turned into
+     a recurring source of bugs — dead scroll space, section overlap, blank
+     page, ghosted/overlapping content, stuck scroll; see git history around
+     "fix Work filter" commits) a plain CSS horizontal-scroll track. Cards
+     now just wrap onto as many rows as they need (.cases__grid in
+     style.css) — no scroll-jacking, no horizontal scroll at all. */
 
   /* ---------- 4. Parallax media ---------- */
   function initParallax() {
@@ -388,14 +370,24 @@
     if (!circle || !MOTION) return;
 
     // Same as the reference: the circle starts collapsed to a point and irises
-    // open as its wrapper crosses the viewport.
+    // open as its wrapper crosses the viewport. Keep the trigger's own
+    // start/end untouched — .band__content's -130vw margin was tuned
+    // against this exact range to close most of the dead-scroll gap after
+    // the circle finishes opening (see its comment in style.css); shifting
+    // these would throw that back off. Instead get "opens faster and
+    // smoother" by shaping *how* clip-path moves across that same range:
+    // power2.out front-loads the open (most of it happens early, rather
+    // than linearly across the whole scroll — no more "straight line" feel)
+    // and a lighter scrub value tracks the scroll position more snugly
+    // (ease:'none' + scrub:1 was applying zero shaping on top of a full
+    // second of lag, which read as slow and mechanical).
     gsap.to(circle, {
-      clipPath: 'inset(0% round 50%)', ease: 'none',
+      clipPath: 'inset(0% round 50%)', ease: 'power2.out',
       scrollTrigger: {
         trigger: circle.parentElement,
         start: 'top bottom',
         end: 'bottom bottom',
-        scrub: 1,
+        scrub: .35,
         invalidateOnRefresh: true
       }
     });
@@ -475,38 +467,6 @@
     });
   }
 
-  /* ---------- 9. Work filters ---------- */
-  function initFilters() {
-    const buttons = document.querySelectorAll('.filter');
-    const cases = document.querySelectorAll('.case');
-    if (!buttons.length) return;
-
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.toggle('is-active', b === btn));
-        const filter = btn.dataset.filter;
-
-        // The Cases pin's own scroll distance is fixed (see
-        // initCasesScroll) — filtering only changes which cards are
-        // display:none inside the horizontally-scrolled track, which
-        // never affects the page's vertical layout at all. Nothing here
-        // needs ScrollTrigger.refresh(): every ScrollTrigger position on
-        // the page (including the pin itself) is already unaffected by a
-        // filter click, and calling refresh() on an *already-pinned*
-        // trigger forces GSAP to briefly un-pin/re-pin it to remeasure —
-        // that unpin/repin cycle mid-interaction, outside of an actual
-        // scroll, is what was leaving stale/ghosted content on screen.
-        cases.forEach(card => {
-          const show = filter === 'all' || card.dataset.category === filter;
-          card.classList.toggle('is-hidden', !show);
-          if (show && MOTION) {
-            gsap.fromTo(card, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .5, ease: 'power3.out' });
-          }
-        });
-      });
-    });
-  }
-
   /* ---------- 10. Contact form (front-end only) ---------- */
   function initForm() {
     const form = document.getElementById('contactForm');
@@ -550,7 +510,6 @@
     initSmoothScroll();
     initHeader();
     initTheme();
-    initFilters();
     initForm();
     initCursor();
     initBand();
@@ -560,7 +519,6 @@
     initReveal();
     initProcessTimeline();
     initTimelineFill();
-    initCasesScroll();
     initBanner();
     initTextReveal();
 
