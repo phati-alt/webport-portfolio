@@ -138,7 +138,14 @@ body {
   overflow: hidden;
 }
 .header__logo-mark img { width: 100%; height: 100%; object-fit: cover; }
-.header__logo-text { font-weight: 600; font-size: 1.05rem; letter-spacing: -.015em; line-height: 1.15; max-width: 7ch; }
+.header__logo-text {
+  font-weight: 600; font-size: 1.05rem; letter-spacing: -.015em; line-height: 1.15;
+  max-width: 10ch; white-space: nowrap; overflow: hidden;
+  transition: opacity .35s var(--ease), max-width .35s var(--ease);
+}
+/* scrolled: just the mark, name text collapses away; scrolled back to the
+   very top: the name reappears, same as at first load */
+.header.is-stuck .header__logo-text { opacity: 0; max-width: 0; }
 
 /* the capsule */
 .header__nav {
@@ -159,10 +166,6 @@ body {
 }
 .header__link:hover, .header__link.is-active { background: var(--nav-hover); }
 
-/* scrolled: only the capsule stays */
-.header.is-stuck .header__logo {
-  opacity: 0; transform: translateY(-10px); pointer-events: none;
-}
 
 .header__actions { display: flex; align-items: center; gap: .5rem; }
 /* same height as the nav capsule, and the same translucent ground */
