@@ -129,28 +129,24 @@
   <!-- ===== 3. Work — masonry grid with hover circle ===== -->
   <section class="cases" id="work">
     <div class="wrap">
-      <!-- Everything that should stay locked together while the cards
-           scroll horizontally — heading, filters, and the card track — is
-           pinned as one unit (see initCasesScroll in main.js), so GSAP's
-           pin-spacer wraps the whole group instead of just the track. -->
       <div class="cases__pin" data-cases-pin>
         <header class="section-head section-head--center" data-reveal>
           <p class="pretitle" data-i18n="work.eyebrow">Cases</p>
           <h2 class="section-title" data-i18n="work.title">Results for products that hold up</h2>
         </header>
 
-        <!-- 6 real projects (Mobile Application has 2), placeholder-named
-             until content comes in. hrefs use all 6 built template pages
-             until each project gets its own page. Horizontal-scroll track:
-             pinned and scrubbed sideways on desktop (see initCasesScroll
-             in main.js), native touch-scroll fallback everywhere else.
-             All .case__frame share the same 4:3 media ratio — uniform size. -->
+        <!-- 6 real projects (Mobile Application has 2). hrefs use all 6 built
+             template pages until each project gets its own page. Plain
+             wrapping row, no horizontal scroll (see .cases__grid in
+             style.css). All .case__media share the same 4:3 ratio, image
+             cropped via object-fit — uniform card size regardless of each
+             screenshot's original dimensions. -->
         <div class="cases__scroller" data-cases-scroller>
         <div class="cases__grid" id="casesGrid">
 
         <a class="case" href="work/finza.html" data-category="government" data-reveal data-hover-case>
           <div class="case__frame">
-            <div class="case__media" data-tone="blue"><span class="case__index" data-parallax>01</span></div>
+            <div class="case__media"><img src="assets/work/government.png" alt="Government groundwater monitoring dashboard" data-parallax loading="lazy"></div>
             <div class="case__body">
               <h3 class="case__title" data-i18n="work.filterGovernment">Government Project</h3>
               <ul class="tags">
@@ -164,7 +160,7 @@
 
         <a class="case" href="work/lumen.html" data-category="platform" data-reveal data-hover-case>
           <div class="case__frame">
-            <div class="case__media" data-tone="purple"><span class="case__index" data-parallax>02</span></div>
+            <div class="case__media"><img src="assets/work/platform.png" alt="Platform product dashboard" data-parallax loading="lazy"></div>
             <div class="case__body">
               <h3 class="case__title" data-i18n="work.filterPlatform">Platform</h3>
               <ul class="tags">
@@ -178,7 +174,7 @@
 
         <a class="case" href="work/nomly.html" data-category="mobile-application" data-reveal data-hover-case>
           <div class="case__frame">
-            <div class="case__media" data-tone="yellow"><span class="case__index" data-parallax>03</span></div>
+            <div class="case__media"><img src="assets/work/mobile-1.png" alt="Mobile application screens" data-parallax loading="lazy"></div>
             <div class="case__body">
               <h3 class="case__title" data-i18n="work.filterMobileApp">Mobile Application</h3>
               <ul class="tags">
@@ -192,7 +188,7 @@
 
         <a class="case" href="work/wanderly.html" data-category="mobile-application" data-reveal data-hover-case>
           <div class="case__frame">
-            <div class="case__media" data-tone="orange"><span class="case__index" data-parallax>04</span></div>
+            <div class="case__media"><img src="assets/work/mobile-2.png" alt="Mobile application screens" data-parallax loading="lazy"></div>
             <div class="case__body">
               <h3 class="case__title" data-i18n="work.filterMobileApp">Mobile Application</h3>
               <ul class="tags">
@@ -206,7 +202,7 @@
 
         <a class="case" href="work/vitalis.html" data-category="custom-dashboard" data-reveal data-hover-case>
           <div class="case__frame">
-            <div class="case__media" data-tone="pink"><span class="case__index" data-parallax>05</span></div>
+            <div class="case__media"><img src="assets/work/custom-dashboard.png" alt="Custom IoT monitoring dashboard" data-parallax loading="lazy"></div>
             <div class="case__body">
               <h3 class="case__title" data-i18n="work.filterDashboard">Custom Dashboard</h3>
               <ul class="tags">
@@ -220,7 +216,7 @@
 
         <a class="case" href="work/orbit.html" data-category="wordpress" data-reveal data-hover-case>
           <div class="case__frame">
-            <div class="case__media" data-tone="green"><span class="case__index" data-parallax>06</span></div>
+            <div class="case__media"><img src="assets/work/wordpress.png" alt="WordPress website" data-parallax loading="lazy"></div>
             <div class="case__body">
               <h3 class="case__title" data-i18n="work.filterWordpress">WordPress Website</h3>
               <ul class="tags">
