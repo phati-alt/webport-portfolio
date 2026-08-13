@@ -63,10 +63,14 @@
   --fs-lede: clamp(1.06rem, .96rem + .5vw, 1.4rem);
   --fs-h2:   clamp(2.2rem, 1.4rem + 3.6vw, 5rem);
   --fs-h3:   clamp(1.35rem, 1.1rem + 1.1vw, 2.1rem);
-  /* 380px on a desktop column; cqw (a % of .banner__logo) scales it down on
-     narrower columns. At this size the lines are wider than the column, so
-     they run past the right edge and .banner clips them. */
-  --fs-huge: min(380px, 33cqw);
+  /* 380px on a very wide desktop column; cqw (a % of .banner__logo) scales
+     it down on narrower columns. 33cqw was too big a fraction — "Mick UX/UI"
+     at that font-size renders ~5.35x its own font-size wide, so 33cqw
+     overflowed the column on any container narrower than ~2000px (e.g. a
+     1440px MacBook window) and got clipped by .banner's overflow:hidden,
+     making words disappear. 18cqw keeps the line inside its own column at
+     any width. */
+  --fs-huge: min(380px, 18cqw);
 
   /* one side inset for the whole page: header, hero and every section share it */
   --gutter: clamp(1.25rem, 9.5vw, 200px);

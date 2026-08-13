@@ -132,10 +132,12 @@ body {
   display: flex; align-items: center; gap: .6rem; text-decoration: none; color: inherit;
   transition: opacity .45s var(--ease), transform .45s var(--ease);
 }
+/* matches .pill's size (var(--nav-h)) and background so the logo reads
+   as the same kind of surface as the actions pills across the header */
 .header__logo-mark {
-  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
-  background: var(--primary); color: var(--primary-ink); font-size: .95rem; font-weight: 600;
-  overflow: hidden;
+  display: grid; place-items: center; width: var(--nav-h); height: var(--nav-h); border-radius: 50%;
+  background: var(--nav-bg); color: var(--nav-ink); font-size: .95rem; font-weight: 600;
+  border: 0; overflow: hidden;
 }
 .header__logo-mark img { width: 100%; height: 100%; object-fit: cover; }
 .header__logo-text {
@@ -379,8 +381,13 @@ body {
   clip-path: inset(50% round 50%);
 }
 @media (max-width: 61.25em) { .band__circle-inner { width: 400vw; } }
+/* -90vw alone left ~1800px of dead scroll after the circle finishes
+   opening before this content appeared; pulling up further closes most
+   of that gap. Stick to vw here (matching .band__circle's own unit) —
+   mixing in a vh term via calc() intermittently broke the circle's
+   ScrollTrigger (start/end collapsed to a degenerate near-zero range). */
 .band__content {
-  position: relative; z-index: 9; margin-top: -90vw;
+  position: relative; z-index: 9; margin-top: -130vw;
   background: var(--band);
   color: var(--band-ink);
   --ink: var(--band-ink);
@@ -621,38 +628,6 @@ body {
   --muted: rgba(253, 246, 238, .7);
   --rule: rgba(253, 246, 238, .22);
 }
-/* Full-bleed row of outlined tiles that only take their colour on hover —
-   the reference site's footer tiles-group. */
-.tiles {
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: clamp(.5rem, .8vw, 1rem);
-  padding-inline: clamp(.5rem, .8vw, 1rem);
-}
-.tile {
-  border-radius: var(--radius); padding: clamp(1.15rem, 2vw, 2rem);
-  min-height: clamp(200px, 22vw, 340px);
-  display: grid; grid-template-rows: auto 1fr; gap: 1.5rem;
-  text-decoration: none;
-  background: transparent; color: var(--band-ink);
-  border: 1px solid rgba(253, 246, 238, .35);
-  transition: background-color .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease);
-}
-.tile__icon {
-  justify-self: end;                     /* icon sits top-right */
-  width: clamp(30px, 2.8vw, 46px); height: clamp(30px, 2.8vw, 46px); background: currentColor;
-  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
-}
-.tile__title {
-  align-self: end;                       /* title sits bottom-left */
-  font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; line-height: 1.1;
-}
-/* the tone only lands on hover */
-.tile[data-tone="blue"]:hover        { background: var(--blue);        border-color: var(--blue);        color: #0d1512; }
-.tile[data-tone="orange"]:hover      { background: var(--orange);      border-color: var(--orange);      color: #0d1512; }
-.tile[data-tone="pink"]:hover        { background: var(--pink);        border-color: var(--pink);        color: #0d1512; }
-.tile[data-tone="yellow"]:hover      { background: var(--yellow);      border-color: var(--yellow);      color: #0d1512; }
-.tile[data-tone="purple-dark"]:hover { background: var(--purple-dark); border-color: var(--purple-dark); color: var(--band-ink); }
-
 .footer__cols {
   display: grid; grid-template-columns: 1.2fr .8fr 1fr; gap: var(--gap);
   margin-top: clamp(3rem, 6vw, 6rem);
@@ -661,12 +636,6 @@ body {
 .song { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
 .song__artist { font-weight: 600; }
 .song__title { color: var(--muted); }
-.song__link {
-  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
-  border: 1px solid var(--rule); color: inherit; text-decoration: none;
-  transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease);
-}
-.song__link:hover { background: var(--band-ink); color: var(--band); }
 .footer__nav { display: grid; gap: .5rem; align-content: start; }
 .footer__nav a, .footer__info a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; }
 .footer__nav a:hover, .footer__info a:hover { border-bottom-color: currentColor; }
@@ -689,7 +658,6 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   .stack__card { grid-template-columns: 1fr; }
   .grid-cards { grid-template-columns: repeat(2, 1fr); }
   .numbers__grid { grid-template-columns: repeat(2, 1fr); row-gap: 2rem; }
-  .tiles { grid-template-columns: repeat(3, 1fr); }
   .footer__cols { grid-template-columns: 1fr 1fr; }
 }
 
@@ -727,7 +695,6 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   .about, .contact__inner { grid-template-columns: 1fr; }
   .approach__grid { max-width: 100%; }
   .about__badge { right: 1rem; bottom: -1rem; }
-  .tiles { grid-template-columns: repeat(2, 1fr); }
 
   /* timeline collapses to one column: line + dots on the left, every
      .job__side stacks in document order regardless of which side it was */
@@ -742,7 +709,7 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 }
 
 @media (max-width: 560px) {
-  .grid-cards, .form__row, .numbers__grid, .tiles, .footer__cols { grid-template-columns: 1fr; }
+  .grid-cards, .form__row, .numbers__grid, .footer__cols { grid-template-columns: 1fr; }
   .btn { width: 100%; justify-content: space-between; }
   .btn--sm { width: auto; }
 }
