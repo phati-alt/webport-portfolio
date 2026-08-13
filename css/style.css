@@ -311,7 +311,8 @@ body {
    track, JS-pinned on desktop; both the pin and the scroll-track behavior
    were pulled, see git history). */
 .cases__grid {
-  display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--gap);
+  display: flex; flex-wrap: wrap; align-items: stretch;
+  gap: clamp(2rem, 3vw, 3.5rem);
 }
 /* .case stretches to the row's tallest card; .case__frame and .case__body
    fill that height so every frame ends up the same size regardless of how
@@ -326,12 +327,11 @@ body {
   border-radius: var(--radius); overflow: hidden; position: relative;
   aspect-ratio: 4 / 3; display: grid; place-items: center; background: var(--paper-2);
 }
-.case__index {
-  font-size: clamp(3rem, 8vw, 8rem); font-weight: 600; letter-spacing: -.05em;
-  color: color-mix(in srgb, #0d1512 22%, transparent); mix-blend-mode: multiply;
+.case__media img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top;
   transition: transform .9s var(--ease);
 }
-.case:hover .case__index { transform: scale(1.08); }
+.case:hover .case__media img { transform: scale(1.06); }
 .case__body { padding-top: 1.35rem; flex: 1; display: flex; flex-direction: column; }
 .case__title { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
 .case__desc { color: var(--muted); margin-top: .5rem; max-width: 44ch; }
