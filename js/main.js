@@ -520,7 +520,24 @@
     initTextReveal();
 
     window.addEventListener('langchange', refreshTextReveal);
-    if (MOTION) window.addEventListener('load', () => ScrollTrigger.refresh());
+    if (MOTION) {
+      // window 'load' doesn't guarantee web fonts have finished swapping in —
+      // Fontshare's stylesheet can still be applying Chillax/Switzer after
+      // that fires, which reflows text and silently invalidates every
+      // ScrollTrigger position on the page (most visibly: the band circle's
+      // open/close trigger occasionally computed a degenerate near-zero
+      // range and rendered permanently "open"). Worse, initTextReveal's
+      // SplitText.create({ autoSplit: true }) watches its own elements via
+      // ResizeObserver and silently re-splits (reflowing again) whenever the
+      // font swap resizes them — which can land *after* a naive refresh here
+      // and undo it. Match the same fonts.ready + settle-timeout pattern
+      // refreshTextReveal already uses below, so this refresh runs after
+      // that dust has settled instead of racing it.
+      const refresh = () => ScrollTrigger.refresh();
+      const refreshSettled = () => setTimeout(refresh, 120);
+      window.addEventListener('load', refreshSettled);
+      if (document.fonts?.ready) document.fonts.ready.then(refreshSettled);
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

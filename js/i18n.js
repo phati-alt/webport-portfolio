@@ -147,7 +147,9 @@ const translations = {
     "form.successNote": "Thanks for reaching out! I'll get back to you within 1-2 business days.",
 
     "footer.tagline": "UX/UI & Product Designer based in Bangkok, Thailand.",
-    "footer.nowPlaying": "In my studio I'm listening to",
+    "footer.nowPlaying": "Currently focused on",
+    "footer.focusLine1": "Human-centered product design",
+    "footer.focusLine2": "Design systems that scale",
     "footer.rights": "All rights reserved.",
 
     "misc.resumeAlert": "Resume placeholder — replace this link with your actual PDF resume.",
@@ -307,7 +309,9 @@ const translations = {
     "form.successNote": "ขอบคุณที่ติดต่อมาครับ! ผมจะตอบกลับภายใน 1-2 วันทำการ",
 
     "footer.tagline": "UX/UI & Product Designer ประจำกรุงเทพฯ ประเทศไทย",
-    "footer.nowPlaying": "ตอนนี้ในสตูดิโอผมกำลังฟัง",
+    "footer.nowPlaying": "ตอนนี้กำลังโฟกัสกับ",
+    "footer.focusLine1": "การออกแบบโปรดักต์ที่ยึดผู้ใช้เป็นศูนย์กลาง",
+    "footer.focusLine2": "Design System ที่ขยายตัวได้จริง",
     "footer.rights": "สงวนลิขสิทธิ์",
 
     "misc.resumeAlert": "นี่คือลิงก์ตัวอย่าง — กรุณาเปลี่ยนเป็นลิงก์ไฟล์เรซูเม่ PDF จริงของคุณ",
