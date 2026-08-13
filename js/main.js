@@ -19,6 +19,30 @@
 
   let lenis = null;
 
+  // Any DOM change that resizes/reflows a SplitText-tracked element (the
+  // intro paragraph, via initTextReveal) can trigger SplitText's own
+  // ResizeObserver *after* we've already refreshed ScrollTrigger — most
+  // commonly because hiding/showing content changes the document height
+  // enough to toggle the scrollbar, which shifts every element's available
+  // width by its ~15px and re-triggers autoSplit. That silent re-split
+  // invalidates whatever we just refreshed, with no follow-up to correct
+  // it, which is what previously corrupted every ScrollTrigger position on
+  // the page (start/end collapsing toward a degenerate near-zero range).
+  // Call this after ANY layout-affecting change — not just on initial
+  // load — so a settled second refresh always lands after that dust clears.
+  //
+  // (Tried adding a forced-repaint nudge here too, for a separate ghosting
+  // issue on the Cases filters — toggling body transform/display to force
+  // Chrome to recomposite. It didn't fix the ghosting, and toggling
+  // display:none on <body> introduced a worse bug: it resets window.scrollY
+  // to 0 as a side effect of removing the scrolling element from layout.
+  // Backed both out; see initFilters for how that issue actually got
+  // fixed — by not refreshing an already-active pin at all.)
+  function refreshSettled() {
+    if (!MOTION) return;
+    setTimeout(() => { lenis?.resize(); ScrollTrigger.refresh(); }, 120);
+  }
+
   /* ---------- Smooth scroll ---------- */
   function initSmoothScroll() {
     if (!MOTION || typeof Lenis === 'undefined') return;
@@ -228,14 +252,27 @@
     if (!window.matchMedia('(hover: hover)').matches) return;
 
     const getDistance = () => Math.max(0, track.scrollWidth - scroller.clientWidth);
+    // Measured once, while every card is still visible (the "All" filter is
+    // the default state on load) — filtering down to a category with fewer
+    // cards must NOT shorten how far the user has to scroll through this
+    // section; that changing per filter felt inconsistent, and it was also
+    // what caused "dead" empty scroll space when Lenis's cached scroll
+    // limit didn't shrink/grow to match. Keeping the pin's own scroll
+    // distance fixed sidesteps that whole class of bug rather than just
+    // patching around it.
+    const fullDistance = getDistance();
     // Pin just below the fixed site header, not under it.
     const getStart = () => `top ${getComputedStyle(root).getPropertyValue('--header-h').trim()}`;
 
     ScrollTrigger.create({
       trigger: pinEl, start: getStart,
-      end: () => `+=${getDistance()}`,
+      end: () => `+=${fullDistance}`,
       pin: true, scrub: .6, invalidateOnRefresh: true,
-      onUpdate: self => gsap.set(track, { x: -getDistance() * self.progress })
+      // Track still only ever slides as far as its current (possibly
+      // filtered-down) content actually needs — clamped to getDistance() —
+      // it just may finish sliding before the fixed-length pin scroll ends,
+      // rather than the pin's own length changing with it.
+      onUpdate: self => gsap.set(track, { x: -Math.min(getDistance(), fullDistance * self.progress) })
     });
   }
 
@@ -449,6 +486,16 @@
         buttons.forEach(b => b.classList.toggle('is-active', b === btn));
         const filter = btn.dataset.filter;
 
+        // The Cases pin's own scroll distance is fixed (see
+        // initCasesScroll) — filtering only changes which cards are
+        // display:none inside the horizontally-scrolled track, which
+        // never affects the page's vertical layout at all. Nothing here
+        // needs ScrollTrigger.refresh(): every ScrollTrigger position on
+        // the page (including the pin itself) is already unaffected by a
+        // filter click, and calling refresh() on an *already-pinned*
+        // trigger forces GSAP to briefly un-pin/re-pin it to remeasure —
+        // that unpin/repin cycle mid-interaction, outside of an actual
+        // scroll, is what was leaving stale/ghosted content on screen.
         cases.forEach(card => {
           const show = filter === 'all' || card.dataset.category === filter;
           card.classList.toggle('is-hidden', !show);
@@ -456,8 +503,6 @@
             gsap.fromTo(card, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .5, ease: 'power3.out' });
           }
         });
-
-        if (MOTION) ScrollTrigger.refresh();
       });
     });
   }
@@ -533,8 +578,6 @@
       // and undo it. Match the same fonts.ready + settle-timeout pattern
       // refreshTextReveal already uses below, so this refresh runs after
       // that dust has settled instead of racing it.
-      const refresh = () => ScrollTrigger.refresh();
-      const refreshSettled = () => setTimeout(refresh, 120);
       window.addEventListener('load', refreshSettled);
       if (document.fonts?.ready) document.fonts.ready.then(refreshSettled);
     }
