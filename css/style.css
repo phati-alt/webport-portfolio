@@ -527,19 +527,33 @@ body {
 .rail__desc { color: var(--muted); font-size: 1rem; line-height: 1.55; }
 
 /* the "why one step leads to the next" notes — not aligned to specific
-   gaps (fragile across breakpoints); read as one flowing sentence instead */
+   gaps (fragile across breakpoints); read as one flowing sentence instead.
+   Connectors between them are small hand-drawn-style SVG arrows (same
+   construction as .rail__loop-svg below: a stroked curve + a separate
+   short arrowhead stroke, both scroll-drawn) instead of a plain "→"
+   character, so the whole section reads as one consistent visual language. */
 .rail__flow {
   list-style: none; margin: clamp(2rem, 4vw, 3.5rem) 0 0; padding: 0;
-  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center;
-  gap: .4rem 1.4rem; text-align: center;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: .4rem .5rem; text-align: center;
 }
-.rail__flow li {
-  position: relative; color: var(--muted); font-size: .95rem; font-style: italic;
-  padding-right: 1.4rem;
+.rail__flow li:not(.rail__flow-arrow) {
+  color: var(--muted); font-size: .95rem; font-style: italic;
 }
-.rail__flow li:not(:last-child)::after {
-  content: "→"; position: absolute; right: 0; top: 0; font-style: normal; color: var(--rule);
+.rail__flow-arrow { width: clamp(32px, 4vw, 48px); flex-shrink: 0; }
+.rail__flow-arrow svg { display: block; width: 100%; height: auto; overflow: visible; }
+.rail__flow-arrow-path {
+  /* linecap: butt, not round — with stroke-dasharray/dashoffset animating
+     the visible length from 0, a round cap still paints a stroke-width/2
+     dot right at the path's start even at 0 visible length (the cap has
+     its own radius regardless of dash length), showing as a small dot
+     sitting there before the line has actually started drawing. butt caps
+     have no such radius, so there's nothing to paint until real length
+     exists. See the same fix on .rail__loop-path below. */
+  fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: butt;
+  stroke-dasharray: 100; stroke-dashoffset: 100;   /* JS scrubs dashoffset to 0, see initRail */
 }
+.rail__flow-arrow-head { fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
 
 /* the loop back to Discover — the one deliberately non-linear beat */
 .rail__loop {
@@ -549,7 +563,12 @@ body {
 }
 .rail__loop-svg { width: min(520px, 78%); height: auto; overflow: visible; }
 .rail__loop-path {
-  fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: round;
+  /* linecap: butt (see the matching comment on .rail__flow-arrow-path
+     above) — round left a small permanent dot sitting at this path's
+     start point even before any of it was scrolled into its drawn state,
+     because the cap paints its own stroke-width/2 radius regardless of
+     how much (if any) of the dash is actually visible. */
+  fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: butt;
   /* pathLength="100" on the element normalizes its length to 100 units
      regardless of the actual curve geometry — dasharray/dashoffset can
      then just be plain round numbers. (First tried pathLength="1" with a
