@@ -789,29 +789,52 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 @media (max-width: 900px) {
   :root { --header-h: 80px; }
 
-  /* the capsule turns into a full-width drop-down */
+  /* the open menu is a floating card inset from the screen edges — rounded,
+     shadowed and on the same translucent glass as the rest of the header —
+     instead of a full-bleed rectangle butted flush against the header pill
+     above it, which read as two unrelated slabs stacked on top of each
+     other rather than one panel. */
   .header__nav {
-    position: fixed; inset: var(--header-h) 0 auto 0; left: 0;
-    flex-direction: column; align-items: stretch; gap: 0;
-    background: var(--paper); border-bottom: 1px solid var(--rule);
-    border-radius: 0; backdrop-filter: none;
-    padding: 1rem var(--gutter) 1.75rem;
-    transform: translateY(-120%); opacity: 0; pointer-events: none;
-    transition: transform .5s var(--ease), opacity .35s var(--ease);
+    position: fixed; inset: calc(var(--header-h) + .5rem) var(--gutter) auto var(--gutter);
+    flex-direction: column; align-items: stretch; gap: .2rem;
+    background: var(--nav-bg); backdrop-filter: blur(20px);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 45px -18px rgba(0, 0, 0, .4);
+    padding: .6rem;
+    transform: translateY(-14px) scale(.97); opacity: 0; pointer-events: none;
+    transition: transform .4s var(--ease), opacity .3s var(--ease);
   }
-  .header__nav.is-open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .header__nav.is-open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
   .header__link {
-    padding: .9rem 0; font-size: 1.25rem; border-radius: 0;
-    border-bottom: 1px solid var(--rule); color: var(--ink);
+    padding: 1rem 1.1rem; font-size: 1.15rem; border-radius: var(--radius-sm);
+    border-bottom: 0; color: var(--nav-ink);
   }
-  .header__link:hover, .header__link.is-active { background: transparent; }
+  .header__link:hover, .header__link.is-active { background: var(--nav-hover); }
   /* the brand has to stay put — there is no capsule to fall back on here */
   .header.is-stuck .header__logo { opacity: 1; transform: none; pointer-events: auto; }
   .header__logo-text { display: none; }
   .burger { display: flex; }
-  /* no capsule to match down here, and 64px would crowd an 80px header */
+  /* the mark and every action button read as one consistent 48px row down
+     here — a fixed size matched across all of them, not just the .pill
+     ones, since --nav-h itself only tracks the desktop capsule (see
+     initHeader's syncNavHeight, which skips <=900px on purpose). */
+  .header__logo-mark { width: 48px; height: 48px; }
   .pill { min-width: 48px; height: 48px; padding: 0 1rem; }
-  .pill--icon { width: 48px; }
+  /* .pill--icon's own padding:0 (desktop rule, earlier in the cascade) was
+     losing to the ".pill" padding override two lines up — same specificity,
+     later in source wins — which squeezed the icon's box down to less than
+     its own width and threw its centring off. Restated here so this rule,
+     not that one, has the last word on padding at this breakpoint. */
+  .pill--icon { width: 48px; padding: 0; }
+  /* was a bare transparent box with a 1px border — nearly invisible against
+     a busy/dark hero background. Same translucent glass as the rest of the
+     header actions instead, so it reads as a button at every scroll position. */
+  .burger {
+    width: 48px; height: 48px; border: 0; border-radius: 999px;
+    background: var(--nav-bg); backdrop-filter: blur(16px); color: var(--nav-ink);
+    transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease);
+  }
+  .burger:hover, .burger[aria-expanded="true"] { background: var(--primary); color: var(--primary-ink); }
 
   .banner__foot { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .banner__scroll { width: 84px; align-self: flex-end; }
