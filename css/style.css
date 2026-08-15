@@ -20,6 +20,16 @@ button, input, textarea { font: inherit; color: inherit; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
+/* a faint ruled/graph-paper grid on the flat canvas colour — paired
+   repeating-linear-gradients, one per axis, in --rule so it already
+   matches the page's other hairlines and flips with the theme
+   automatically. Laid on body itself, not a separate overlay element, so
+   it just sits at the very bottom of the paint order — any section with
+   its own background (the stack cards, the dark band/footer, the tinted
+   --experience panel) naturally paints over it with no extra rules
+   needed, leaving the grid visible only where the plain canvas colour
+   would otherwise show through. (Had a paper-grain + crumple noise layer
+   here too at one point — removed again, grid only.) */
 body {
   background: var(--paper);
   color: var(--ink);
@@ -315,36 +325,150 @@ body {
 .intro__text.is-plain { color: var(--ink); }
 
 /* ---------- 3. Cases ---------- */
-.cases { padding-block: var(--section); }
+/* less bottom padding than top — .cases already runs into a long stretch
+   of reserved-but-still-blank scroll space belonging to the band circle
+   right after it (see .band__circle's comment in this file), so trimming
+   this section's own trailing padding is the one safe, uncoupled lever
+   for shortening that "too much white" stretch without touching the
+   circle's carefully-tuned scroll-scrub math itself. */
+.cases { padding-block: var(--section) clamp(2rem, 4vw, 4rem); }
 
-/* Plain wrapping row — cards lay out left-to-right and wrap onto as many
-   rows as needed, no horizontal scroll (used to be a horizontal-scroll
-   track, JS-pinned on desktop; both the pin and the scroll-track behavior
-   were pulled, see git history). */
-.cases__grid {
-  display: flex; flex-wrap: wrap; align-items: stretch;
-  gap: clamp(2rem, 3vw, 3.5rem);
+/* Default state: a plain native horizontal-scroll container — trackpad/
+   touch swipe and the scrollbar just work, no JS required. This is also
+   the permanent state on mobile, under reduced motion, or if GSAP never
+   loads (see the width check in initCasesScroll). */
+.cases__scroll { }
+.cases__pin {
+  overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity; scroll-padding-left: var(--gutter);
+  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
 }
-/* .case stretches to the row's tallest card; .case__frame and .case__body
-   fill that height so every frame ends up the same size regardless of how
-   much a title/tag list wraps. */
+.cases__pin::-webkit-scrollbar { height: 6px; }
+.cases__pin::-webkit-scrollbar-track { background: transparent; }
+.cases__pin::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 999px; }
+/* symmetric --gutter on both ends — the same inset before the first card
+   and after the last one, so the track starts and finishes with the same
+   breathing room instead of the end feeling tighter than the start. */
+.cases__grid {
+  display: flex; align-items: stretch; gap: clamp(1.5rem, 3vw, 2.5rem);
+  width: max-content;
+  padding-block: .25rem .75rem;
+  padding-inline: var(--gutter);
+}
+
+/* Enhanced state, added by initCasesScroll on wide-enough/motion-enabled
+   screens: .cases__scroll gets a tall inline height (100vh + however far
+   the track needs to travel, set and kept in sync by JS), .cases__pin
+   goes position:sticky so it holds in view — natively, no JS managing a
+   fixed-position spacer — for as long as its tall parent keeps scrolling
+   past, and a GSAP scrub (not a pin) drives the track's x the same way
+   the Process rail's line-fill or the Career timeline's line-fill are
+   already scrubbed elsewhere on this page — just translateX instead of
+   clip-path. That combination is deliberately different from the
+   GSAP pin:true this section had — and broke on — twice before: pin:true
+   manages its own fixed-position spacer element, which is what went wrong
+   both times; position:sticky is plain CSS the browser has always known
+   how to lay out correctly, and a plain scrub (no pin) is the exact
+   pattern already proven safe elsewhere on this page. */
+/* height is content-fit (max-height, not a fixed height) — the cards
+   themselves only ever run up to 680px tall (.case__media's own clamp
+   max) plus the heading now stacked above them (~120-200px depending on
+   viewport width), so a plain 100vh here just reserved a full screen's
+   height regardless of that, leaving hundreds of px of dead space below
+   the content on any display taller than that. max-height:100vh lets the
+   box size itself to header+cards and only clips on the (rare) viewport
+   short enough that the two genuinely can't both fit — no magic-number
+   guess to keep in sync as the heading or card sizing changes later.
+   initCasesScroll's setHeight() reads this element's real rendered height
+   directly, so the wrapper's scroll-reserved height and the sticky
+   duration both stay correct against whichever content height results. */
+/* top: var(--header-h), not 0 — .header is position:fixed at the very
+   top of the viewport (z-index:50), so a sticky top:0 here would hold the
+   heading directly underneath/behind it for the entire scrub, not just
+   passing through. Sticking var(--header-h) down instead rests the
+   heading right below the nav, matching the same offset .stack__item
+   already uses for the same reason. initCasesScroll's end calc has to
+   know about this offset too — see the comment there. */
+.cases--scroll-enhanced .cases__pin {
+  position: sticky; top: var(--header-h); max-height: calc(100vh - var(--header-h)); overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.cases--scroll-enhanced .cases__pin .section-head { flex: none; margin-bottom: clamp(1.5rem, 3vw, 3rem); }
+/* auto margins on the block axis: absorb any leftover space evenly above/
+   below the grid if the pin ever ends up taller than header+cards (e.g. a
+   very tall, narrow-enough-content viewport) — inert or no-op most of the
+   time, but keeps the cards centred instead of stuck to the header if it
+   does happen. */
+.cases--scroll-enhanced .cases__pin .cases__grid { margin-block: auto; }
+.cases--scroll-enhanced .cases__grid { will-change: transform; }
+/* .case__media's plain clamp(460px, 78vh, 680px) assumed the pin had the
+   whole viewport to itself — true before the heading moved in above it.
+   Now the nav (var(--header-h)) and the heading block both eat into that
+   same budget before the card ever gets a share, so on an ordinary ~900px
+   -tall laptop window the old 78vh term (~702px) plus the heading and nav
+   no longer fits under 680px's neighbourhood without clipping. Deriving
+   the term from the actual leftover space (100vh minus the nav and a
+   flat allowance for the heading block: its own height + margin-bottom +
+   .cases__grid's padding-block, roughly 200px worst-case at any width)
+   keeps the card exactly as big as the enhanced layout can honestly fit —
+   still reaching the full 680px ceiling on any generously tall display,
+   just no longer assuming vh alone tells the whole story. */
+.cases--scroll-enhanced .case__media {
+  height: clamp(460px, calc(100vh - var(--header-h) - 200px), 680px);
+}
 .case {
-  display: flex; flex-direction: column; flex: 1 1 clamp(320px, 40vw, 520px);
+  flex: 0 0 clamp(340px, 55vw, 640px); scroll-snap-align: start;
   text-decoration: none; color: inherit;
 }
 .case.is-hidden { display: none; }
-.case__frame { display: flex; flex-direction: column; flex: 1; }
 .case__media {
-  border-radius: var(--radius); overflow: hidden; position: relative;
-  aspect-ratio: 4 / 3; display: grid; place-items: center; background: var(--paper-2);
+  position: relative; height: clamp(460px, 78vh, 680px);
+  border-radius: var(--radius); overflow: hidden; background: var(--paper-2);
 }
 .case__media img {
   width: 100%; height: 100%; object-fit: cover; object-position: top;
   transition: transform .9s var(--ease);
 }
 .case:hover .case__media img { transform: scale(1.06); }
-.case__body { padding-top: 1.35rem; flex: 1; display: flex; flex-direction: column; }
-.case__title { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
+/* the tag pills and the title bar both sit on the photo now instead of
+   below it — deliberately fixed light/dark (not the page's --paper/--ink
+   tokens) since they're captions on an image, not page chrome, and need
+   to stay legible over whatever photo happens to be underneath regardless
+   of site theme, the same reasoning as the header's translucent capsule. */
+.case__tags {
+  position: absolute; left: 1.25rem; bottom: 4.75rem; z-index: 1;
+  display: flex; flex-direction: column; align-items: flex-start; gap: .5rem;
+}
+.case__tag {
+  background: #fff; color: #0a0a0a;
+  font-size: .78rem; font-weight: 600; letter-spacing: -.01em;
+  padding: .45rem .9rem; border-radius: 999px;
+  box-shadow: 0 8px 18px -10px rgba(0, 0, 0, .45);
+}
+/* plain solid fill, not the translucent + backdrop-filter:blur(10px) this
+   had — six of those live blurs recompositing every frame while the whole
+   row is being translated during the scroll-scrub (see initCasesScroll)
+   is exactly the kind of thing that reads as stutter/flicker, and this
+   sits on a photo either way so it doesn't need to pick up any colour
+   from behind it to read as "glass". A darker, fully-opaque fill keeps
+   the same look without asking the GPU to re-blur it 60 times a second. */
+.case__footer {
+  position: absolute; left: 1.25rem; right: 1.25rem; bottom: 1.25rem; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  background: rgba(10, 10, 10, .78);
+  padding: .5rem .5rem .5rem 1.25rem; border-radius: 999px;
+}
+.case__title {
+  color: #fff; font-size: 1rem; font-weight: 600; letter-spacing: -.01em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.case__arrow {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #fff; color: #0a0a0a;
+  transition: transform var(--speed) var(--ease);
+}
+.case:hover .case__arrow { transform: rotate(45deg); }
 
 /* colour blocks, shared by cases / media blocks / tiles / cards */
 [data-tone="blue"]        { background: var(--blue);        color: #0d1512; }
@@ -362,7 +486,7 @@ body {
    translate pair reserves layout space below while painting in place, and the
    content is pulled back up over the circle's crown. */
 .band__circle {
-  position: relative; width: 100%; height: 150vh;
+  position: relative; width: 100%; height: 100vh;
   margin-top: 100vw; transform: translateY(-100vw);
   overflow-x: clip;              /* clip, not hidden — the circle bleeds down */
   z-index: 5; pointer-events: none;
@@ -376,12 +500,23 @@ body {
 }
 @media (max-width: 61.25em) { .band__circle-inner { width: 400vw; } }
 /* -90vw alone left ~1800px of dead scroll after the circle finishes
-   opening before this content appeared; pulling up further closes most
-   of that gap. Stick to vw here (matching .band__circle's own unit) —
-   mixing in a vh term via calc() intermittently broke the circle's
-   ScrollTrigger (start/end collapsed to a degenerate near-zero range). */
+   opening before this content appeared; -130vw (pulling up further) was
+   tuned to close most of that gap, but overshot — the math (worked out
+   properly this time, not just nudged by feel) is that this margin only
+   avoids .band__content becoming visible *before* the circle finishes
+   opening when it's -100vw or less in magnitude, independent of the
+   circle's own height/margin entirely; -130vw was 30vw past that line,
+   which is exactly the flat straight edge that showed up peeking in from
+   the bottom while the circle was still mid-open once the circle's own
+   scroll-scrub range got shorter (see .band__circle) and that 30vw
+   overshoot became a much bigger fraction of it. -95vw keeps a small
+   deliberate margin on the safe side of that -100vw line instead of
+   sitting right on it. Stick to vw here (matching .band__circle's own
+   unit) — mixing in a vh term via calc() intermittently broke the
+   circle's ScrollTrigger (start/end collapsed to a degenerate near-zero
+   range). */
 .band__content {
-  position: relative; z-index: 9; margin-top: -130vw;
+  position: relative; z-index: 9; margin-top: -95vw;
   background: var(--band);
   color: var(--band-ink);
   --ink: var(--band-ink);
@@ -505,7 +640,19 @@ body {
 .about__content .btn { margin-top: 2rem; }
 
 /* ---------- 5. Approach ---------- */
-.approach { padding-block: var(--section); }
+/* the only two sections carrying the faint ruled grid (used to be global,
+   on body — pulled back to just these two on request). Explicit here
+   since .approach has no background of its own otherwise (it would just
+   show the plain --paper canvas through). */
+.approach {
+  padding-block: var(--section);
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--rule) 55%, transparent) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--rule) 55%, transparent) 0 1px, transparent 1px 32px);
+  background-repeat: repeat;
+  background-size: 32px 32px;
+}
 /* left-started, full-width like every other .section-head — no longer
    shrunk into its own centered mini-column. */
 .approach__content .section-head { margin-bottom: 0; }
@@ -769,25 +916,41 @@ html.no-motion .job__date--current::after { animation: none; opacity: 0; }
 
 /* ---------- 9. CTA block ---------- */
 /* ---------- 10. Contact ---------- */
-.contact { padding-block: var(--section); }
+/* see .approach's matching comment — one of the two sections that keep
+   the ruled grid now that it's off the global body background. */
+.contact {
+  padding-block: var(--section);
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--rule) 55%, transparent) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--rule) 55%, transparent) 0 1px, transparent 1px 32px);
+  background-repeat: repeat;
+  background-size: 32px 32px;
+}
+/* wider than the shared .section-desc's 46ch cap — this copy is long
+   enough that 46ch wrapped it to 3 uneven lines; widening just here (not
+   the shared rule, which the Process/Experience/Cases heads also use at
+   their own, shorter lengths) gets this one down to a single line at
+   most viewport widths. */
+.contact .section-desc { max-width: 110ch; }
 /* no contact form (dropped it — a frontend-only form with no backend was
    silently telling visitors their message sent when it never went
    anywhere; a mailto: link at least opens the visitor's own mail client
-   for real). Left-aligned to match .section-head right above it (plain
-   .section-head, no --center modifier) — centering this block on its own
-   put it out of step with the heading's flush-left edge, and left a wide,
-   unbalanced gap of empty space to the right that had no counterpart
-   anywhere else on the page (every other section fills the full wrap
-   width with something). Flush-left plus a max-width instead reads as
-   the same kind of content column the rest of the page already uses. */
-.contact__inner { display: block; }
+   for real). Two rows — pitch copy, then the avatar/contact block below
+   it — instead of a side-by-side split. A generous gap between the two
+   (well past .section-head's own margin-bottom) keeps them reading as
+   two deliberate, separated blocks rather than everything bunched
+   together in one clump the way it did before either layout pass. */
+.contact__inner {
+  display: flex; flex-direction: column; gap: clamp(3rem, 6vw, 5rem);
+}
 /* avatar on the left, the mail link + sub line stacked in their own column
    on the right — collapses back to a plain top-to-bottom stack below
    640px, where an avatar sitting beside a whole text column gets tight
    fast, especially once the email address needs to wrap. */
 .contact__info {
   display: flex; flex-direction: row; align-items: center;
-  gap: 6rem; max-width: 44rem;
+  gap: 6rem;
 }
 .contact__text { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
 @media (max-width: 640px) {
@@ -869,13 +1032,17 @@ html.no-motion .contact__avatar-img, html.no-motion .contact__avatar-blob { anim
   transition: transform .45s var(--ease);
 }
 .contact__mail:hover::after { transform: scaleX(1); }
-/* one plain line under the mail link instead of a labelled Location/Connect
-   list — the uppercase category labels plus two separate rows were more
-   structure than two short facts needed, and made the block scan slower,
-   not easier. An address is legible as an address and "LinkedIn" as a
-   link without a caption spelling that out. */
-.contact__sub { color: var(--muted); font-size: 1rem; margin-top: 1rem; }
-.contact__sub .contact__sep { margin: 0 .6rem; opacity: .5; }
+/* two plain lines under the mail link instead of a labelled Location/
+   Connect list — the uppercase category labels plus two separate rows
+   were more structure than two short facts needed, and made the block
+   scan slower, not easier. An address is legible as an address and
+   "LinkedIn" as a link without a caption spelling that out. Stacked
+   (not run together on one line with a separator) so each reads as its
+   own item at a glance instead of one longer sentence to parse. */
+.contact__sub {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .35rem;
+  color: var(--muted); font-size: 1rem; margin-top: 1rem;
+}
 .contact__sub a {
   color: inherit; text-decoration: none; border-bottom: 1px solid var(--rule);
   padding-bottom: .1rem; transition: border-color var(--speed) var(--ease);

@@ -370,14 +370,154 @@
     );
   }
 
-  /* ---------- 3c. Cases ----------
-     Used to pin .cases__pin and drive the card row sideways off of vertical
-     scroll (scrub-linked, GSAP ScrollTrigger), then (after that turned into
-     a recurring source of bugs — dead scroll space, section overlap, blank
-     page, ghosted/overlapping content, stuck scroll; see git history around
-     "fix Work filter" commits) a plain CSS horizontal-scroll track. Cards
-     now just wrap onto as many rows as they need (.cases__grid in
-     style.css) — no scroll-jacking, no horizontal scroll at all. */
+  /* ---------- 3c. Cases: horizontal scroll ----------
+     Default/fallback (always on mobile, under reduced motion, or if GSAP
+     never loads): [data-cases-pin] is a plain native overflow-x scroll
+     container. Trackpad/touch swipe and the scrollbar already work with
+     zero JS; the wheel listener below just adds one convenience for a
+     plain vertical mouse wheel — scroll the cards sideways first, and
+     only once they've run out (in whichever direction the gesture is
+     going) let that same gesture fall through to scroll the page, instead
+     of capturing every vertical wheel tick sideways forever with no way
+     back to a normal page scroll.
+
+     Enhanced (desktop + motion only): swaps that native scroll for a
+     "tall wrapper + position:sticky inner + GSAP-scrubbed x" section —
+     continued vertical scroll drives the track sideways with no separate
+     gesture needed, same idea as a GSAP pin:true section but built from
+     different, safer parts. pin:true (this section's original version,
+     and a later retry with invalidateOnRefresh + function-based end/x
+     specifically to dodge a stale-measurement bug) broke layout twice
+     here — cards rendering above the header/heading instead of in
+     document order, both times traced to GSAP's own pin-spacer mechanics.
+     position:sticky is plain CSS the browser has always laid out
+     correctly on its own, and driving x via a plain scrub (no pin) is the
+     exact pattern already proven safe elsewhere on this page (the Process
+     rail's and Career timeline's line-fills, both clip-path scrubs on the
+     same kind of trigger). */
+  function initCasesScroll() {
+    const grid = document.getElementById('casesGrid');
+    const pinEl = document.querySelector('[data-cases-pin]');
+    const scrollEl = document.querySelector('[data-cases-scroll]');
+    const track = pinEl || grid;
+    if (!track) return;
+
+    track.addEventListener('wheel', e => {
+      // A horizontal gesture (trackpad swipe) already scrolls the track
+      // natively — only take over a *vertical* wheel. In the enhanced
+      // state .cases__pin is sticky (not scrollable), so this never fires
+      // there — nothing to gate on scrollEnabled.
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      if (maxScroll <= 0) return; // nothing to scroll horizontally at all
+
+      const atEnd = track.scrollLeft >= maxScroll - 1;
+      const atStart = track.scrollLeft <= 1;
+      if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
+        e.preventDefault();
+        track.scrollLeft += e.deltaY;
+      }
+      // else: already at the end in this direction — let the event
+      // through untouched so the page scrolls normally.
+    }, { passive: false });
+
+    // Enhanced state is desktop + motion only — same reasoning as the
+    // rest of the site's width-gated behavior (the header nav capsule,
+    // the custom cursor): a pinned/scrubbed section is a scroll-gesture
+    // enhancement, not an upgrade, on a touchscreen where swiping the
+    // track directly already feels native.
+    if (!MOTION || !scrollEl || !pinEl || !grid || window.innerWidth < 900) return;
+
+    document.querySelector('.cases').classList.add('cases--scroll-enhanced');
+
+    // The wrapper's height has to exactly match pinEl's own rendered
+    // height + however far the track needs to travel — too little and the
+    // track gets cut off before it finishes scrubbing; too much and
+    // there's dead scroll space after it's done, or the sticky element
+    // stays stuck a beat after the track has already stopped moving.
+    // Reading pinEl.offsetHeight directly (not assuming a fixed 100vh)
+    // is what keeps this correct now that .cases__pin is max-height:100vh
+    // and content-fit (header + cards) rather than a plain 100vh — the
+    // wrapper has to match whatever height that content-fit actually
+    // resolves to. Recomputed on every
+    // ScrollTrigger refresh (resize, font swap, image load) rather than
+    // once at setup, for the same reason invalidateOnRefresh matters
+    // everywhere else in this file.
+    function setHeight() {
+      const extra = Math.max(0, grid.scrollWidth - pinEl.clientWidth);
+      scrollEl.style.height = `${pinEl.offsetHeight + extra}px`;
+    }
+    setHeight();
+
+    // end used to be the string 'bottom bottom' — fine while .cases__pin
+    // was a plain 100vh, since "scrollEl's height minus the viewport's
+    // height" and "scrollEl's height minus pinEl's own height" are the
+    // same number when pinEl IS the viewport height. Now that pinEl is
+    // capped shorter than 100vh on tall screens, those two stop being the
+    // same number: CSS position:sticky itself unsticks based on pinEl's
+    // own height (a plain browser fact, not something this file
+    // controls), not the viewport's — so 'bottom bottom' finished the x
+    // scrub before the sticky element had actually let go, leaving it
+    // pinned in place, already fully scrolled, for an extra beat. Deriving
+    // end the same way setHeight derives the wrapper's height (from
+    // pinEl.offsetHeight, not viewport height) keeps the scrub and the
+    // sticky's own natural unstick point landing on the same scroll pixel.
+    //
+    // headerH() folds in .cases__pin's top:var(--header-h) offset (see the
+    // CSS comment on that rule): sticky's own unstick math shifts earlier
+    // by exactly that offset once top isn't 0, so the same amount has to
+    // come off this scrub distance to keep landing on the same pixel as
+    // the sticky element's natural release point.
+    const headerH = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0;
+    gsap.fromTo(grid,
+      { x: 0 },
+      {
+        x: () => -Math.max(0, grid.scrollWidth - pinEl.clientWidth),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: scrollEl, start: 'top top',
+          end: () => '+=' + (Math.max(0, grid.scrollWidth - pinEl.clientWidth) - headerH()),
+          scrub: true, invalidateOnRefresh: true,
+          onRefresh: setHeight
+        }
+      }
+    );
+
+    // setHeight() just grew the page by ~the track's own width in extra
+    // scroll height — on a browser with a classic (space-taking, not
+    // overlay) scrollbar, a page that was one instant away from not
+    // needing a vertical scrollbar can cross that line right here, which
+    // narrows the viewport by the scrollbar's width *after* pinEl.clientWidth
+    // was already read above. That leaves the wrapper's height measured
+    // against a viewport wider than the one the track will actually
+    // scrub against, so the last stretch of cards never quite finishes
+    // scrolling into place — a real gap at the end that a plain reload
+    // doesn't reproduce (the scrollbar's already there by then), only a
+    // fresh page that grows into needing one for the first time right on
+    // this section. One more refresh, deferred a frame so the scrollbar's
+    // actual on/off state has settled, re-measures against reality instead
+    // of the pre-scrollbar guess.
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+
+    // Confirmed by direct testing: resizing the viewport while scrolled
+    // into this section (e.g. opening DevTools, which docks a panel and
+    // narrows the page) does NOT get picked up on its own — pinEl.clientWidth
+    // updates immediately (that's just the browser), but the track's x
+    // transform and the wrapper's height both stay frozen at whatever they
+    // were before the resize, so the track no longer lines up with the
+    // now-different-width viewport it's supposed to fill exactly — a gap
+    // or overshoot depending on which way the width changed. A manual
+    // refresh() (confirmed to correctly recompute both when called) fixes
+    // it instantly; it's just never being called for this case on its own,
+    // so this does it explicitly. Debounced so a drag-resize doesn't
+    // refresh on every intermediate pixel.
+    let resizeT;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(() => ScrollTrigger.refresh(), 150);
+    });
+  }
 
   /* ---------- 4. Parallax media ---------- */
   function initParallax() {
@@ -618,6 +758,7 @@
     initCursor();
     initBand();
     initBandContents();
+    initCasesScroll();
     initMarquee();
     initParallax();
     initReveal();

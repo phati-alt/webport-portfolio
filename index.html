@@ -128,104 +128,123 @@
 
   <!-- ===== 3. Work — masonry grid with hover circle ===== -->
   <section class="cases" id="work">
-    <div class="wrap">
-      <header class="section-head section-head--center" data-reveal>
-        <p class="pretitle" data-i18n="work.eyebrow">Cases</p>
-        <h2 class="section-title" data-i18n="work.title">Results for products that hold up</h2>
-      </header>
+    <!-- 6 real projects (Mobile Application has 2). hrefs use all 6 built
+         template pages until each project gets its own page. Big overlay
+         cards — title/tags sit on the image itself instead of below it, so
+         the card can run tall instead of stopping at the image's own aspect
+         ratio.
 
-      <!-- 6 real projects (Mobile Application has 2). hrefs use all 6 built
-           template pages until each project gets its own page. Plain
-           wrapping row, no horizontal scroll (see .cases__grid in
-           style.css). All .case__media share the same 4:3 ratio, image
-           cropped via object-fit — uniform card size regardless of each
-           screenshot's original dimensions. -->
-      <div class="cases__grid" id="casesGrid">
+         [data-cases-scroll]/[data-cases-pin] together are a "tall wrapper +
+         position:sticky inner + scrubbed x" horizontal-scroll section (see
+         initCasesScroll in main.js), on wide-enough/motion-enabled screens
+         only — everywhere else (mobile, reduced motion, or if JS never
+         runs) [data-cases-pin] is just a plain native horizontal-scroll
+         container instead, and [data-cases-scroll] is a no-op wrapper with
+         no extra height. See the CSS comment on .cases__pin for why this
+         is a different (and safer) mechanism than the GSAP pin:true this
+         section had — and broke on — twice before.
+
+         The section-head lives INSIDE .cases__pin (not in a separate .wrap
+         above it) on purpose: .cases__pin is the element that goes
+         position:sticky in the enhanced state, so anything inside it sticks
+         together as one block — heading included — while the cards scrub
+         past horizontally underneath. On the plain-scroll fallback this is
+         a no-op, it just stacks normally above the cards. -->
+    <div class="cases__scroll" data-cases-scroll>
+      <div class="cases__pin" data-cases-pin>
+        <div class="wrap">
+          <header class="section-head section-head--center" data-reveal>
+            <p class="pretitle" data-i18n="work.eyebrow">Cases</p>
+            <h2 class="section-title" data-i18n="work.title">Results for products that hold up</h2>
+          </header>
+        </div>
+        <div class="cases__grid" id="casesGrid">
 
         <a class="case" href="work/finza.html" data-reveal data-hover-case>
-          <div class="case__frame">
-            <div class="case__media"><img src="assets/work/government.png" alt="Government groundwater monitoring dashboard" loading="lazy"></div>
-            <div class="case__body">
+          <div class="case__media">
+            <img src="assets/work/government.png" alt="Government groundwater monitoring dashboard" loading="lazy">
+            <ul class="case__tags">
+              <li class="case__tag" data-i18n="work.filterGovernment">Government Project</li>
+              <li class="case__tag" data-i18n="tag.research">User research</li>
+            </ul>
+            <div class="case__footer">
               <h3 class="case__title" data-i18n="work.filterGovernment">Government Project</h3>
-              <ul class="tags">
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterGovernment">Government Project</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.research">User research</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.a11y">Accessibility</span></li>
-              </ul>
+              <span class="case__arrow" aria-hidden="true">↗</span>
             </div>
           </div>
         </a>
 
         <a class="case" href="work/lumen.html" data-reveal data-hover-case>
-          <div class="case__frame">
-            <div class="case__media"><img src="assets/work/platform.png" alt="Platform product dashboard" loading="lazy"></div>
-            <div class="case__body">
+          <div class="case__media">
+            <img src="assets/work/platform.png" alt="Platform product dashboard" loading="lazy">
+            <ul class="case__tags">
+              <li class="case__tag" data-i18n="tag.ui">UI design</li>
+              <li class="case__tag" data-i18n="tag.designSystem">Design System</li>
+            </ul>
+            <div class="case__footer">
               <h3 class="case__title" data-i18n="work.filterPlatform">Platform</h3>
-              <ul class="tags">
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterPlatform">Platform</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.designSystem">Design System</span></li>
-              </ul>
+              <span class="case__arrow" aria-hidden="true">↗</span>
             </div>
           </div>
         </a>
 
         <a class="case" href="work/nomly.html" data-reveal data-hover-case>
-          <div class="case__frame">
-            <div class="case__media"><img src="assets/work/mobile-1.png" alt="Mobile application screens" loading="lazy"></div>
-            <div class="case__body">
+          <div class="case__media">
+            <img src="assets/work/mobile-1.png" alt="Mobile application screens" loading="lazy">
+            <ul class="case__tags">
+              <li class="case__tag" data-i18n="tag.ui">UI design</li>
+              <li class="case__tag" data-i18n="tag.prototype">Prototype</li>
+            </ul>
+            <div class="case__footer">
               <h3 class="case__title" data-i18n="work.filterMobileApp">Mobile Application</h3>
-              <ul class="tags">
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterMobileApp">Mobile Application</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.prototype">Prototype</span></li>
-              </ul>
+              <span class="case__arrow" aria-hidden="true">↗</span>
             </div>
           </div>
         </a>
 
         <a class="case" href="work/wanderly.html" data-reveal data-hover-case>
-          <div class="case__frame">
-            <div class="case__media"><img src="assets/work/mobile-2.png" alt="Mobile application screens" loading="lazy"></div>
-            <div class="case__body">
+          <div class="case__media">
+            <img src="assets/work/mobile-2.png" alt="Mobile application screens" loading="lazy">
+            <ul class="case__tags">
+              <li class="case__tag" data-i18n="tag.ui">UI design</li>
+              <li class="case__tag" data-i18n="tag.prototype">Prototype</li>
+            </ul>
+            <div class="case__footer">
               <h3 class="case__title" data-i18n="work.filterMobileApp">Mobile Application</h3>
-              <ul class="tags">
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterMobileApp">Mobile Application</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.prototype">Prototype</span></li>
-              </ul>
+              <span class="case__arrow" aria-hidden="true">↗</span>
             </div>
           </div>
         </a>
 
         <a class="case" href="work/vitalis.html" data-reveal data-hover-case>
-          <div class="case__frame">
-            <div class="case__media"><img src="assets/work/custom-dashboard.png" alt="Custom IoT monitoring dashboard" loading="lazy"></div>
-            <div class="case__body">
+          <div class="case__media">
+            <img src="assets/work/custom-dashboard.png" alt="Custom IoT monitoring dashboard" loading="lazy">
+            <ul class="case__tags">
+              <li class="case__tag" data-i18n="tag.dataviz">Data viz</li>
+              <li class="case__tag" data-i18n="tag.ui">UI design</li>
+            </ul>
+            <div class="case__footer">
               <h3 class="case__title" data-i18n="work.filterDashboard">Custom Dashboard</h3>
-              <ul class="tags">
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterDashboard">Custom Dashboard</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.dataviz">Data viz</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.ui">UI design</span></li>
-              </ul>
+              <span class="case__arrow" aria-hidden="true">↗</span>
             </div>
           </div>
         </a>
 
         <a class="case" href="work/orbit.html" data-reveal data-hover-case>
-          <div class="case__frame">
-            <div class="case__media"><img src="assets/work/wordpress.png" alt="WordPress website" loading="lazy"></div>
-            <div class="case__body">
+          <div class="case__media">
+            <img src="assets/work/wordpress.png" alt="WordPress website" loading="lazy">
+            <ul class="case__tags">
+              <li class="case__tag" data-i18n="tag.cms">CMS</li>
+              <li class="case__tag" data-i18n="tag.responsive">Responsive Design</li>
+            </ul>
+            <div class="case__footer">
               <h3 class="case__title" data-i18n="work.filterWordpress">WordPress Website</h3>
-              <ul class="tags">
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="work.filterWordpress">WordPress Website</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.cms">CMS</span></li>
-                <li class="tag"><span class="tag__icon" aria-hidden="true"></span><span data-i18n="tag.responsive">Responsive Design</span></li>
-              </ul>
+              <span class="case__arrow" aria-hidden="true">↗</span>
             </div>
           </div>
         </a>
 
+      </div>
       </div>
     </div>
   </section>
@@ -592,29 +611,28 @@
        it linked to this same section right below it, so the two were
        saying the same thing twice) ===== -->
   <section class="contact" id="contact">
-    <div class="wrap">
-      <header class="section-head" data-reveal>
-        <p class="pretitle" data-i18n="contact.eyebrow">Get in touch</p>
-        <h2 class="section-title" data-i18n="contact.title">Let's create something great together.</h2>
-        <p class="section-desc" data-i18n="contact.desc">Have a project in mind or just want to say hi? My inbox is always open.</p>
-      </header>
-
+    <div class="wrap wrap--wide">
       <div class="contact__inner">
-      <div class="contact__info" data-reveal>
-        <div class="contact__avatar">
-          <div class="contact__avatar-blob" aria-hidden="true"></div>
-          <img src="assets/avatar-icon.png" alt="Mick Yuttana" class="contact__avatar-img">
-          <span class="contact__avatar-badge" data-i18n="contact.wave">👋 Say hi</span>
+        <header class="section-head" data-reveal>
+          <p class="pretitle" data-i18n="contact.eyebrow">Get in touch</p>
+          <h2 class="section-title" data-i18n="contact.title">Let's design your next product together.</h2>
+          <p class="section-desc" data-i18n="contact.desc" data-i18n-html>Need a UX/UI or product designer for your next project<br>or just want to say hi? Email me directly below, I read and reply to every message myself.</p>
+        </header>
+
+        <div class="contact__info" data-reveal>
+          <div class="contact__avatar">
+            <div class="contact__avatar-blob" aria-hidden="true"></div>
+            <img src="assets/avatar-icon.png" alt="Mick Yuttana" class="contact__avatar-img">
+            <span class="contact__avatar-badge" data-i18n="contact.wave">👋 Say hi</span>
+          </div>
+          <div class="contact__text">
+            <a href="mailto:phatiyuttana@gmail.com" class="contact__mail" data-hover>phatiyuttana@gmail.com</a>
+            <p class="contact__sub">
+              <span>Phahonyothin Rd, Anusawari, Bang Khen, Bangkok 10220</span>
+              <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener" data-hover>LinkedIn ↗</a>
+            </p>
+          </div>
         </div>
-        <div class="contact__text">
-          <a href="mailto:phatiyuttana@gmail.com" class="contact__mail" data-hover>phatiyuttana@gmail.com</a>
-          <p class="contact__sub">
-            <span>Phahonyothin Rd, Anusawari, Bang Khen, Bangkok 10220</span>
-            <span class="contact__sep" aria-hidden="true">·</span>
-            <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener" data-hover>LinkedIn ↗</a>
-          </p>
-        </div>
-      </div>
       </div>
     </div>
   </section>

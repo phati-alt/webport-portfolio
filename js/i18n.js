@@ -52,7 +52,6 @@ const translations = {
     "tag.ui": "UI design",
     "tag.prototype": "Prototype",
     "tag.dataviz": "Data viz",
-    "tag.a11y": "Accessibility",
     "tag.designSystem": "Design System",
     "tag.cms": "CMS",
     "tag.responsive": "Responsive Design",
@@ -125,8 +124,8 @@ const translations = {
     "experience.job3.bullet1": "Designed the full mobile UI for DR.in (medical app) in Adobe XD and shipped responsive front-end pages for SUSCO.co.th.",
 
     "contact.eyebrow": "Get in touch",
-    "contact.title": "Let's create something great together.",
-    "contact.desc": "Have a project in mind or just want to say hi? My inbox is always open.",
+    "contact.title": "Let's design your next product together.",
+    "contact.desc": "Need a UX/UI or product designer for your next project<br>or just want to say hi? Email me directly below, I read and reply to every message myself.",
     "contact.wave": "👋 Say hi",
 
     "footer.tagline": "UX/UI & Product Designer based in Bangkok, Thailand.",
@@ -197,7 +196,6 @@ const translations = {
     "tag.ui": "ออกแบบ UI",
     "tag.prototype": "Prototype",
     "tag.dataviz": "Data viz",
-    "tag.a11y": "Accessibility",
     "tag.designSystem": "Design System",
     "tag.cms": "CMS",
     "tag.responsive": "ออกแบบ Responsive",
@@ -270,8 +268,8 @@ const translations = {
     "experience.job3.bullet1": "ออกแบบ UI มือถือทั้งหมดให้แอป DR.in (แอปการแพทย์) ด้วย Adobe XD และพัฒนาหน้าเว็บ Responsive ให้ SUSCO.co.th",
 
     "contact.eyebrow": "ติดต่อผม",
-    "contact.title": "มาสร้างสรรค์สิ่งดี ๆ ไปด้วยกัน",
-    "contact.desc": "มีโปรเจกต์ในใจ หรือแค่อยากทักทาย? กล่องข้อความของผมเปิดรับเสมอ",
+    "contact.title": "มาออกแบบโปรดักต์ถัดไปด้วยกันครับ",
+    "contact.desc": "กำลังมองหา UX/UI หรือ Product Designer สำหรับโปรเจกต์ถัดไป<br>หรือแค่อยากทักทาย? ส่งอีเมลมาหาผมได้เลยด้านล่างครับ ผมอ่านและตอบเองทุกข้อความ",
     "contact.wave": "👋 ทักทายกันครับ",
 
     "footer.tagline": "UX/UI & Product Designer ประจำกรุงเทพฯ ประเทศไทย",
