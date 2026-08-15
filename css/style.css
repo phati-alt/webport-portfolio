@@ -562,22 +562,38 @@ body {
 
 @media (max-width: 56.25em) {
   /* the track runs vertically instead of as a row, and the line becomes a
-     plain static rule down the left through each node's centre — the
-     scrubbed fill is a desktop-row-specific effect, not worth reworking
-     for a vertical stack. Each step itself also switches from stacking
-     node-above-title to a node-beside-content grid (matching .job in the
-     Experience timeline below) — node-above-title on a full-width block
-     left the title/desc text starting at the same x as the node, so it
-     ran directly across the line instead of clearing it. */
+     rule down the left through each node's centre. It still scrubs with
+     scroll here (see initRail in main.js) — just top-to-bottom instead of
+     left-to-right, same clip-path technique as .timeline__line-fill below.
+     Each step itself also switches from stacking node-above-title to a
+     node-beside-content grid (matching .job in the Experience timeline
+     below) — node-above-title on a full-width block left the title/desc
+     text starting at the same x as the node, so it ran directly across
+     the line instead of clearing it. */
   .rail__track { grid-template-columns: 1fr; gap: 2.5rem; }
   .rail__line { left: 26px; top: 0; right: auto; bottom: 0; width: 2px; height: auto; }
-  .rail__line-fill { clip-path: none; }
+  .rail__line-fill { clip-path: inset(0 0 100% 0); }
   .rail__step {
     display: grid; grid-template-columns: 52px 1fr; column-gap: 1rem; row-gap: .5rem;
   }
   .rail__node { grid-column: 1; grid-row: 1; }
   .rail__title { grid-column: 2; grid-row: 1; align-self: center; }
   .rail__desc { grid-column: 2; grid-row: 2; }
+
+  /* the horizontal wrap works while there's room for text + arrow on one
+     line, but once each caption needs its own line the arrow just chases
+     whichever end the text happened to break on — cluttered, not a clear
+     divider. Stack captions and arrows in one column instead, and rotate
+     each arrow 90° so it reads as a plain "next" mark between the pair of
+     captions it connects, same as it does horizontally on desktop. More
+     margin around the whole flow list and the loop below it too, so this
+     denser column has room to breathe against the steps above and the
+     toolbox list below. */
+  .rail__flow { flex-direction: column; gap: 1.5rem; margin-top: clamp(3rem, 12vw, 4rem); }
+  .rail__flow li:not(.rail__flow-arrow) { max-width: 30ch; margin-inline: auto; }
+  .rail__flow-arrow { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+  .rail__flow-arrow svg { width: 44px; transform: rotate(90deg); }
+  .rail__loop { margin-top: clamp(3.5rem, 14vw, 5rem); }
 }
 
 /* ---------- 6. Numbers (now embedded inside the About section) ---------- */

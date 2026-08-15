@@ -252,24 +252,26 @@
       scrollTrigger: { trigger: track, start: 'top 85%' }
     });
 
-    // The line-fill + node-lighting only make sense in the side-by-side row
-    // layout — the sub-56.25em breakpoint stacks steps into a column with a
-    // plain static line instead (see style.css), so there's nothing to scrub.
-    if (window.matchMedia('(min-width: 56.26em)').matches) {
-      gsap.fromTo(fill,
-        { clipPath: 'inset(0 100% 0 0)' },
-        {
-          clipPath: 'inset(0 0% 0 0)', ease: 'none',
-          scrollTrigger: {
-            trigger: track, start: 'top 70%', end: 'bottom 60%', scrub: true,
-            onUpdate: self => {
-              const lit = Math.ceil(self.progress * steps.length);
-              steps.forEach((step, i) => step.classList.toggle('is-lit', i < lit));
-            }
+    // The line itself switches orientation at the same sub-56.25em
+    // breakpoint that stacks steps into a column (see .rail__line in
+    // style.css) — row layout draws left-to-right, column layout draws
+    // top-to-bottom, same as .timeline__line-fill below it. The clip-path
+    // direction has to match whichever orientation is active, or the fill
+    // just sits fully open/closed and never visibly scrubs.
+    const isRailRow = window.matchMedia('(min-width: 56.26em)').matches;
+    gsap.fromTo(fill,
+      { clipPath: isRailRow ? 'inset(0 100% 0 0)' : 'inset(0 0 100% 0)' },
+      {
+        clipPath: isRailRow ? 'inset(0 0% 0 0)' : 'inset(0 0 0% 0)', ease: 'none',
+        scrollTrigger: {
+          trigger: track, start: 'top 70%', end: 'bottom 60%', scrub: true,
+          onUpdate: self => {
+            const lit = Math.ceil(self.progress * steps.length);
+            steps.forEach((step, i) => step.classList.toggle('is-lit', i < lit));
           }
         }
-      );
-    }
+      }
+    );
 
     // Connectors between the flow notes — same scroll-drawn-stroke
     // construction as the loop arrow below, just smaller and inline.
