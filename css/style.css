@@ -130,10 +130,14 @@ body {
   transition: opacity .45s var(--ease), transform .45s var(--ease);
 }
 /* matches .pill's size (var(--nav-h)) and background so the logo reads
-   as the same kind of surface as the actions pills across the header */
+   as the same kind of surface as the actions pills across the header —
+   including backdrop-filter, which this was missing: without it, page
+   content scrolling underneath (anything circular/avatar-shaped
+   especially) stayed sharp enough to show through and read as a second,
+   competing image instead of just tinting the glass. */
 .header__logo-mark {
   display: grid; place-items: center; width: var(--nav-h); height: var(--nav-h); border-radius: 50%;
-  background: var(--nav-bg); color: var(--nav-ink); font-size: .95rem; font-weight: 600;
+  background: var(--nav-bg); backdrop-filter: blur(16px); color: var(--nav-ink); font-size: .95rem; font-weight: 600;
   border: 0; overflow: hidden;
 }
 .header__logo-mark img { width: 100%; height: 100%; object-fit: cover; }
