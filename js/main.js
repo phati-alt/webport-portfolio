@@ -222,6 +222,37 @@
     });
   }
 
+  /* ---------- shared: light up nodes as a scrubbed line-fill reaches them ----------
+     Used by both the Process rail and the Experience timeline below. The
+     naive version of this (light node i once scroll progress crosses
+     i/(count-1)) assumes the nodes sit evenly spaced right at the line's
+     two ends, but the line actually runs the full length of its track
+     while the nodes sit inset from both ends — some top padding before
+     the first node, and trailing title/desc content after the last —
+     so that assumption lit each node well before the visible line
+     actually reached it. Measuring each node's real position against the
+     line's own box instead keeps the two in sync regardless of spacing,
+     and re-measures on every ScrollTrigger refresh (resize, font swap,
+     breakpoint change) so it stays correct there too. */
+  function lightNodesAlongLine(lineEl, nodeEls, itemEls, horizontal) {
+    let fractions = nodeEls.map(() => 0);
+    function measure() {
+      const lineRect = lineEl.getBoundingClientRect();
+      const start = horizontal ? lineRect.left : lineRect.top;
+      const length = horizontal ? lineRect.width : lineRect.height;
+      fractions = nodeEls.map(node => {
+        const r = node.getBoundingClientRect();
+        const center = horizontal ? r.left + r.width / 2 : r.top + r.height / 2;
+        return length ? (center - start) / length : 0;
+      });
+    }
+    measure();
+    ScrollTrigger.addEventListener('refresh', measure);
+    return progress => {
+      itemEls.forEach((el, i) => el.classList.toggle('is-lit', progress >= fractions[i] - .002));
+    };
+  }
+
   /* ---------- 3b. Process rail: staggered entrance + scroll-drawn line ----------
      Replaces the old horizontal-scroll cards. Steps fade in as one
      connected sequence, the line between them draws in with scroll
@@ -259,16 +290,16 @@
     // direction has to match whichever orientation is active, or the fill
     // just sits fully open/closed and never visibly scrubs.
     const isRailRow = window.matchMedia('(min-width: 56.26em)').matches;
+    const line = document.querySelector('.rail__line');
+    const nodes = gsap.utils.toArray('.rail__node', track);
+    const updateLighting = lightNodesAlongLine(line, nodes, steps, isRailRow);
     gsap.fromTo(fill,
       { clipPath: isRailRow ? 'inset(0 100% 0 0)' : 'inset(0 0 100% 0)' },
       {
         clipPath: isRailRow ? 'inset(0 0% 0 0)' : 'inset(0 0 0% 0)', ease: 'none',
         scrollTrigger: {
           trigger: track, start: 'top 70%', end: 'bottom 60%', scrub: true,
-          onUpdate: self => {
-            const lit = Math.ceil(self.progress * steps.length);
-            steps.forEach((step, i) => step.classList.toggle('is-lit', i < lit));
-          }
+          onUpdate: self => updateLighting(self.progress)
         }
       }
     );
@@ -324,16 +355,16 @@
     const jobs = gsap.utils.toArray('[data-timeline] .job');
     if (!MOTION || !timeline || !fill) return;
 
+    const line = document.querySelector('.timeline__line');
+    const dots = gsap.utils.toArray('.job__dot', timeline);
+    const updateLighting = lightNodesAlongLine(line, dots, jobs, false);
     gsap.fromTo(fill,
       { clipPath: 'inset(0 0 100% 0)' },
       {
         clipPath: 'inset(0 0 0% 0)', ease: 'none',
         scrollTrigger: {
           trigger: timeline, start: 'top 75%', end: 'bottom 75%', scrub: true,
-          onUpdate: self => {
-            const lit = Math.ceil(self.progress * jobs.length);
-            jobs.forEach((job, i) => job.classList.toggle('is-lit', i < lit));
-          }
+          onUpdate: self => updateLighting(self.progress)
         }
       }
     );
