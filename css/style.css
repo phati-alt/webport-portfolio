@@ -787,7 +787,12 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 }
 
 @media (max-width: 900px) {
-  :root { --header-h: 80px; }
+  /* tighter than the desktop-measured value (118px) or the old fixed 80px —
+     the header's own content here is just one row of 48px buttons, so an
+     80px band left 16px of dead air above and below them, sitting the
+     whole row noticeably lower than the screen edge than it needed to.
+     64px keeps a comfortable 8px above/below instead and pulls the row up. */
+  :root { --header-h: 64px; }
 
   /* the open menu is a floating card inset from the screen edges — rounded,
      shadowed and on the same translucent glass as the rest of the header —
