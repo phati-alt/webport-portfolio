@@ -317,21 +317,8 @@ body {
 .case {
   display: flex; flex-direction: column; flex: 1 1 clamp(320px, 40vw, 520px);
   text-decoration: none; color: inherit;
-  /* .case is also used on <button> for screenshot-only entries that open a
-     lightbox instead of linking to a case-study page (see .case--lightbox) —
-     these reset it back to reading like the <a> version. */
-  border: 0; background: none; padding: 0; font: inherit; text-align: left; cursor: pointer;
 }
 .case.is-hidden { display: none; }
-.case--lightbox { position: relative; }
-.case--lightbox .case__media::after {
-  content: "⤢"; position: absolute; top: .85rem; right: .85rem;
-  width: 2.25rem; height: 2.25rem; border-radius: 50%;
-  display: grid; place-items: center; font-size: 1.1rem;
-  background: rgba(255, 255, 255, .85); color: #0d1512;
-  opacity: 0; transform: scale(.85); transition: opacity .3s var(--ease), transform .3s var(--ease);
-}
-.case--lightbox:hover .case__media::after { opacity: 1; transform: scale(1); }
 .case__frame { display: flex; flex-direction: column; flex: 1; }
 .case__media {
   border-radius: var(--radius); overflow: hidden; position: relative;
@@ -344,31 +331,6 @@ body {
 .case:hover .case__media img { transform: scale(1.06); }
 .case__body { padding-top: 1.35rem; flex: 1; display: flex; flex-direction: column; }
 .case__title { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
-
-/* Lightbox — full-screen preview for .case--lightbox entries (screenshot
-   only, no case-study page to link to). One shared overlay, built once by
-   initLightbox() in main.js and reused for every trigger on the page. */
-.lightbox {
-  position: fixed; inset: 0; z-index: 200;
-  display: grid; place-items: center; padding: clamp(1.5rem, 5vw, 4rem);
-  background: rgba(2, 6, 12, .92);
-  opacity: 0; visibility: hidden; transition: opacity .3s var(--ease), visibility 0s linear .3s;
-}
-.lightbox.is-open { opacity: 1; visibility: visible; transition: opacity .3s var(--ease); }
-.lightbox__img {
-  max-width: 100%; max-height: 100%; border-radius: var(--radius-sm);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
-  transform: scale(.96); transition: transform .3s var(--ease);
-}
-.lightbox.is-open .lightbox__img { transform: scale(1); }
-.lightbox__close {
-  position: absolute; top: clamp(1rem, 3vw, 2rem); right: clamp(1rem, 3vw, 2rem);
-  width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
-  display: grid; place-items: center; font-size: 1.5rem; line-height: 1;
-  background: rgba(255, 255, 255, .12); color: #fff;
-  transition: background-color var(--speed) var(--ease);
-}
-.lightbox__close:hover { background: rgba(255, 255, 255, .22); }
 
 /* colour blocks, shared by cases / media blocks / tiles / cards */
 [data-tone="blue"]        { background: var(--blue);        color: #0d1512; }
@@ -551,7 +513,16 @@ body {
      have no such radius, so there's nothing to paint until real length
      exists. See the same fix on .rail__loop-path below. */
   fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: butt;
-  stroke-dasharray: 100; stroke-dashoffset: 100;   /* JS scrubs dashoffset to 0, see initRail */
+  /* dasharray's gap (300) is well past the dash (100) so the pattern never
+     wraps back near the path within its own length, and the "hidden"
+     dashoffset (105) sits a few units past the dash boundary instead of
+     landing exactly on it — butt caps alone weren't quite enough: at
+     dashoffset matching the dash length exactly, path position 0 sits
+     precisely on the pattern's on/off edge, and pathLength's declared-vs-
+     actual-length scaling can round that edge either way, occasionally
+     still painting a sliver. A few units of margin removes the edge
+     case entirely; scrubbing from 105 instead of 100 is imperceptible. */
+  stroke-dasharray: 100 300; stroke-dashoffset: 105;   /* JS scrubs dashoffset to 0, see initRail */
 }
 .rail__flow-arrow-head { fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
 
@@ -567,7 +538,10 @@ body {
      above) — round left a small permanent dot sitting at this path's
      start point even before any of it was scrolled into its drawn state,
      because the cap paints its own stroke-width/2 radius regardless of
-     how much (if any) of the dash is actually visible. */
+     how much (if any) of the dash is actually visible. butt alone still
+     occasionally left a thin sliver, for the same reason explained on
+     .rail__flow-arrow-path above (dashoffset landing exactly on the dash
+     boundary) — same dasharray-gap + dashoffset-margin fix here too. */
   fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: butt;
   /* pathLength="100" on the element normalizes its length to 100 units
      regardless of the actual curve geometry — dasharray/dashoffset can
@@ -576,7 +550,7 @@ body {
      nearest integer pixel when read back, which collapsed that whole
      range to only two visible states — a hard jump at ~0.5 instead of a
      scrub. 100 units spreads it across enough integers to scrub smoothly.) */
-  stroke-dasharray: 100; stroke-dashoffset: 100;   /* JS scrubs dashoffset to 0 */
+  stroke-dasharray: 100 300; stroke-dashoffset: 105;   /* JS scrubs dashoffset to 0 */
 }
 .rail__loop-arrow { fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
 .rail__loop.is-drawn .rail__loop-arrow { opacity: 1; transition: opacity .3s var(--ease) .1s; }
@@ -774,9 +748,6 @@ html.no-motion .job__date--current::after { animation: none; opacity: 0; }
 /* ---------- Reveal base state (JS-gated) ---------- */
 html.js [data-reveal] { opacity: 0; transform: translateY(38px); }
 html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
-/* Lightbox open — Lenis is stopped too, but this covers native scroll
-   (reduced-motion, or before Lenis has initialized). */
-html.no-scroll { overflow: hidden; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1180px) {

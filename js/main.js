@@ -277,7 +277,7 @@
     const flowArrowHeads = gsap.utils.toArray('[data-rail-flow-arrow-head]');
     if (flowArrowPaths.length) {
       gsap.fromTo(flowArrowPaths,
-        { strokeDashoffset: 100 },
+        { strokeDashoffset: 105 },   // matches the CSS "hidden" value — see the comment there
         {
           strokeDashoffset: 0, ease: 'none', stagger: .25,
           scrollTrigger: { trigger: '.rail__flow', start: 'top 85%', end: 'bottom 65%', scrub: true }
@@ -296,7 +296,7 @@
     const loopPath = document.querySelector('[data-rail-loop-path]');
     if (loop && loopPath) {
       gsap.fromTo(loopPath,
-        { strokeDashoffset: 100 },
+        { strokeDashoffset: 105 },   // matches the CSS "hidden" value — see the comment there
         {
           strokeDashoffset: 0, ease: 'none',
           scrollTrigger: {
@@ -566,58 +566,6 @@
     });
   }
 
-  /* ---------- 9. Lightbox — screenshot-only Cases entries ----------
-     For projects with no full case-study page: [data-lightbox-src] on the
-     card opens the image full-screen instead of navigating anywhere. One
-     overlay is built lazily and reused for every trigger on the page. */
-  function initLightbox() {
-    const triggers = document.querySelectorAll('[data-lightbox-src]');
-    if (!triggers.length) return;
-
-    const overlay = document.createElement('div');
-    overlay.className = 'lightbox';
-    overlay.innerHTML =
-      '<button type="button" class="lightbox__close" aria-label="Close" data-hover>&times;</button>' +
-      '<img class="lightbox__img" alt="">';
-    document.body.appendChild(overlay);
-
-    const img = overlay.querySelector('.lightbox__img');
-    const closeBtn = overlay.querySelector('.lightbox__close');
-    let lastFocus = null;
-
-    function open(src, alt, trigger) {
-      lastFocus = trigger;
-      img.src = src;
-      img.alt = alt || '';
-      overlay.classList.add('is-open');
-      lenis?.stop();
-      root.classList.add('no-scroll');
-      closeBtn.focus();
-    }
-
-    function close() {
-      overlay.classList.remove('is-open');
-      lenis?.start();
-      root.classList.remove('no-scroll');
-      lastFocus?.focus();
-    }
-
-    triggers.forEach(el => {
-      el.addEventListener('click', e => {
-        e.preventDefault();
-        const src = el.dataset.lightboxSrc;
-        const alt = el.querySelector('img')?.alt;
-        open(src, alt, el);
-      });
-    });
-
-    closeBtn.addEventListener('click', close);
-    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
-    });
-  }
-
   /* ---------- 10. Contact form (front-end only) ---------- */
   function initForm() {
     const form = document.getElementById('contactForm');
@@ -661,7 +609,6 @@
     initSmoothScroll();
     initHeader();
     initTheme();
-    initLightbox();
     initForm();
     initCursor();
     initBand();
