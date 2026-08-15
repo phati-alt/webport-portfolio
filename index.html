@@ -566,41 +566,20 @@
 
       <div class="contact__inner">
       <div class="contact__info" data-reveal>
-        <a href="mailto:phatiyuttana@gmail.com" class="contact__mail" data-hover>phatiyuttana@gmail.com</a>
-        <p class="contact__addr">Phahonyothin Rd, Anusawari, Bang Khen, Bangkok 10220</p>
-        <div class="contact__social">
-          <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener" data-hover>LinkedIn</a>
-          <a href="#" data-hover>Dribbble</a>
-          <a href="#" data-hover>Behance</a>
-          <a href="#" data-hover>Instagram</a>
+        <div class="contact__avatar">
+          <div class="contact__avatar-blob" aria-hidden="true"></div>
+          <img src="assets/avatar-icon.png" alt="Mick Yuttana" class="contact__avatar-img">
+          <span class="contact__avatar-badge" data-i18n="contact.wave">👋 Say hi</span>
+        </div>
+        <div class="contact__text">
+          <a href="mailto:phatiyuttana@gmail.com" class="contact__mail" data-hover>phatiyuttana@gmail.com</a>
+          <p class="contact__sub">
+            <span>Phahonyothin Rd, Anusawari, Bang Khen, Bangkok 10220</span>
+            <span class="contact__sep" aria-hidden="true">·</span>
+            <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener" data-hover>LinkedIn ↗</a>
+          </p>
         </div>
       </div>
-
-      <form class="form" id="contactForm" data-reveal novalidate>
-        <div class="form__row">
-          <div class="field">
-            <label for="name" data-i18n="form.labelName">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" data-i18n-placeholder="form.placeholderName" required>
-          </div>
-          <div class="field">
-            <label for="email" data-i18n="form.labelEmail">Email</label>
-            <input type="email" id="email" name="email" placeholder="you@example.com" data-i18n-placeholder="form.placeholderEmail" required>
-          </div>
-        </div>
-        <div class="field">
-          <label for="subject" data-i18n="form.labelSubject">Subject</label>
-          <input type="text" id="subject" name="subject" placeholder="Project inquiry" data-i18n-placeholder="form.placeholderSubject">
-        </div>
-        <div class="field">
-          <label for="message" data-i18n="form.labelMessage">Message</label>
-          <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." data-i18n-placeholder="form.placeholderMessage" required></textarea>
-        </div>
-        <button type="submit" class="btn btn--primary btn--block" data-hover>
-          <span class="btn__label" data-i18n="form.sendBtn">Send Message</span>
-          <span class="btn__circle">↗</span>
-        </button>
-        <p class="form__note" id="formNote" role="status"></p>
-      </form>
       </div>
     </div>
   </section>

@@ -91,7 +91,6 @@ body {
 .btn--link { border-color: transparent; padding-left: .5rem; }
 .btn--link .btn__circle { background: transparent; border: 1px solid var(--rule); color: currentColor; }
 .btn--link:hover .btn__circle { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); transform: translateY(3px); }
-.btn--block { width: 100%; justify-content: space-between; }
 
 /* ---------- Tags ----------
    Pill styling modelled on the reference site's c-card-visual__tags-item:
@@ -715,37 +714,109 @@ html.no-motion .job__date--current::after { animation: none; opacity: 0; }
 /* ---------- 9. CTA block ---------- */
 /* ---------- 10. Contact ---------- */
 .contact { padding-block: var(--section); }
-.contact__inner { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 5vw, 6rem); align-items: start; }
+/* no contact form (dropped it — a frontend-only form with no backend was
+   silently telling visitors their message sent when it never went
+   anywhere; a mailto: link at least opens the visitor's own mail client
+   for real). Left-aligned to match .section-head right above it (plain
+   .section-head, no --center modifier) — centering this block on its own
+   put it out of step with the heading's flush-left edge, and left a wide,
+   unbalanced gap of empty space to the right that had no counterpart
+   anywhere else on the page (every other section fills the full wrap
+   width with something). Flush-left plus a max-width instead reads as
+   the same kind of content column the rest of the page already uses. */
+.contact__inner { display: block; }
+/* avatar on the left, the mail link + sub line stacked in their own column
+   on the right — collapses back to a plain top-to-bottom stack below
+   640px, where an avatar sitting beside a whole text column gets tight
+   fast, especially once the email address needs to wrap. */
+.contact__info {
+  display: flex; flex-direction: row; align-items: center;
+  gap: 6rem; max-width: 44rem;
+}
+.contact__text { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+@media (max-width: 640px) {
+  /* the 6rem row gap is deliberately wide for side-by-side breathing room —
+     stacked vertically that same 8rem reads as a gap, not spacing, so it's
+     scaled back down here. */
+  .contact__info { flex-direction: column; align-items: flex-start; gap: 2rem; }
+}
+/* the same avatar used as the header mark, much bigger, on a soft blob of
+   colour that slowly morphs — the one deliberately playful, non-editorial
+   moment on an otherwise typographic page. The image itself has a flat
+   opaque white background (it's a simple illustration, not a cutout), so
+   it's masked into a circle rather than shown as a square, same trick as
+   the header logo. The hover grow-in lives on this wrapper rather than on
+   .contact__avatar-img itself — that element already has its own
+   transform-driven float animation running continuously, and a running
+   CSS animation wins the transform property over a plain (non-!important)
+   hover rule on the same element, so a hover transform declared there
+   would just get overridden every frame instead of visibly applying.
+   Scaling the wrapper instead moves the blob and badge along with the
+   image, which reads better anyway. */
+.contact__avatar {
+  position: relative; width: fit-content; flex-shrink: 0;
+  transition: transform .4s var(--ease);
+}
+.contact__avatar:hover { transform: scale(1.04); }
+.contact__avatar-blob {
+  position: absolute; inset: -20%; z-index: 0;
+  background: linear-gradient(135deg, var(--primary), var(--purple-dark));
+  opacity: .3; filter: blur(1px);
+  border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+  animation: contact-blob-morph 10s ease-in-out infinite;
+}
+.contact__avatar-img {
+  position: relative; z-index: 1; display: block;
+  width: clamp(140px, 15vw, 196px); aspect-ratio: 1;
+  border-radius: 50%; object-fit: cover; object-position: top;
+  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .4);
+  animation: contact-avatar-float 4.5s ease-in-out infinite;
+}
+.contact__avatar-badge {
+  position: absolute; right: -.6rem; bottom: -.2rem; z-index: 2;
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 999px;
+  padding: .4rem .9rem; font-size: .85rem; font-weight: 600; white-space: nowrap;
+  box-shadow: 0 10px 22px -10px rgba(0, 0, 0, .3);
+  transform: rotate(-4deg);
+}
+@keyframes contact-avatar-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+@keyframes contact-blob-morph {
+  0%, 100% { border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%; }
+  50% { border-radius: 58% 42% 37% 63% / 54% 61% 39% 46%; }
+}
+html.no-motion .contact__avatar-img, html.no-motion .contact__avatar-blob { animation: none; }
+/* the underline no longer just sits there — it grows in from the left on
+   hover (a ::after, not the old static border-bottom) so the one piece of
+   contact info most people will actually click gets a bit of the same
+   "line draws in" language the rest of the page uses for scroll, just
+   played on hover instead of scroll position. */
 .contact__mail {
-  display: inline-block; font-size: clamp(1.35rem, .9rem + 1.8vw, 2.75rem);
+  position: relative; display: inline-block;
+  font-size: clamp(1.35rem, .9rem + 1.8vw, 2.75rem);
   font-weight: 600; letter-spacing: -.03em; color: inherit; text-decoration: none;
-  border-bottom: 1px solid var(--rule); padding-bottom: .2rem;
-  transition: border-color var(--speed) var(--ease);
+  padding-bottom: .2rem; border-bottom: 1px solid var(--rule);
 }
-.contact__mail:hover { border-color: currentColor; }
-.contact__addr { color: var(--muted); margin-top: 1.25rem; max-width: 32ch; }
-.contact__social { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem; }
-.contact__social a {
-  text-decoration: none; color: inherit; font-size: .9rem; font-weight: 500;
-  padding: .5rem 1.1rem; border: 1px solid var(--rule); border-radius: 999px;
-  transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease), border-color var(--speed) var(--ease);
+.contact__mail::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: currentColor; transform: scaleX(0); transform-origin: left;
+  transition: transform .45s var(--ease);
 }
-.contact__social a:hover { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
-
-.form { display: grid; gap: 1rem; }
-.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.field { display: grid; gap: .45rem; }
-.field label { font-size: .8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.field input, .field textarea {
-  background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius-sm);
-  padding: .95rem 1.15rem; resize: vertical;
-  transition: border-color var(--speed) var(--ease);
+.contact__mail:hover::after { transform: scaleX(1); }
+/* one plain line under the mail link instead of a labelled Location/Connect
+   list — the uppercase category labels plus two separate rows were more
+   structure than two short facts needed, and made the block scan slower,
+   not easier. An address is legible as an address and "LinkedIn" as a
+   link without a caption spelling that out. */
+.contact__sub { color: var(--muted); font-size: 1rem; margin-top: 1rem; }
+.contact__sub .contact__sep { margin: 0 .6rem; opacity: .5; }
+.contact__sub a {
+  color: inherit; text-decoration: none; border-bottom: 1px solid var(--rule);
+  padding-bottom: .1rem; transition: border-color var(--speed) var(--ease);
 }
-.field input::placeholder, .field textarea::placeholder { color: color-mix(in srgb, var(--muted) 75%, transparent); }
-.field input:focus, .field textarea:focus { outline: none; border-color: currentColor; }
-.field.has-error input, .field.has-error textarea { border-color: var(--orange); }
-.form__note { min-height: 1.4em; font-size: .92rem; color: var(--muted); }
-.form__note.is-ok { color: var(--primary); }
+.contact__sub a:hover { border-color: currentColor; }
 
 /* ---------- Footer ---------- */
 .footer {
@@ -845,7 +916,7 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   .banner__scroll { width: 84px; align-self: flex-end; }
 
   .stack__item { position: static; }
-  .about, .contact__inner { grid-template-columns: 1fr; }
+  .about { grid-template-columns: 1fr; }
   .approach__grid { max-width: 100%; }
   .about__badge { right: 1rem; bottom: -1rem; }
 
@@ -862,7 +933,7 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 }
 
 @media (max-width: 560px) {
-  .form__row, .numbers__grid, .footer__cols { grid-template-columns: 1fr; }
+  .numbers__grid, .footer__cols { grid-template-columns: 1fr; }
   .btn { width: 100%; justify-content: space-between; }
 }
 

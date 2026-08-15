@@ -599,36 +599,8 @@
     });
   }
 
-  /* ---------- 10. Contact form (front-end only) ---------- */
-  function initForm() {
-    const form = document.getElementById('contactForm');
-    const note = document.getElementById('formNote');
-    if (!form) return;
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const name = form.name.value.trim();
-      const email = form.email.value.trim();
-      const message = form.message.value.trim();
-      const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-      form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
-
-      if (!name || !validEmail || !message) {
-        if (!name) form.name.closest('.field').classList.add('has-error');
-        if (!validEmail) form.email.closest('.field').classList.add('has-error');
-        if (!message) form.message.closest('.field').classList.add('has-error');
-        note.textContent = I18N.t('form.errorNote');
-        note.classList.remove('is-ok');
-        return;
-      }
-
-      // No backend wired up yet — swap this for a fetch() to your endpoint.
-      note.textContent = I18N.t('form.successNote');
-      note.classList.add('is-ok');
-      form.reset();
-    });
-
+  /* ---------- 10. Resume button (placeholder until a real PDF exists) ---------- */
+  function initResumeBtn() {
     document.getElementById('resumeBtn')?.addEventListener('click', e => {
       e.preventDefault();
       alert(I18N.t('misc.resumeAlert'));
@@ -642,7 +614,7 @@
     initSmoothScroll();
     initHeader();
     initTheme();
-    initForm();
+    initResumeBtn();
     initCursor();
     initBand();
     initBandContents();

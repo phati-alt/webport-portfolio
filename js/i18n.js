@@ -127,18 +127,7 @@ const translations = {
     "contact.eyebrow": "Get in touch",
     "contact.title": "Let's create something great together.",
     "contact.desc": "Have a project in mind or just want to say hi? My inbox is always open.",
-
-    "form.labelName": "Name",
-    "form.labelEmail": "Email",
-    "form.labelSubject": "Subject",
-    "form.labelMessage": "Message",
-    "form.placeholderName": "Your name",
-    "form.placeholderEmail": "you@example.com",
-    "form.placeholderSubject": "Project inquiry",
-    "form.placeholderMessage": "Tell me about your project...",
-    "form.sendBtn": "Send Message",
-    "form.errorNote": "Please fill in your name, a valid email, and a message.",
-    "form.successNote": "Thanks for reaching out! I'll get back to you within 1-2 business days.",
+    "contact.wave": "👋 Say hi",
 
     "footer.tagline": "UX/UI & Product Designer based in Bangkok, Thailand.",
     "footer.nowPlaying": "Currently focused on",
@@ -283,18 +272,7 @@ const translations = {
     "contact.eyebrow": "ติดต่อผม",
     "contact.title": "มาสร้างสรรค์สิ่งดี ๆ ไปด้วยกัน",
     "contact.desc": "มีโปรเจกต์ในใจ หรือแค่อยากทักทาย? กล่องข้อความของผมเปิดรับเสมอ",
-
-    "form.labelName": "ชื่อ",
-    "form.labelEmail": "อีเมล",
-    "form.labelSubject": "หัวข้อ",
-    "form.labelMessage": "ข้อความ",
-    "form.placeholderName": "ชื่อของคุณ",
-    "form.placeholderEmail": "you@example.com",
-    "form.placeholderSubject": "สอบถามเกี่ยวกับโปรเจกต์",
-    "form.placeholderMessage": "เล่าเกี่ยวกับโปรเจกต์ของคุณ...",
-    "form.sendBtn": "ส่งข้อความ",
-    "form.errorNote": "กรุณากรอกชื่อ อีเมลที่ถูกต้อง และข้อความ",
-    "form.successNote": "ขอบคุณที่ติดต่อมาครับ! ผมจะตอบกลับภายใน 1-2 วันทำการ",
+    "contact.wave": "👋 ทักทายกันครับ",
 
     "footer.tagline": "UX/UI & Product Designer ประจำกรุงเทพฯ ประเทศไทย",
     "footer.nowPlaying": "ตอนนี้กำลังโฟกัสกับ",
@@ -337,11 +315,6 @@ const I18N = (() => {
       if (value === undefined) return;
       if (el.hasAttribute('data-i18n-html')) el.innerHTML = value;
       else el.textContent = value;
-    });
-
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const value = dict[el.getAttribute('data-i18n-placeholder')];
-      if (value !== undefined) el.setAttribute('placeholder', value);
     });
 
     document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
