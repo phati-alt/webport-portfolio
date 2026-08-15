@@ -108,7 +108,18 @@ body {
   /* four-point star, echoing the reference site's taxonomy icons */
   clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
 }
-.tags--ghost .tag { background: transparent; border: 1px solid currentColor; color: inherit; opacity: .75; }
+/* fully transparent read as blending straight into the card's own colour
+   (worse still once the big background icon sits right behind them too) —
+   a faint currentColor tint gives every ghost tag its own quiet surface
+   regardless of which tone card it's sitting on. Same leading star icon as
+   the opaque .tag elsewhere on the page (Cases section), tying the two
+   tag styles to one visual language instead of the ghost variant being
+   text-only. */
+.tags--ghost .tag {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  border: 1px solid currentColor; color: inherit; opacity: .85;
+}
+.tags--ghost .tag__icon { opacity: .8; }
 
 /* ---------- Header ----------
    Three independent pieces on one row: brand, a floating nav capsule pinned to
@@ -407,15 +418,60 @@ body {
 /* 4c. Sticky stacking service cards */
 .stack { display: flex; flex-direction: column; gap: clamp(1rem, 2vw, 1.5rem); }
 .stack__item { position: sticky; top: calc(var(--header-h) + 2.5vh + var(--i) * 12px); }
+/* was a flat two-column split (number+title on the left, paragraph+tags on
+   the right) with no shadow at all — every card the exact same silhouette
+   sitting flush on the band, so the "stack" only read as a stack from the
+   sticky offset peeking out above each card, and the side-by-side split
+   left the number/title column looking sparse next to the denser one.
+   One top-to-bottom column instead (a plainer, faster read), plus a real
+   drop shadow so each card actually looks like a physical card sitting on
+   top of the one behind it — a small lift on hover sells that further. */
 .stack__card {
-  border-radius: var(--radius); padding: clamp(1.5rem, 3.4vw, 3.75rem);
+  position: relative; overflow: hidden;
+  border-radius: var(--radius); padding: clamp(1.75rem, 3.4vw, 3.5rem);
   min-height: clamp(320px, 42vh, 460px);
-  display: grid; grid-template-columns: 1fr 1.15fr; gap: var(--gap); align-items: start;
+  display: flex; flex-direction: column; justify-content: center; gap: clamp(1.25rem, 2.5vw, 2rem);
+  /* the shadow does most of the "distinct card" work, but a tone whose own
+     luminance sits close to --band (the section behind it) still reads as
+     flat regardless of shadow — see --purple-dark's fix in tokens.css for
+     the color half of this. This faint currentColor rim is the layout-side
+     backstop: every card gets a real edge against the band no matter how
+     close any given tone's luminance ends up being. */
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .35);
+  transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
 }
-.stack__head { display: flex; align-items: baseline; gap: 1rem; }
-.stack__num { font-size: .8rem; font-weight: 600; letter-spacing: .12em; opacity: .65; }
-.stack__title { font-size: clamp(1.6rem, 1rem + 2.2vw, 3.2rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.05; }
-.stack__content p { font-size: var(--fs-lede); max-width: 52ch; opacity: .9; }
+.stack__card:hover { transform: translateY(-6px); box-shadow: 0 40px 70px -25px rgba(0, 0, 0, .4); }
+/* a big faint outline icon sitting behind the content, one per card and
+   matching its subject (compass for strategy, magnifier for research, code
+   brackets for development, a spark for AI, a pen for tools). Sitting
+   mostly inside the card (not bleeding off the corner and getting cropped
+   by overflow:hidden) so the full shape reads clearly instead of a
+   half-cut hint of one — some of these (the compass especially) lost the
+   feature that actually identifies them once half of it was clipped off.
+   currentColor + low opacity so it always sits quietly behind the real
+   content regardless of tone. */
+.stack__icon {
+  position: absolute; right: 1.5%; bottom: 1.5%; z-index: 0;
+  width: clamp(11rem, 23vw, 15rem); height: auto;
+  color: color-mix(in srgb, currentColor 15%, transparent);
+  pointer-events: none;
+}
+.stack__head, .stack__content { position: relative; z-index: 1; }
+.stack__head { display: flex; align-items: center; gap: 1.1rem; }
+/* a circle badge instead of plain small-caps text, matching the numbered
+   nodes already used on the Process rail and Career timeline — currentColor
+   at low opacity means the badge stays legible whether this card's ink is
+   the dark #0d1512 (pastel tones) or white (the two dark tones), without
+   needing a per-tone override. */
+.stack__num {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  font-size: .95rem; font-weight: 600;
+}
+.stack__title { font-size: clamp(1.6rem, 1rem + 2.2vw, 3rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.05; }
+.stack__content p { font-size: var(--fs-lede); max-width: 56ch; opacity: .9; }
 .stack__content .tags { margin-top: 1.5rem; }
 
 /* 4c. About */
@@ -772,9 +828,17 @@ html.no-motion .job__date--current::after { animation: none; opacity: 0; }
   box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .4);
   animation: contact-avatar-float 4.5s ease-in-out infinite;
 }
+/* --paper-2 (not --paper) — the badge otherwise ends up the exact same
+   colour as the page canvas behind it in both themes, leaning entirely on
+   its drop shadow to read as a separate floating chip. That shadow (plain
+   black) does real work in light mode against a white page, but next to
+   nothing in dark mode against an already-near-black canvas — --paper-2 is
+   a theme-aware step off the canvas either way, so the chip has its own
+   contrast regardless of theme instead of depending on a shadow that only
+   works half the time. */
 .contact__avatar-badge {
   position: absolute; right: -.6rem; bottom: -.2rem; z-index: 2;
-  background: var(--paper); border: 1px solid var(--rule); border-radius: 999px;
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px;
   padding: .4rem .9rem; font-size: .85rem; font-weight: 600; white-space: nowrap;
   box-shadow: 0 10px 22px -10px rgba(0, 0, 0, .3);
   transform: rotate(-4deg);
@@ -852,7 +916,6 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1180px) {
-  .stack__card { grid-template-columns: 1fr; }
   .numbers__grid { grid-template-columns: repeat(2, 1fr); row-gap: 2rem; }
   .footer__cols { grid-template-columns: 1fr 1fr; }
 }

@@ -38,14 +38,15 @@
   --pink:        #f5c9cd;   /* pastel tint of status-error */
   --orange:      #d27b00;   /* status-warning, from file */
   --purple:      #c3c6ea;   /* pastel tint of primary-hover */
-  --purple-dark: #4a3b96;   /* deepened + shifted toward violet from the file's
-                                primary-active (#20317e) — that was only barely
-                                distinguishable from --band (both near-black
-                                navy, ~1.7:1 contrast), and dark mode's --band
-                                (#1a1f72) is close enough to the old value that
-                                the card nearly vanished into the section
-                                background there too (~1.2:1). See dark-mode
-                                override below for that half of the fix. */
+  --purple-dark: #7050e0;   /* lightened again from a first pass (#4a3b96) that
+                                fixed the original near-invisible ~1.7:1 contrast
+                                against --band but still only reached ~2.1:1 —
+                                below the ~3:1 WCAG floor for a shape to read as
+                                distinct from what's behind it, so the card still
+                                visibly sank into the band next to the other four
+                                (all 10-14:1). This value clears ~3.6:1 against
+                                --band and ~5.4:1 for white text on top of it.
+                                See dark-mode override below for that half. */
   --yellow:      #f0c987;   /* pastel amber tint (file has no true yellow) */
   --green:       #008a32;   /* status-success, from file */
 
@@ -106,10 +107,11 @@
   --primary-ink: #ffffff;
   --reveal-dim:  #4a5568;   /* generated */
   --band:        #1a1f72;   /* primary-hover, from file — distinct from paper here too */
-  --purple-dark: #6f57c9;   /* the light-mode value reads at only ~1.2:1
-                                contrast against this theme's --band — both
-                                are dark blue-indigo. Brighter + more violet
-                                so the stack card stays visibly a card. */
+  --purple-dark: #7f63d6;   /* same second pass as the light-mode value above —
+                                the first fix (#6f57c9) reached only ~2.6:1
+                                against this theme's --band, still noticeably
+                                weaker than the rest of the tone set. ~3.1:1
+                                against --band and ~4.5:1 for white text now. */
   --wordmark:    #d9dffb;   /* primary-disabled, from file — pale blue pops on dark navy */
   --nav-bg:      rgba(2, 15, 39, .6);
   --nav-ink:     #ffffff;
