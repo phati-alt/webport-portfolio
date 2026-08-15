@@ -92,9 +92,6 @@ body {
 .btn--link .btn__circle { background: transparent; border: 1px solid var(--rule); color: currentColor; }
 .btn--link:hover .btn__circle { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); transform: translateY(3px); }
 .btn--block { width: 100%; justify-content: space-between; }
-.btn--sm { min-height: 44px; padding-left: 1.15rem; font-size: .92rem; }
-.btn--sm .btn__circle { width: 32px; height: 32px; font-size: .85rem; }
-.btn--sm:hover .btn__circle:first-child { width: 32px; }
 
 /* ---------- Tags ----------
    Pill styling modelled on the reference site's c-card-visual__tags-item:
@@ -320,8 +317,21 @@ body {
 .case {
   display: flex; flex-direction: column; flex: 1 1 clamp(320px, 40vw, 520px);
   text-decoration: none; color: inherit;
+  /* .case is also used on <button> for screenshot-only entries that open a
+     lightbox instead of linking to a case-study page (see .case--lightbox) —
+     these reset it back to reading like the <a> version. */
+  border: 0; background: none; padding: 0; font: inherit; text-align: left; cursor: pointer;
 }
 .case.is-hidden { display: none; }
+.case--lightbox { position: relative; }
+.case--lightbox .case__media::after {
+  content: "⤢"; position: absolute; top: .85rem; right: .85rem;
+  width: 2.25rem; height: 2.25rem; border-radius: 50%;
+  display: grid; place-items: center; font-size: 1.1rem;
+  background: rgba(255, 255, 255, .85); color: #0d1512;
+  opacity: 0; transform: scale(.85); transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.case--lightbox:hover .case__media::after { opacity: 1; transform: scale(1); }
 .case__frame { display: flex; flex-direction: column; flex: 1; }
 .case__media {
   border-radius: var(--radius); overflow: hidden; position: relative;
@@ -334,7 +344,31 @@ body {
 .case:hover .case__media img { transform: scale(1.06); }
 .case__body { padding-top: 1.35rem; flex: 1; display: flex; flex-direction: column; }
 .case__title { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
-.case__desc { color: var(--muted); margin-top: .5rem; max-width: 44ch; }
+
+/* Lightbox — full-screen preview for .case--lightbox entries (screenshot
+   only, no case-study page to link to). One shared overlay, built once by
+   initLightbox() in main.js and reused for every trigger on the page. */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  display: grid; place-items: center; padding: clamp(1.5rem, 5vw, 4rem);
+  background: rgba(2, 6, 12, .92);
+  opacity: 0; visibility: hidden; transition: opacity .3s var(--ease), visibility 0s linear .3s;
+}
+.lightbox.is-open { opacity: 1; visibility: visible; transition: opacity .3s var(--ease); }
+.lightbox__img {
+  max-width: 100%; max-height: 100%; border-radius: var(--radius-sm);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+  transform: scale(.96); transition: transform .3s var(--ease);
+}
+.lightbox.is-open .lightbox__img { transform: scale(1); }
+.lightbox__close {
+  position: absolute; top: clamp(1rem, 3vw, 2rem); right: clamp(1rem, 3vw, 2rem);
+  width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; font-size: 1.5rem; line-height: 1;
+  background: rgba(255, 255, 255, .12); color: #fff;
+  transition: background-color var(--speed) var(--ease);
+}
+.lightbox__close:hover { background: rgba(255, 255, 255, .22); }
 
 /* colour blocks, shared by cases / media blocks / tiles / cards */
 [data-tone="blue"]        { background: var(--blue);        color: #0d1512; }
@@ -344,7 +378,6 @@ body {
 [data-tone="yellow"]      { background: var(--yellow);      color: #0d1512; }
 [data-tone="green"]       { background: var(--green);       color: var(--band-ink); }
 [data-tone="purple-dark"] { background: var(--purple-dark); color: var(--band-ink); }
-[data-tone="green"] .case__index, [data-tone="purple-dark"] .case__index { color: rgba(253, 246, 238, .3); mix-blend-mode: normal; }
 
 /* ---------- 4. Green band ---------- */
 .band { position: relative; }
@@ -406,7 +439,7 @@ body {
   font-size: var(--fs-h2); font-weight: 600; letter-spacing: -.03em; line-height: 1.05;
 }
 
-/* 4b. Sticky stacking service cards */
+/* 4c. Sticky stacking service cards */
 .stack { display: flex; flex-direction: column; gap: clamp(1rem, 2vw, 1.5rem); }
 .stack__item { position: sticky; top: calc(var(--header-h) + 2.5vh + var(--i) * 12px); }
 .stack__card {
@@ -435,8 +468,7 @@ body {
 }
 /* stats block, moved in from the old standalone Numbers section */
 .about__numbers { grid-column: 1 / -1; order: 3; margin-top: clamp(2.5rem, 6vw, 5rem); }
-.about__media { order: 2; }
-.about__media { position: relative; }
+.about__media { order: 2; position: relative; }
 .about__media-frame { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 5; background: var(--paper-2); }
 .about__media-frame img { position: absolute; top: -18%; left: 0; width: 100%; height: 136%; object-fit: cover; }
 .about__badge {
@@ -462,30 +494,84 @@ body {
   font-size: clamp(1rem, 1.4vw, 1.6rem); letter-spacing: -.01em;
 }
 
-/* Bigger cards: taller media block (was 16:9), roomier body and type.
-   Horizontal-scroll row — plain CSS overflow-x, no JS/ScrollTrigger
-   involved (the Cases section went through several rounds of exactly that
-   causing bugs; this reuses the lesson without the pin). */
-.grid-cards {
-  display: flex; gap: var(--gap);
+/* Process rail — a connected, non-linear sequence rather than boxed cards.
+   Desktop: 4 steps in a row on one horizontal line that draws in with
+   scroll (clip-path, same technique as the Experience timeline's vertical
+   fill — see initTimelineFill in main.js and initRail below it). */
+.rail__track {
+  position: relative;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
   margin-top: clamp(3rem, 6vw, 6rem);
-  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
-  scroll-snap-type: x proximity; padding-bottom: .5rem;
 }
-.grid-cards::-webkit-scrollbar { display: none; }
-.card {
-  flex: 0 0 clamp(260px, 24vw, 360px); scroll-snap-align: start;
-  border-radius: var(--radius); overflow: hidden; background: var(--paper);
-  box-shadow: 0 1px 2px rgba(13, 21, 18, .06);
-  display: flex; flex-direction: column;
-  transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+.rail__line {
+  position: absolute; left: 0; right: 0; top: 26px; height: 2px;
+  background: var(--rule); overflow: hidden; z-index: 0;
 }
-.card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(13, 21, 18, .12); }
-.card__media { aspect-ratio: 4 / 3; display: grid; place-items: center; }
-.card__num { font-size: clamp(2.4rem, 4.5vw, 3.75rem); font-weight: 600; letter-spacing: -.04em; opacity: .55; }
-.card__body { padding: clamp(1.5rem, 2.2vw, 2.25rem); }
-.card__body h3 { font-size: clamp(1.3rem, 1vw + 1rem, 1.7rem); font-weight: 600; letter-spacing: -.02em; }
-.card__body p { color: var(--muted); margin-top: .6rem; font-size: 1.02rem; }
+.rail__line-fill {
+  position: absolute; inset: 0; background: var(--primary);
+  clip-path: inset(0 100% 0 0);   /* JS scrubs this to inset(0 0% 0 0) */
+}
+.rail__step { position: relative; z-index: 1; display: flex; flex-direction: column; gap: .9rem; }
+.rail__node {
+  width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+  display: grid; place-items: center;
+  background: var(--paper); border: 2px solid var(--rule);
+  transition: border-color var(--speed) var(--ease), background-color var(--speed) var(--ease);
+}
+.rail__num { font-weight: 600; font-size: .95rem; letter-spacing: -.01em; color: var(--muted); transition: color var(--speed) var(--ease); }
+/* lit up as the line-fill reaches this step — toggled by initRail's scrub onUpdate */
+.rail__step.is-lit .rail__node { border-color: var(--primary); background: var(--primary); }
+.rail__step.is-lit .rail__num { color: var(--primary-ink); }
+.rail__title { font-size: clamp(1.3rem, 1vw + 1rem, 1.7rem); font-weight: 600; letter-spacing: -.02em; }
+.rail__desc { color: var(--muted); font-size: 1rem; line-height: 1.55; }
+
+/* the "why one step leads to the next" notes — not aligned to specific
+   gaps (fragile across breakpoints); read as one flowing sentence instead */
+.rail__flow {
+  list-style: none; margin: clamp(2rem, 4vw, 3.5rem) 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center;
+  gap: .4rem 1.4rem; text-align: center;
+}
+.rail__flow li {
+  position: relative; color: var(--muted); font-size: .95rem; font-style: italic;
+  padding-right: 1.4rem;
+}
+.rail__flow li:not(:last-child)::after {
+  content: "→"; position: absolute; right: 0; top: 0; font-style: normal; color: var(--rule);
+}
+
+/* the loop back to Discover — the one deliberately non-linear beat */
+.rail__loop {
+  margin-top: clamp(3rem, 6vw, 5rem);
+  display: flex; flex-direction: column; align-items: center; gap: 1.1rem;
+  text-align: center;
+}
+.rail__loop-svg { width: min(520px, 78%); height: auto; overflow: visible; }
+.rail__loop-path {
+  fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: round;
+  /* pathLength="100" on the element normalizes its length to 100 units
+     regardless of the actual curve geometry — dasharray/dashoffset can
+     then just be plain round numbers. (First tried pathLength="1" with a
+     0-to-1 dashoffset range: browsers round stroke-dashoffset to the
+     nearest integer pixel when read back, which collapsed that whole
+     range to only two visible states — a hard jump at ~0.5 instead of a
+     scrub. 100 units spreads it across enough integers to scrub smoothly.) */
+  stroke-dasharray: 100; stroke-dashoffset: 100;   /* JS scrubs dashoffset to 0 */
+}
+.rail__loop-arrow { fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+.rail__loop.is-drawn .rail__loop-arrow { opacity: 1; transition: opacity .3s var(--ease) .1s; }
+.rail__loop-text { color: var(--muted); font-size: .95rem; font-style: italic; max-width: 46ch; }
+
+@media (max-width: 56.25em) {
+  /* steps stack (still node-above-title, just the track runs vertically
+     instead of as a row) and the line becomes a plain static rule down the
+     left, through each node's centre — the scrubbed fill is a
+     desktop-row-specific effect, not worth reworking for a vertical stack */
+  .rail__track { grid-template-columns: 1fr; gap: 2.5rem; }
+  .rail__line { left: 26px; top: 0; right: auto; bottom: 0; width: 2px; height: auto; }
+  .rail__line-fill { clip-path: none; }
+}
 
 /* ---------- 6. Numbers (now embedded inside the About section) ---------- */
 .numbers__grid {
@@ -518,15 +604,21 @@ body {
    (positioned here via calc) always lines up with the dots (positioned
    by the grid in .job) — a fixed date-column width instead of max-content
    is what makes that calc possible. */
+/* Restyled to read as the same "rail" language as the Process section
+   above (.rail__node / .rail__line-fill in this same file) — a numbered
+   node lighting up as the connecting line reaches it, plain typography
+   instead of a bordered/filled card. Career is genuinely chronological
+   (no loop-back beat like Process got), so the shared idea here is just
+   the connected-line-with-lighting-nodes visual, not the non-linear one. */
 .timeline {
-  --date-col: clamp(140px, 14vw, 190px); --dot-col: 28px;
+  --date-col: clamp(140px, 14vw, 190px); --dot-col: 52px;
   --job-gap: clamp(1.25rem, 3vw, 3rem);
-  position: relative; display: grid; gap: clamp(2rem, 4vw, 3.5rem);
+  position: relative; display: grid; gap: clamp(2.5rem, 5vw, 4.5rem);
 }
 .timeline__line {
   position: absolute;
   left: calc(var(--date-col) + var(--job-gap) + var(--dot-col) / 2);
-  top: 0; bottom: 0; width: 2px;
+  top: 26px; bottom: 26px; width: 2px;
   background: var(--rule); transform: translateX(-50%); z-index: 0;
   overflow: hidden;
 }
@@ -556,11 +648,17 @@ body {
 .job__side--date { display: flex; justify-content: flex-end; }
 .job__side--date:last-child { justify-content: flex-start; }
 .job__dot {
-  grid-column: 2; justify-self: center; margin-top: .3rem;
-  width: 14px; height: 14px; border-radius: 50%;
-  background: var(--primary); border: 4px solid var(--paper);
+  grid-column: 2; justify-self: center;
+  width: 52px; height: 52px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--paper); border: 2px solid var(--rule);
   position: relative; z-index: 1;
+  transition: border-color var(--speed) var(--ease), background-color var(--speed) var(--ease);
 }
+.job__dot-num { font-weight: 600; font-size: .95rem; color: var(--muted); transition: color var(--speed) var(--ease); }
+/* lit up as the line-fill reaches this entry — toggled by initTimelineFill's scrub onUpdate */
+.job.is-lit .job__dot { border-color: var(--primary); background: var(--primary); }
+.job.is-lit .job__dot-num { color: var(--primary-ink); }
 .job__side--date:first-child { grid-column: 1; }
 .job__side--card:first-child { grid-column: 1; }
 .job__side--date:last-child { grid-column: 3; }
@@ -569,15 +667,27 @@ body {
   display: inline-block; font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
   padding: .4rem .9rem; border-radius: 999px; border: 1px solid var(--rule); white-space: nowrap;
 }
-.job__card { border-radius: var(--radius); border: 1px solid var(--rule); padding: clamp(1.35rem, 2.6vw, 2.5rem); background: var(--paper-2); }
-.job__card h3 { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -.02em; }
+/* the current role gets a small live-pulse dot instead of just saying "Present" */
+.job__date--current { position: relative; padding-left: 1.7rem; border-color: var(--primary); color: var(--primary); }
+.job__date--current::before,
+.job__date--current::after {
+  content: ""; position: absolute; left: .75rem; top: 50%; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--primary); transform: translateY(-50%);
+}
+.job__date--current::after { animation: job-pulse 2s ease-out infinite; }
+html.no-motion .job__date--current::after { animation: none; opacity: 0; }
+@keyframes job-pulse {
+  0%   { opacity: .55; transform: translateY(-50%) scale(1); }
+  100% { opacity: 0;   transform: translateY(-50%) scale(3.2); }
+}
+.job__card h3 { font-size: clamp(1.3rem, 1vw + 1rem, 1.7rem); font-weight: 600; letter-spacing: -.02em; }
 .job__company { color: var(--muted); margin-top: .3rem; }
 .job__group { margin-top: 1.5rem; }
 .job__group h4 { font-size: .85rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
 .job__card > ul { display: grid; gap: .6rem; margin-top: 1.25rem; }
 .job__group ul { display: grid; gap: .6rem; margin-top: 0; }
 .job__card li { display: flex; gap: .75rem; color: var(--muted); }
-.job__card li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); margin-top: .62em; }
+.job__card li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); margin-top: .62em; }
 
 /* ---------- 9. CTA block ---------- */
 /* ---------- 10. Contact ---------- */
@@ -615,8 +725,8 @@ body {
 .form__note.is-ok { color: var(--primary); }
 
 /* ---------- Footer ---------- */
-.footer { background: var(--band); color: var(--band-ink); padding-block: clamp(2.5rem, 5vw, 5rem); }
 .footer {
+  background: var(--band); color: var(--band-ink); padding-block: clamp(2.5rem, 5vw, 5rem);
   --ink: var(--band-ink);
   --muted: rgba(253, 246, 238, .7);
   --rule: rgba(253, 246, 238, .22);
@@ -645,6 +755,9 @@ body {
 /* ---------- Reveal base state (JS-gated) ---------- */
 html.js [data-reveal] { opacity: 0; transform: translateY(38px); }
 html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
+/* Lightbox open — Lenis is stopped too, but this covers native scroll
+   (reduced-motion, or before Lenis has initialized). */
+html.no-scroll { overflow: hidden; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1180px) {
@@ -688,11 +801,11 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   .approach__grid { max-width: 100%; }
   .about__badge { right: 1rem; bottom: -1rem; }
 
-  /* timeline collapses to one column: line + dots on the left, every
+  /* timeline collapses to one column: line + nodes on the left, every
      .job__side stacks in document order regardless of which side it was */
-  .timeline__line { left: 6px; transform: none; }
-  .job { grid-template-columns: 14px 1fr; column-gap: 1rem; }
-  .job__dot { grid-column: 1; margin-top: .35rem; }
+  .timeline__line { left: 26px; transform: none; }
+  .job { grid-template-columns: 52px 1fr; column-gap: 1rem; }
+  .job__dot { grid-column: 1; }
   .job__side--date:first-child,
   .job__side--card:first-child,
   .job__side--date:last-child,
@@ -703,7 +816,6 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 @media (max-width: 560px) {
   .form__row, .numbers__grid, .footer__cols { grid-template-columns: 1fr; }
   .btn { width: 100%; justify-content: space-between; }
-  .btn--sm { width: auto; }
 }
 
 /* ---------- Case study pages (work/*.html) ----------
