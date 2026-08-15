@@ -37,7 +37,7 @@
 </div>
 
 <!-- ===== Header ===== -->
-<header class="header" id="header" data-header>
+<header class="header" id="header">
   <a href="#home" class="header__logo">
     <span class="header__logo-mark"><img src="assets/avatar-icon.png" alt="Mick Yuttana"></span>
     <span class="header__logo-text">Mick Yuttana</span>
@@ -45,8 +45,8 @@
 
   <nav class="header__nav" id="nav">
     <a href="#work" class="header__link" data-i18n="nav.work">Work</a>
-    <a href="#services" class="header__link" data-i18n="nav.services">Services</a>
     <a href="#about" class="header__link" data-i18n="nav.about">About</a>
+    <a href="#services" class="header__link" data-i18n="nav.services">Services</a>
     <a href="#process" class="header__link" data-i18n="nav.process">Process</a>
     <a href="#experience" class="header__link" data-i18n="nav.experience">Experience</a>
     <a href="#contact" class="header__link" data-i18n="nav.contact">Contact</a>
@@ -102,7 +102,7 @@
         </a>
       </div>
 
-      <a href="#intro" class="banner__scroll" aria-label="Scroll down">
+      <a href="#intro" class="banner__scroll" aria-label="Scroll down" data-i18n-aria-label="hero.scroll">
         <svg class="circle-text" viewBox="0 0 100 100" aria-hidden="true">
           <defs><path id="scrollRing" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"></path></defs>
           <text><textPath href="#scrollRing">SCROLL DOWN&nbsp;•&nbsp;SCROLL DOWN&nbsp;•&nbsp;</textPath></text>
@@ -129,22 +129,20 @@
   <!-- ===== 3. Work — masonry grid with hover circle ===== -->
   <section class="cases" id="work">
     <div class="wrap">
-      <div class="cases__pin" data-cases-pin>
-        <header class="section-head section-head--center" data-reveal>
-          <p class="pretitle" data-i18n="work.eyebrow">Cases</p>
-          <h2 class="section-title" data-i18n="work.title">Results for products that hold up</h2>
-        </header>
+      <header class="section-head section-head--center" data-reveal>
+        <p class="pretitle" data-i18n="work.eyebrow">Cases</p>
+        <h2 class="section-title" data-i18n="work.title">Results for products that hold up</h2>
+      </header>
 
-        <!-- 6 real projects (Mobile Application has 2). hrefs use all 6 built
-             template pages until each project gets its own page. Plain
-             wrapping row, no horizontal scroll (see .cases__grid in
-             style.css). All .case__media share the same 4:3 ratio, image
-             cropped via object-fit — uniform card size regardless of each
-             screenshot's original dimensions. -->
-        <div class="cases__scroller" data-cases-scroller>
-        <div class="cases__grid" id="casesGrid">
+      <!-- 6 real projects (Mobile Application has 2). hrefs use all 6 built
+           template pages until each project gets its own page. Plain
+           wrapping row, no horizontal scroll (see .cases__grid in
+           style.css). All .case__media share the same 4:3 ratio, image
+           cropped via object-fit — uniform card size regardless of each
+           screenshot's original dimensions. -->
+      <div class="cases__grid" id="casesGrid">
 
-        <a class="case" href="work/finza.html" data-category="government" data-reveal data-hover-case>
+        <a class="case" href="work/finza.html" data-reveal data-hover-case>
           <div class="case__frame">
             <div class="case__media"><img src="assets/work/government.png" alt="Government groundwater monitoring dashboard" loading="lazy"></div>
             <div class="case__body">
@@ -158,7 +156,7 @@
           </div>
         </a>
 
-        <a class="case" href="work/lumen.html" data-category="platform" data-reveal data-hover-case>
+        <a class="case" href="work/lumen.html" data-reveal data-hover-case>
           <div class="case__frame">
             <div class="case__media"><img src="assets/work/platform.png" alt="Platform product dashboard" loading="lazy"></div>
             <div class="case__body">
@@ -172,7 +170,7 @@
           </div>
         </a>
 
-        <a class="case" href="work/nomly.html" data-category="mobile-application" data-reveal data-hover-case>
+        <a class="case" href="work/nomly.html" data-reveal data-hover-case>
           <div class="case__frame">
             <div class="case__media"><img src="assets/work/mobile-1.png" alt="Mobile application screens" loading="lazy"></div>
             <div class="case__body">
@@ -186,7 +184,7 @@
           </div>
         </a>
 
-        <a class="case" href="work/wanderly.html" data-category="mobile-application" data-reveal data-hover-case>
+        <a class="case" href="work/wanderly.html" data-reveal data-hover-case>
           <div class="case__frame">
             <div class="case__media"><img src="assets/work/mobile-2.png" alt="Mobile application screens" loading="lazy"></div>
             <div class="case__body">
@@ -200,7 +198,7 @@
           </div>
         </a>
 
-        <a class="case" href="work/vitalis.html" data-category="custom-dashboard" data-reveal data-hover-case>
+        <a class="case" href="work/vitalis.html" data-reveal data-hover-case>
           <div class="case__frame">
             <div class="case__media"><img src="assets/work/custom-dashboard.png" alt="Custom IoT monitoring dashboard" loading="lazy"></div>
             <div class="case__body">
@@ -214,7 +212,7 @@
           </div>
         </a>
 
-        <a class="case" href="work/orbit.html" data-category="wordpress" data-reveal data-hover-case>
+        <a class="case" href="work/orbit.html" data-reveal data-hover-case>
           <div class="case__frame">
             <div class="case__media"><img src="assets/work/wordpress.png" alt="WordPress website" loading="lazy"></div>
             <div class="case__body">
@@ -228,15 +226,12 @@
           </div>
         </a>
 
-        </div>
-        </div>
       </div>
-
     </div>
   </section>
 
   <!-- ===== 4. Green band: circle grows open, then services + about ===== -->
-  <section class="band" id="services">
+  <section class="band">
     <div class="band__circle" aria-hidden="true" data-band-circle>
       <div class="band__circle-inner" data-band-circle-item></div>
     </div>
@@ -277,14 +272,15 @@
         </div>
       </div>
 
-      <!-- 4b. Scroll title + media -->
-      <div class="wrap scroll-title" data-scroll-title>
+      <!-- 4b. Scroll title — "Services" nav anchor lands here, not on the
+           band's own top (which is About, see 4a above) -->
+      <div class="wrap scroll-title" id="services">
         <h2 class="scroll-title__1" data-i18n="services.titleInline">From strategy to handover</h2>
       </div>
 
-      <!-- 4b. Services — sticky stacking cards -->
+      <!-- 4c. Services — sticky stacking cards -->
       <div class="wrap wrap--wide">
-        <div class="stack" data-stack>
+        <div class="stack">
 
           <article class="stack__item" style="--i:0">
             <div class="stack__card" data-tone="blue">
@@ -357,7 +353,7 @@
     </div>
   </section>
 
-  <!-- ===== 5. Approach — text + two media ===== -->
+  <!-- ===== 5. Approach — "How I work" process rail ===== -->
   <section class="approach" id="process">
     <div class="wrap wrap--wide approach__grid">
       <div class="approach__content" data-reveal>
@@ -369,41 +365,60 @@
       </div>
     </div>
 
+    <!-- Process rail — replaces the old horizontal-scroll cards. Steps sit
+         on a single connecting line that draws in with scroll (same
+         clip-path technique as the Experience timeline, just horizontal),
+         each node lighting up as the line reaches it. The process isn't
+         actually a straight line in practice, so that's said explicitly:
+         short "why this leads to the next step" notes under the rail, and
+         a looping arrow back to Discover at the end — real feedback loops
+         (a user test reopening the problem, a build constraint sending a
+         screen back to Define), not just four boxes in a row. -->
     <div class="wrap wrap--wide">
-      <div class="grid-cards" data-process-cards>
-        <article class="card" data-hover>
-          <div class="card__media" data-tone="pink"><span class="card__num">01</span></div>
-          <div class="card__body">
-            <h3 data-i18n="process.step1.title">Discover</h3>
-            <p data-i18n="process.step1.desc">Understand the business goals, users, and constraints through research and stakeholder interviews.</p>
+      <div class="rail">
+        <div class="rail__track" data-rail-track>
+          <div class="rail__line" aria-hidden="true"><div class="rail__line-fill" data-rail-fill></div></div>
+
+          <div class="rail__step" data-rail-step>
+            <span class="rail__node"><span class="rail__num">01</span></span>
+            <h3 class="rail__title" data-i18n="process.step1.title">Discover</h3>
+            <p class="rail__desc" data-i18n="process.step1.desc">Understand the business goals, users, and constraints through research and stakeholder interviews.</p>
           </div>
-        </article>
-        <article class="card" data-hover>
-          <div class="card__media" data-tone="blue"><span class="card__num">02</span></div>
-          <div class="card__body">
-            <h3 data-i18n="process.step2.title">Define</h3>
-            <p data-i18n="process.step2.desc">Synthesize findings into clear problem statements, user flows, and information architecture.</p>
+          <div class="rail__step" data-rail-step>
+            <span class="rail__node"><span class="rail__num">02</span></span>
+            <h3 class="rail__title" data-i18n="process.step2.title">Define</h3>
+            <p class="rail__desc" data-i18n="process.step2.desc">Synthesize findings into clear problem statements, user flows, and information architecture.</p>
           </div>
-        </article>
-        <article class="card" data-hover>
-          <div class="card__media" data-tone="yellow"><span class="card__num">03</span></div>
-          <div class="card__body">
-            <h3 data-i18n="process.step3.title">Design</h3>
-            <p data-i18n="process.step3.desc">Explore wireframes and visual concepts, then refine into high-fidelity, testable prototypes.</p>
+          <div class="rail__step" data-rail-step>
+            <span class="rail__node"><span class="rail__num">03</span></span>
+            <h3 class="rail__title" data-i18n="process.step3.title">Design</h3>
+            <p class="rail__desc" data-i18n="process.step3.desc">Explore wireframes and visual concepts, then refine into high-fidelity, testable prototypes.</p>
           </div>
-        </article>
-        <article class="card" data-hover>
-          <div class="card__media" data-tone="orange"><span class="card__num">04</span></div>
-          <div class="card__body">
-            <h3 data-i18n="process.step4.title">Deliver</h3>
-            <p data-i18n="process.step4.desc">Test with real users, iterate, and hand off polished, developer-ready designs.</p>
+          <div class="rail__step" data-rail-step>
+            <span class="rail__node"><span class="rail__num">04</span></span>
+            <h3 class="rail__title" data-i18n="process.step4.title">Deliver</h3>
+            <p class="rail__desc" data-i18n="process.step4.desc">Test with real users, iterate, and hand off polished, developer-ready designs.</p>
           </div>
-        </article>
+        </div>
+
+        <ul class="rail__flow">
+          <li data-i18n="process.flow1">Research uncovers the real problem worth solving</li>
+          <li data-i18n="process.flow2">A sharp problem statement shapes what gets designed</li>
+          <li data-i18n="process.flow3">Prototypes get tested before anything ships</li>
+        </ul>
+
+        <div class="rail__loop" data-rail-loop>
+          <svg class="rail__loop-svg" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true">
+            <path class="rail__loop-path" data-rail-loop-path pathLength="100" d="M 96 4 C 60 34, 40 34, 5 5" />
+            <path class="rail__loop-arrow" data-rail-loop-arrow d="M 12 2 L 4 5 L 8 12" />
+          </svg>
+          <p class="rail__loop-text" data-i18n="process.loop">Feedback after launch often sends me back to Discover — the process rarely runs in a straight line.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 7. Marquee — tools ===== -->
+  <!-- ===== 6. Marquee — tools ===== -->
   <section class="marquee-section">
     <div class="wrap">
       <p class="pretitle" data-reveal data-i18n="tools.pretitle">Toolbox</p>
@@ -437,7 +452,7 @@
     </div>
   </section>
 
-  <!-- ===== 8. Experience ===== -->
+  <!-- ===== 7. Experience — Career rail ===== -->
   <section class="experience" id="experience">
     <div class="wrap wrap--wide">
       <header class="section-head" data-reveal>
@@ -456,9 +471,9 @@
 
         <article class="job" data-reveal>
           <div class="job__side job__side--date">
-            <span class="job__date" data-i18n="experience.job1.date">Nov 2022 – Present</span>
+            <span class="job__date job__date--current" data-i18n="experience.job1.date">Nov 2022 – Present</span>
           </div>
-          <span class="job__dot" aria-hidden="true"></span>
+          <span class="job__dot" aria-hidden="true"><span class="job__dot-num">01</span></span>
           <div class="job__side job__side--card">
             <div class="job__card">
               <h3 data-i18n="experience.job1.role">UX/UI Designer</h3>
@@ -494,7 +509,7 @@
           <div class="job__side job__side--date">
             <span class="job__date" data-i18n="experience.job2.date">Apr 2022 – Aug 2022</span>
           </div>
-          <span class="job__dot" aria-hidden="true"></span>
+          <span class="job__dot" aria-hidden="true"><span class="job__dot-num">02</span></span>
           <div class="job__side job__side--card">
             <div class="job__card">
               <h3 data-i18n="experience.job2.role">UI Designer</h3>
@@ -511,7 +526,7 @@
           <div class="job__side job__side--date">
             <span class="job__date" data-i18n="experience.job3.date">Nov 2021 – Mar 2022</span>
           </div>
-          <span class="job__dot" aria-hidden="true"></span>
+          <span class="job__dot" aria-hidden="true"><span class="job__dot-num">03</span></span>
           <div class="job__side job__side--card">
             <div class="job__card">
               <h3 data-i18n="experience.job3.role">UI Designer (Internship)</h3>
@@ -526,7 +541,7 @@
     </div>
   </section>
 
-  <!-- ===== 9. Contact (heading absorbs the old standalone CTA block —
+  <!-- ===== 8. Contact (heading absorbs the old standalone CTA block —
        it linked to this same section right below it, so the two were
        saying the same thing twice) ===== -->
   <section class="contact" id="contact">
@@ -593,8 +608,8 @@
 
     <nav class="footer__col footer__nav" aria-label="Footer">
       <a href="#work" data-i18n="nav.work">Work</a>
-      <a href="#services" data-i18n="nav.services">Services</a>
       <a href="#about" data-i18n="nav.about">About</a>
+      <a href="#services" data-i18n="nav.services">Services</a>
       <a href="#process" data-i18n="nav.process">Process</a>
       <a href="#experience" data-i18n="nav.experience">Experience</a>
       <a href="#contact" data-i18n="nav.contact">Contact</a>

@@ -212,39 +212,106 @@
     items.forEach(el => {
       gsap.to(el, {
         opacity: 1, y: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+        // Not once:true — see the long comment on the same tradeoff in
+        // initRail below. toggleActions defaults to 'play none none none',
+        // so this still only *animates* once per downward pass; it just
+        // doesn't permanently self-kill if that pass happens to land on a
+        // stale trigger position.
+        scrollTrigger: { trigger: el, start: 'top 88%' }
       });
     });
   }
 
-  /* ---------- 3b. Process cards: staggered entrance ----------
-     Replaces the generic data-reveal on these 4 cards so they read as one
-     connected sequence instead of fading in independently. */
-  function initProcessTimeline() {
-    const cards = gsap.utils.toArray('[data-process-cards] .card');
-    if (!MOTION || !cards.length) return;
+  /* ---------- 3b. Process rail: staggered entrance + scroll-drawn line ----------
+     Replaces the old horizontal-scroll cards. Steps fade in as one
+     connected sequence, the line between them draws in with scroll
+     (clip-path — same technique as the Experience timeline, see
+     initTimelineFill below), and each node lights up as the line reaches
+     it. Finishes with a small looping arrow back to step one, drawn the
+     same way, making the "this isn't actually linear" point visually. */
+  function initRail() {
+    const track = document.querySelector('[data-rail-track]');
+    const fill = document.querySelector('[data-rail-fill]');
+    const steps = gsap.utils.toArray('[data-rail-step]');
+    if (!MOTION || !track || !fill || !steps.length) return;
 
-    gsap.fromTo(cards, { opacity: 0, y: 40 }, {
-      opacity: 1, y: 0, duration: .8, ease: 'power3.out', stagger: .15,
-      scrollTrigger: { trigger: '[data-process-cards]', start: 'top 85%', once: true }
+    // Not once:true — a web-font swap partway through page load can
+    // resize the SplitText-driven intro paragraph above this section
+    // (SplitText's autoSplit watches its own elements via ResizeObserver
+    // and silently re-splits/reflows whenever they resize), which shifts
+    // every ScrollTrigger position below it on the page. If that reflow
+    // lands in the narrow window between this trigger firing and the
+    // later fonts.ready-triggered refresh correcting things, a once:true
+    // trigger fires — and immediately self-kills — against a stale
+    // position, and no later refresh can revive it: these steps stayed
+    // permanently invisible. Dropping once:true removes that failure mode
+    // entirely (toggleActions still defaults to 'play none none none', so
+    // this only *animates* once per downward pass regardless).
+    gsap.fromTo(steps, { opacity: 0, y: 30 }, {
+      opacity: 1, y: 0, duration: .7, ease: 'power3.out', stagger: .12,
+      scrollTrigger: { trigger: track, start: 'top 85%' }
     });
+
+    // The line-fill + node-lighting only make sense in the side-by-side row
+    // layout — the sub-56.25em breakpoint stacks steps into a column with a
+    // plain static line instead (see style.css), so there's nothing to scrub.
+    if (window.matchMedia('(min-width: 56.26em)').matches) {
+      gsap.fromTo(fill,
+        { clipPath: 'inset(0 100% 0 0)' },
+        {
+          clipPath: 'inset(0 0% 0 0)', ease: 'none',
+          scrollTrigger: {
+            trigger: track, start: 'top 70%', end: 'bottom 60%', scrub: true,
+            onUpdate: self => {
+              const lit = Math.ceil(self.progress * steps.length);
+              steps.forEach((step, i) => step.classList.toggle('is-lit', i < lit));
+            }
+          }
+        }
+      );
+    }
+
+    const loop = document.querySelector('[data-rail-loop]');
+    const loopPath = document.querySelector('[data-rail-loop-path]');
+    if (loop && loopPath) {
+      gsap.fromTo(loopPath,
+        { strokeDashoffset: 100 },
+        {
+          strokeDashoffset: 0, ease: 'none',
+          scrollTrigger: {
+            trigger: loop, start: 'top 85%', end: 'bottom 65%', scrub: true,
+            onUpdate: self => loop.classList.toggle('is-drawn', self.progress > .9)
+          }
+        }
+      );
+    }
   }
 
   /* ---------- 3b2. Experience timeline: line draws in with scroll ----------
      Not pinned — the fill just scrubs from 0 to full height as the
      timeline passes through the viewport. Uses clip-path (not
      transform: scaleY) — the same reveal technique as the band's
-     iris-open circle, which is proven to render correctly everywhere. */
+     iris-open circle, which is proven to render correctly everywhere.
+     Each entry's node lights up as the fill reaches it — same mechanic as
+     the Process rail above (initRail), reused here for a consistent feel
+     between the two "connected line" sections. */
   function initTimelineFill() {
     const timeline = document.querySelector('[data-timeline]');
     const fill = document.querySelector('[data-timeline-fill]');
+    const jobs = gsap.utils.toArray('[data-timeline] .job');
     if (!MOTION || !timeline || !fill) return;
 
     gsap.fromTo(fill,
       { clipPath: 'inset(0 0 100% 0)' },
       {
         clipPath: 'inset(0 0 0% 0)', ease: 'none',
-        scrollTrigger: { trigger: timeline, start: 'top 75%', end: 'bottom 75%', scrub: true }
+        scrollTrigger: {
+          trigger: timeline, start: 'top 75%', end: 'bottom 75%', scrub: true,
+          onUpdate: self => {
+            const lit = Math.ceil(self.progress * jobs.length);
+            jobs.forEach((job, i) => job.classList.toggle('is-lit', i < lit));
+          }
+        }
       }
     );
   }
@@ -300,15 +367,23 @@
       loop.totalProgress(0.5);
       loop.timeScale(base);
 
-      // onUpdate fires on ~every scroll frame while this trigger is active —
-      // spawning a tween in there was allocating a new GSAP tween 60x/sec
-      // during scroll (that's the jank). Only react when direction flips.
+      // Used to pause the loop via ScrollTrigger's onToggle while the
+      // marquee was off-screen (a GPU/battery micro-optimization) and only
+      // play() it once back in view. Reported not animating at all for at
+      // least one real user with no console error and otherwise-normal
+      // layout — nothing here reproduces the failure, but the play/pause
+      // gate is the only thing that could keep it sitting at a paused
+      // frame indefinitely, so it's removed: the loop now just always
+      // plays, like it does everywhere else in the boot() sequence that
+      // doesn't bother gating on visibility. Keep reversing direction to
+      // match scroll direction (harmless, and only reacts on an actual
+      // flip, not every scroll frame, so it isn't the jank the original
+      // comment here was about).
       let lastDirection = 1;
       ScrollTrigger.create({
         trigger: el,
         start: 'top bottom',
         end: 'bottom top',
-        onToggle: self => (self.isActive ? loop.play() : loop.pause()),
         onUpdate: self => {
           if (self.direction === lastDirection) return;
           lastDirection = self.direction;
@@ -356,10 +431,13 @@
     if (!MOTION) return;
 
     // Service cards ride up into their sticky slot as they enter.
+    // Not once:true — see the long comment on this same tradeoff in
+    // initRail: a once:true trigger that fires against a stale position
+    // (font-swap reflow race) self-kills with no way to recover.
     gsap.utils.toArray('.stack__item').forEach(item => {
       gsap.from(item.querySelector('.stack__card'), {
         y: 90, opacity: 0, ease: 'power3.out', duration: .9,
-        scrollTrigger: { trigger: item, start: 'top 95%', once: true }
+        scrollTrigger: { trigger: item, start: 'top 95%' }
       });
     });
   }
@@ -467,6 +545,58 @@
     });
   }
 
+  /* ---------- 9. Lightbox — screenshot-only Cases entries ----------
+     For projects with no full case-study page: [data-lightbox-src] on the
+     card opens the image full-screen instead of navigating anywhere. One
+     overlay is built lazily and reused for every trigger on the page. */
+  function initLightbox() {
+    const triggers = document.querySelectorAll('[data-lightbox-src]');
+    if (!triggers.length) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox';
+    overlay.innerHTML =
+      '<button type="button" class="lightbox__close" aria-label="Close" data-hover>&times;</button>' +
+      '<img class="lightbox__img" alt="">';
+    document.body.appendChild(overlay);
+
+    const img = overlay.querySelector('.lightbox__img');
+    const closeBtn = overlay.querySelector('.lightbox__close');
+    let lastFocus = null;
+
+    function open(src, alt, trigger) {
+      lastFocus = trigger;
+      img.src = src;
+      img.alt = alt || '';
+      overlay.classList.add('is-open');
+      lenis?.stop();
+      root.classList.add('no-scroll');
+      closeBtn.focus();
+    }
+
+    function close() {
+      overlay.classList.remove('is-open');
+      lenis?.start();
+      root.classList.remove('no-scroll');
+      lastFocus?.focus();
+    }
+
+    triggers.forEach(el => {
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        const src = el.dataset.lightboxSrc;
+        const alt = el.querySelector('img')?.alt;
+        open(src, alt, el);
+      });
+    });
+
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
+    });
+  }
+
   /* ---------- 10. Contact form (front-end only) ---------- */
   function initForm() {
     const form = document.getElementById('contactForm');
@@ -510,6 +640,7 @@
     initSmoothScroll();
     initHeader();
     initTheme();
+    initLightbox();
     initForm();
     initCursor();
     initBand();
@@ -517,7 +648,7 @@
     initMarquee();
     initParallax();
     initReveal();
-    initProcessTimeline();
+    initRail();
     initTimelineFill();
     initBanner();
     initTextReveal();

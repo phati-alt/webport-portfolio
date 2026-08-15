@@ -15,7 +15,7 @@ const translations = {
     "hero.eyebrow": "Available for freelance work",
     "hero.desc": "Hi, I'm Mick Yuttana — a UX/UI & Product Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.",
     "hero.ctaTalk": "Start a project",
-    "hero.scroll": "Scroll",
+    "hero.scroll": "Scroll down",
     "hero.stat1": "Years Experience",
     "hero.stat2": "Faster Design Cycles",
     "hero.stat3": "Projects Delivered",
@@ -27,7 +27,6 @@ const translations = {
 
     "work.eyebrow": "Cases",
     "work.title": "Results for products that hold up",
-    "work.filterAll": "All",
     "work.filterMobile": "Mobile App",
     "work.filterWeb": "Web App",
     "work.filterDesignSystem": "Design System",
@@ -53,21 +52,12 @@ const translations = {
     "tag.ui": "UI design",
     "tag.prototype": "Prototype",
     "tag.dataviz": "Data viz",
-    "tag.tokens": "Tokens",
-    "tag.components": "Components",
-    "tag.docs": "Documentation",
-    "tag.flows": "User flows",
     "tag.a11y": "Accessibility",
-    "tag.testing": "Usability testing",
     "tag.designSystem": "Design System",
     "tag.cms": "CMS",
     "tag.responsive": "Responsive Design",
 
-    "services.pretitle": "Services",
-    "services.title": "From strategy<br>to handover",
     "services.titleInline": "From strategy to handover",
-    "services.title1": "From strategy",
-    "services.title2": "to handover",
     "skills.card1.title": "Design Strategy",
     "skills.card1.desc": "Scalable Design Systems (Tokens/Variables), Information Architecture, Service Blueprinting, Product Roadmap Alignment.",
     "skills.card2.title": "UX Research",
@@ -100,6 +90,10 @@ const translations = {
     "process.step3.desc": "Explore wireframes and visual concepts, then refine into high-fidelity, testable prototypes.",
     "process.step4.title": "Deliver",
     "process.step4.desc": "Test with real users, iterate, and hand off polished, developer-ready designs.",
+    "process.flow1": "Research uncovers the real problem worth solving",
+    "process.flow2": "A sharp problem statement shapes what gets designed",
+    "process.flow3": "Prototypes get tested before anything ships",
+    "process.loop": "Feedback after launch often sends me back to Discover — the process rarely runs in a straight line.",
 
     "tools.pretitle": "Toolbox",
 
@@ -189,7 +183,6 @@ const translations = {
 
     "work.eyebrow": "ผลงาน",
     "work.title": "ผลลัพธ์สำหรับโปรดักต์ที่ใช้งานได้จริง",
-    "work.filterAll": "ทั้งหมด",
     "work.filterMobile": "แอปมือถือ",
     "work.filterWeb": "เว็บแอป",
     "work.filterDesignSystem": "Design System",
@@ -215,21 +208,12 @@ const translations = {
     "tag.ui": "ออกแบบ UI",
     "tag.prototype": "Prototype",
     "tag.dataviz": "Data viz",
-    "tag.tokens": "Tokens",
-    "tag.components": "คอมโพเนนต์",
-    "tag.docs": "เอกสารประกอบ",
-    "tag.flows": "User flows",
     "tag.a11y": "Accessibility",
-    "tag.testing": "Usability testing",
     "tag.designSystem": "Design System",
     "tag.cms": "CMS",
     "tag.responsive": "ออกแบบ Responsive",
 
-    "services.pretitle": "บริการ",
-    "services.title": "ตั้งแต่กลยุทธ์<br>จนถึงการส่งมอบ",
     "services.titleInline": "ตั้งแต่กลยุทธ์จนถึงการส่งมอบ",
-    "services.title1": "ตั้งแต่กลยุทธ์",
-    "services.title2": "จนถึงการส่งมอบ",
     "skills.card1.title": "กลยุทธ์การออกแบบ",
     "skills.card1.desc": "Design System ที่ขยายตัวได้ (Tokens/Variables), Information Architecture, Service Blueprinting, การวางแผน Product Roadmap",
     "skills.card2.title": "UX Research",
@@ -262,6 +246,10 @@ const translations = {
     "process.step3.desc": "สำรวจ Wireframe และแนวคิดภาพ แล้วพัฒนาเป็น Prototype ความละเอียดสูงที่พร้อมทดสอบ",
     "process.step4.title": "ส่งมอบ",
     "process.step4.desc": "ทดสอบกับผู้ใช้จริง ปรับปรุงซ้ำ และส่งมอบงานออกแบบที่พร้อมสำหรับนักพัฒนา",
+    "process.flow1": "งานวิจัยเผยให้เห็นปัญหาที่แท้จริงที่ควรแก้",
+    "process.flow2": "โจทย์ที่ชัดเจนกำหนดทิศทางการออกแบบ",
+    "process.flow3": "ต้นแบบผ่านการทดสอบก่อนส่งมอบทุกครั้ง",
+    "process.loop": "ฟีดแบ็กหลังเปิดตัวมักพาผมย้อนกลับไปที่ Discover อีกครั้ง — กระบวนการนี้ไม่ใช่เส้นตรงเสมอไป",
 
     "tools.pretitle": "เครื่องมือที่ใช้",
 
@@ -354,6 +342,11 @@ const I18N = (() => {
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
       const value = dict[el.getAttribute('data-i18n-placeholder')];
       if (value !== undefined) el.setAttribute('placeholder', value);
+    });
+
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+      const value = dict[el.getAttribute('data-i18n-aria-label')];
+      if (value !== undefined) el.setAttribute('aria-label', value);
     });
 
     if (current) current.textContent = lang.toUpperCase();
