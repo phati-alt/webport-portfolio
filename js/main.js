@@ -271,6 +271,27 @@
       );
     }
 
+    // Connectors between the flow notes — same scroll-drawn-stroke
+    // construction as the loop arrow below, just smaller and inline.
+    const flowArrowPaths = gsap.utils.toArray('[data-rail-flow-arrow]');
+    const flowArrowHeads = gsap.utils.toArray('[data-rail-flow-arrow-head]');
+    if (flowArrowPaths.length) {
+      gsap.fromTo(flowArrowPaths,
+        { strokeDashoffset: 100 },
+        {
+          strokeDashoffset: 0, ease: 'none', stagger: .25,
+          scrollTrigger: { trigger: '.rail__flow', start: 'top 85%', end: 'bottom 65%', scrub: true }
+        }
+      );
+      gsap.fromTo(flowArrowHeads,
+        { opacity: 0 },
+        {
+          opacity: 1, ease: 'none', stagger: .25,
+          scrollTrigger: { trigger: '.rail__flow', start: 'top 80%', end: 'bottom 60%', scrub: true }
+        }
+      );
+    }
+
     const loop = document.querySelector('[data-rail-loop]');
     const loopPath = document.querySelector('[data-rail-loop-path]');
     if (loop && loopPath) {
