@@ -53,12 +53,12 @@
   </nav>
 
   <div class="header__actions">
-    <button class="pill" id="langToggle" aria-label="Switch language"><span id="langCurrent">EN</span></button>
-    <button class="pill pill--icon" id="themeToggle" aria-label="Toggle dark mode">
+    <button class="pill" id="langToggle" aria-label="Switch language" data-i18n-aria-label="a11y.switchLanguage"><span id="langCurrent">EN</span></button>
+    <button class="pill pill--icon" id="themeToggle" aria-label="Toggle dark mode" data-i18n-aria-label="a11y.toggleDarkMode">
       <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
       <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
-    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+    <button class="burger" id="burger" aria-label="Menu" data-i18n-aria-label="a11y.menu" aria-expanded="false"><span></span><span></span></button>
   </div>
 </header>
 
@@ -105,7 +105,7 @@
       <a href="#intro" class="banner__scroll" aria-label="Scroll down" data-i18n-aria-label="hero.scroll">
         <svg class="circle-text" viewBox="0 0 100 100" aria-hidden="true">
           <defs><path id="scrollRing" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"></path></defs>
-          <text><textPath href="#scrollRing">SCROLL DOWN&nbsp;•&nbsp;SCROLL DOWN&nbsp;•&nbsp;</textPath></text>
+          <text><textPath href="#scrollRing" data-i18n="hero.scrollMarquee">SCROLL DOWN&nbsp;•&nbsp;SCROLL DOWN&nbsp;•&nbsp;</textPath></text>
         </svg>
         <span class="banner__scroll-circle">↓</span>
       </a>
@@ -163,84 +163,36 @@
         <a class="case" href="work/finza.html" data-reveal data-hover-case>
           <div class="case__media">
             <img src="assets/work/government.png" alt="Government groundwater monitoring dashboard" loading="lazy">
-            <ul class="case__tags">
-              <li class="case__tag" data-i18n="work.filterGovernment">Government Project</li>
-              <li class="case__tag" data-i18n="tag.research">User research</li>
-            </ul>
-            <div class="case__footer">
-              <h3 class="case__title" data-i18n="work.filterGovernment">Government Project</h3>
-              <span class="case__arrow" aria-hidden="true">↗</span>
-            </div>
           </div>
         </a>
 
         <a class="case" href="work/lumen.html" data-reveal data-hover-case>
           <div class="case__media">
             <img src="assets/work/platform.png" alt="Platform product dashboard" loading="lazy">
-            <ul class="case__tags">
-              <li class="case__tag" data-i18n="tag.ui">UI design</li>
-              <li class="case__tag" data-i18n="tag.designSystem">Design System</li>
-            </ul>
-            <div class="case__footer">
-              <h3 class="case__title" data-i18n="work.filterPlatform">Platform</h3>
-              <span class="case__arrow" aria-hidden="true">↗</span>
-            </div>
           </div>
         </a>
 
         <a class="case" href="work/nomly.html" data-reveal data-hover-case>
           <div class="case__media">
             <img src="assets/work/mobile-1.png" alt="Mobile application screens" loading="lazy">
-            <ul class="case__tags">
-              <li class="case__tag" data-i18n="tag.ui">UI design</li>
-              <li class="case__tag" data-i18n="tag.prototype">Prototype</li>
-            </ul>
-            <div class="case__footer">
-              <h3 class="case__title" data-i18n="work.filterMobileApp">Mobile Application</h3>
-              <span class="case__arrow" aria-hidden="true">↗</span>
-            </div>
           </div>
         </a>
 
         <a class="case" href="work/wanderly.html" data-reveal data-hover-case>
           <div class="case__media">
             <img src="assets/work/mobile-2.png" alt="Mobile application screens" loading="lazy">
-            <ul class="case__tags">
-              <li class="case__tag" data-i18n="tag.ui">UI design</li>
-              <li class="case__tag" data-i18n="tag.prototype">Prototype</li>
-            </ul>
-            <div class="case__footer">
-              <h3 class="case__title" data-i18n="work.filterMobileApp">Mobile Application</h3>
-              <span class="case__arrow" aria-hidden="true">↗</span>
-            </div>
           </div>
         </a>
 
         <a class="case" href="work/vitalis.html" data-reveal data-hover-case>
           <div class="case__media">
             <img src="assets/work/custom-dashboard.png" alt="Custom IoT monitoring dashboard" loading="lazy">
-            <ul class="case__tags">
-              <li class="case__tag" data-i18n="tag.dataviz">Data viz</li>
-              <li class="case__tag" data-i18n="tag.ui">UI design</li>
-            </ul>
-            <div class="case__footer">
-              <h3 class="case__title" data-i18n="work.filterDashboard">Custom Dashboard</h3>
-              <span class="case__arrow" aria-hidden="true">↗</span>
-            </div>
           </div>
         </a>
 
         <a class="case" href="work/orbit.html" data-reveal data-hover-case>
           <div class="case__media">
             <img src="assets/work/wordpress.png" alt="WordPress website" loading="lazy">
-            <ul class="case__tags">
-              <li class="case__tag" data-i18n="tag.cms">CMS</li>
-              <li class="case__tag" data-i18n="tag.responsive">Responsive Design</li>
-            </ul>
-            <div class="case__footer">
-              <h3 class="case__title" data-i18n="work.filterWordpress">WordPress Website</h3>
-              <span class="case__arrow" aria-hidden="true">↗</span>
-            </div>
           </div>
         </a>
 
@@ -303,9 +255,6 @@
 
           <article class="stack__item" style="--i:0">
             <div class="stack__card" data-tone="blue">
-              <svg class="stack__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"/><path d="M14.5 9.5 13 13l-3.5 1.5L11 11l3.5-1.5z"/>
-              </svg>
               <div class="stack__head">
                 <span class="stack__num">01</span>
                 <h3 class="stack__title" data-i18n="skills.card1.title">Design Strategy</h3>
@@ -323,9 +272,6 @@
 
           <article class="stack__item" style="--i:1">
             <div class="stack__card" data-tone="orange">
-              <svg class="stack__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.6-5.6"/>
-              </svg>
               <div class="stack__head">
                 <span class="stack__num">02</span>
                 <h3 class="stack__title" data-i18n="skills.card2.title">UX Research</h3>
@@ -343,9 +289,6 @@
 
           <article class="stack__item" style="--i:2">
             <div class="stack__card" data-tone="pink">
-              <svg class="stack__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M8.5 7 3 12l5.5 5"/><path d="M15.5 7 21 12l-5.5 5"/>
-              </svg>
               <div class="stack__head">
                 <span class="stack__num">03</span>
                 <h3 class="stack__title" data-i18n="skills.card3.title">Development</h3>
@@ -363,9 +306,6 @@
 
           <article class="stack__item" style="--i:3">
             <div class="stack__card" data-tone="purple-dark">
-              <svg class="stack__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3l1.9 5.6L19.5 10.5l-5.6 1.9L12 18l-1.9-5.6L4.5 10.5l5.6-1.9L12 3z"/>
-              </svg>
               <div class="stack__head">
                 <span class="stack__num">04</span>
                 <h3 class="stack__title" data-i18n="skills.card4.title">AI Productivity</h3>
@@ -383,9 +323,6 @@
 
           <article class="stack__item" style="--i:4">
             <div class="stack__card" data-tone="yellow">
-              <svg class="stack__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-              </svg>
               <div class="stack__head">
                 <span class="stack__num">05</span>
                 <h3 class="stack__title" data-i18n="skills.card5.title">Design Tools</h3>
@@ -650,7 +587,7 @@
       </div>
     </div>
 
-    <nav class="footer__col footer__nav" aria-label="Footer">
+    <nav class="footer__col footer__nav" aria-label="Footer" data-i18n-aria-label="a11y.footerNav">
       <a href="#work" data-i18n="nav.work">Work</a>
       <a href="#about" data-i18n="nav.about">About</a>
       <a href="#services" data-i18n="nav.services">Services</a>

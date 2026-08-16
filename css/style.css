@@ -325,13 +325,18 @@ body {
 .intro__text.is-plain { color: var(--ink); }
 
 /* ---------- 3. Cases ---------- */
-/* less bottom padding than top — .cases already runs into a long stretch
-   of reserved-but-still-blank scroll space belonging to the band circle
-   right after it (see .band__circle's comment in this file), so trimming
-   this section's own trailing padding is the one safe, uncoupled lever
-   for shortening that "too much white" stretch without touching the
-   circle's carefully-tuned scroll-scrub math itself. */
-.cases { padding-block: var(--section) clamp(2rem, 4vw, 4rem); }
+/* less bottom padding than top — .cases already runs into a stretch of
+   reserved-but-still-blank scroll space belonging to the band circle
+   right after it (see .band__circle's comment in this file), so this
+   section's own trailing padding is the one safe, uncoupled lever for
+   tuning that gap without touching the circle's carefully-tuned
+   scroll-scrub math itself: .band__circle's own ScrollTrigger starts
+   exactly this many px of document scroll after .cases__scroll ends, so
+   this value alone is the entire "still white, dome hasn't started yet"
+   buffer. Was clamp(2rem, 4vw, 4rem) (~51px at 1280px wide) — too tight,
+   the dome's crown was visibly cresting into the last row of cards with
+   no breathing room between them. */
+.cases { padding-block: var(--section) clamp(6rem, 14vw, 12rem); }
 
 /* Default state: a plain native horizontal-scroll container — trackpad/
    touch swipe and the scrollbar just work, no JS required. This is also
@@ -430,45 +435,35 @@ body {
   transition: transform .9s var(--ease);
 }
 .case:hover .case__media img { transform: scale(1.06); }
-/* the tag pills and the title bar both sit on the photo now instead of
-   below it — deliberately fixed light/dark (not the page's --paper/--ink
-   tokens) since they're captions on an image, not page chrome, and need
-   to stay legible over whatever photo happens to be underneath regardless
-   of site theme, the same reasoning as the header's translucent capsule. */
-.case__tags {
-  position: absolute; left: 1.25rem; bottom: 4.75rem; z-index: 1;
-  display: flex; flex-direction: column; align-items: flex-start; gap: .5rem;
+
+/* Below the enhanced-mode breakpoint (900px — the same one initCasesScroll
+   gates on) there's no horizontal scroll at all, native or scrubbed: the
+   cards fall back to a plain grid that flows with the page's normal
+   vertical scroll like every other section. 1 column under 640px
+   (phones), 2 from 640px up to the enhanced threshold (tablets/iPad) —
+   640px matches the same mobile/tablet split .contact__info already uses.
+   Placed after the base .case/.case__media rules on purpose — same
+   specificity (one class each), so source order alone decides the
+   winner regardless of being inside a media query; declared earlier in
+   the file, these silently lost to the base rules every time (a repeat
+   of the same cascade trap this codebase has hit before). */
+@media (max-width: 900px) {
+  .cases__pin { overflow: visible; scroll-snap-type: none; }
+  .cases__grid {
+    display: grid; grid-template-columns: 1fr;
+    width: auto;
+  }
+  .case { flex: none; }
+  /* the vh-based clamp(460px, 78vh, 680px) only made sense against a
+     single row filling the viewport — in a stacked grid the card's own
+     width now drives its proportions, so a portrait aspect-ratio reads
+     right at both 1 and 2 columns instead of whatever a vh number happens
+     to land on. */
+  .case__media { height: auto; aspect-ratio: 4 / 5; }
 }
-.case__tag {
-  background: #fff; color: #0a0a0a;
-  font-size: .78rem; font-weight: 600; letter-spacing: -.01em;
-  padding: .45rem .9rem; border-radius: 999px;
-  box-shadow: 0 8px 18px -10px rgba(0, 0, 0, .45);
+@media (min-width: 640px) and (max-width: 900px) {
+  .cases__grid { grid-template-columns: 1fr 1fr; }
 }
-/* plain solid fill, not the translucent + backdrop-filter:blur(10px) this
-   had — six of those live blurs recompositing every frame while the whole
-   row is being translated during the scroll-scrub (see initCasesScroll)
-   is exactly the kind of thing that reads as stutter/flicker, and this
-   sits on a photo either way so it doesn't need to pick up any colour
-   from behind it to read as "glass". A darker, fully-opaque fill keeps
-   the same look without asking the GPU to re-blur it 60 times a second. */
-.case__footer {
-  position: absolute; left: 1.25rem; right: 1.25rem; bottom: 1.25rem; z-index: 1;
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  background: rgba(10, 10, 10, .78);
-  padding: .5rem .5rem .5rem 1.25rem; border-radius: 999px;
-}
-.case__title {
-  color: #fff; font-size: 1rem; font-weight: 600; letter-spacing: -.01em;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.case__arrow {
-  display: grid; place-items: center; flex-shrink: 0;
-  width: 36px; height: 36px; border-radius: 50%;
-  background: #fff; color: #0a0a0a;
-  transition: transform var(--speed) var(--ease);
-}
-.case:hover .case__arrow { transform: rotate(45deg); }
 
 /* colour blocks, shared by cases / media blocks / tiles / cards */
 [data-tone="blue"]        { background: var(--blue);        color: #0d1512; }
@@ -577,21 +572,6 @@ body {
   transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
 }
 .stack__card:hover { transform: translateY(-6px); box-shadow: 0 40px 70px -25px rgba(0, 0, 0, .4); }
-/* a big faint outline icon sitting behind the content, one per card and
-   matching its subject (compass for strategy, magnifier for research, code
-   brackets for development, a spark for AI, a pen for tools). Sitting
-   mostly inside the card (not bleeding off the corner and getting cropped
-   by overflow:hidden) so the full shape reads clearly instead of a
-   half-cut hint of one — some of these (the compass especially) lost the
-   feature that actually identifies them once half of it was clipped off.
-   currentColor + low opacity so it always sits quietly behind the real
-   content regardless of tone. */
-.stack__icon {
-  position: absolute; right: 1.5%; bottom: 1.5%; z-index: 0;
-  width: clamp(11rem, 23vw, 15rem); height: auto;
-  color: color-mix(in srgb, currentColor 15%, transparent);
-  pointer-events: none;
-}
 .stack__head, .stack__content { position: relative; z-index: 1; }
 .stack__head { display: flex; align-items: center; gap: 1.1rem; }
 /* a circle badge instead of plain small-caps text, matching the numbered
@@ -611,9 +591,18 @@ body {
 
 /* 4c. About */
 /* text on the left, portrait on the right — the reference's "Wie ik ben" band */
+/* padding-top used to be var(--section) (up to 200px) — on top of the
+   circle-reveal's own built-in safety margin (.band__content's margin-top
+   is deliberately tuned to hold about a section's worth of scroll blank
+   so the circle finishes opening before anything about-related peeks
+   through, see that rule's comment), the two stacked into a long stretch
+   of solid dark scroll with nothing on it before "About me" appeared.
+   var(--section) is section-to-section rhythm, not needed again here on
+   top of that built-in margin — a plain small clamp is enough breathing
+   room between the reveal settling and the content starting. */
 .about {
   display: grid; grid-template-columns: 1fr .85fr; gap: clamp(2rem, 5vw, 6rem);
-  align-items: center; padding-top: var(--section);
+  align-items: center; padding-top: clamp(2rem, 4vw, 4rem);
 }
 /* section-level label sitting above the media + content row — sized to
    match .scroll-title__1 so it reads as a section heading, not a kicker */

@@ -16,6 +16,7 @@ const translations = {
     "hero.desc": "Hi, I'm Mick Yuttana — a UX/UI & Product Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.",
     "hero.ctaTalk": "Start a project",
     "hero.scroll": "Scroll down",
+    "hero.scrollMarquee": "SCROLL DOWN • SCROLL DOWN • ",
     "hero.stat1": "Years Experience",
     "hero.stat2": "Faster Design Cycles",
     "hero.stat3": "Projects Delivered",
@@ -145,7 +146,12 @@ const translations = {
     "cs.solution.title": "The Solution",
     "cs.results.title": "Results",
     "cs.next.label": "Next project",
-    "cs.next.cta": "View case study"
+    "cs.next.cta": "View case study",
+
+    "a11y.switchLanguage": "Switch language",
+    "a11y.toggleDarkMode": "Toggle dark mode",
+    "a11y.menu": "Menu",
+    "a11y.footerNav": "Footer"
   },
 
   th: {
@@ -160,6 +166,7 @@ const translations = {
     "hero.desc": "สวัสดีครับ ผมมิค ยุทธนา — UX/UI & Product Designer ที่เน้นแปลงระบบซับซ้อนให้กลายเป็นประสบการณ์ดิจิทัลที่ใช้งานง่ายและน่าเชื่อถือ",
     "hero.ctaTalk": "เริ่มโปรเจกต์",
     "hero.scroll": "เลื่อนลง",
+    "hero.scrollMarquee": "เลื่อนลง • เลื่อนลง • ",
     "hero.stat1": "ปีประสบการณ์",
     "hero.stat2": "รอบการออกแบบที่เร็วขึ้น",
     "hero.stat3": "โปรเจกต์ที่ส่งมอบ",
@@ -289,7 +296,12 @@ const translations = {
     "cs.solution.title": "ผลลัพธ์การออกแบบ",
     "cs.results.title": "ผลลัพธ์",
     "cs.next.label": "โปรเจกต์ถัดไป",
-    "cs.next.cta": "ดู Case Study"
+    "cs.next.cta": "ดู Case Study",
+
+    "a11y.switchLanguage": "สลับภาษา",
+    "a11y.toggleDarkMode": "สลับโหมดมืด",
+    "a11y.menu": "เมนู",
+    "a11y.footerNav": "ลิงก์ท้ายเว็บไซต์"
   }
 };
 

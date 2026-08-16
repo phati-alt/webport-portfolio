@@ -402,32 +402,47 @@
     const track = pinEl || grid;
     if (!track) return;
 
-    track.addEventListener('wheel', e => {
-      // A horizontal gesture (trackpad swipe) already scrolls the track
-      // natively — only take over a *vertical* wheel. In the enhanced
-      // state .cases__pin is sticky (not scrollable), so this never fires
-      // there — nothing to gate on scrollEnabled.
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      if (maxScroll <= 0) return; // nothing to scroll horizontally at all
-
-      const atEnd = track.scrollLeft >= maxScroll - 1;
-      const atStart = track.scrollLeft <= 1;
-      if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
-        e.preventDefault();
-        track.scrollLeft += e.deltaY;
-      }
-      // else: already at the end in this direction — let the event
-      // through untouched so the page scrolls normally.
-    }, { passive: false });
-
     // Enhanced state is desktop + motion only — same reasoning as the
     // rest of the site's width-gated behavior (the header nav capsule,
     // the custom cursor): a pinned/scrubbed section is a scroll-gesture
     // enhancement, not an upgrade, on a touchscreen where swiping the
     // track directly already feels native.
-    if (!MOTION || !scrollEl || !pinEl || !grid || window.innerWidth < 900) return;
+    const enhanced = MOTION && scrollEl && pinEl && grid && window.innerWidth >= 900;
+
+    // Wheel-redirect only belongs to the plain native-scroll state, where
+    // .cases__pin is overflow-x:auto and track.scrollLeft is the actual
+    // scroll position. It was previously attached unconditionally — in the
+    // enhanced state .cases__pin switches to overflow:hidden (position:
+    // sticky) but *keeps a real scrollWidth* (the grid still measures its
+    // full max-content width even though nothing about it is visibly
+    // scrollable), so `maxScroll` was never <= 0 there either. That meant
+    // every vertical wheel tick over the pinned cards still hit
+    // preventDefault() and tried to move a scrollLeft nothing was reading,
+    // silently eating the wheel event that Lenis/ScrollTrigger needed to
+    // drive the normal page scroll the scrub actually runs on — the exact
+    // stutter/"section jumps" this was reported as. Gating on the same
+    // `enhanced` flag this function already computes keeps the two states
+    // from ever fighting over the same gesture again.
+    if (!enhanced) {
+      track.addEventListener('wheel', e => {
+        // A horizontal gesture (trackpad swipe) already scrolls the track
+        // natively — only take over a *vertical* wheel.
+        if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (maxScroll <= 0) return; // nothing to scroll horizontally at all
+
+        const atEnd = track.scrollLeft >= maxScroll - 1;
+        const atStart = track.scrollLeft <= 1;
+        if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
+          e.preventDefault();
+          track.scrollLeft += e.deltaY;
+        }
+        // else: already at the end in this direction — let the event
+        // through untouched so the page scrolls normally.
+      }, { passive: false });
+      return;
+    }
 
     document.querySelector('.cases').classList.add('cases--scroll-enhanced');
 
