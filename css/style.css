@@ -541,6 +541,13 @@ body {
    unit) — mixing in a vh term via calc() intermittently broke the
    circle's ScrollTrigger (start/end collapsed to a degenerate near-zero
    range). */
+/* --primary/--primary-ink used to be overridden here too (white bg,
+   #1f4438 dark-green ink) — traced every var(--primary)/var(--primary-ink)
+   use in the file and the only element inside .band__content that reads
+   either is the About section's "Download Resume" .btn--outline on
+   hover; nothing in Services/#services depends on them. Dropping the
+   override there lets that button hover the same brand blue every other
+   button on the page does, with nothing else in this section affected. */
 .band__content {
   position: relative; z-index: 9; margin-top: -95vw;
   background: var(--band);
@@ -549,8 +556,6 @@ body {
   --muted: rgba(253, 246, 238, .72);
   --rule: rgba(253, 246, 238, .22);
   --paper-2: rgba(253, 246, 238, .08);
-  --primary: var(--band-ink);
-  --primary-ink: #1f4438;
   padding-bottom: var(--section);
 }
 /* the band runs wider than the rest of the page */
@@ -656,7 +661,11 @@ body {
 .about__badge span { font-size: .78rem; opacity: .8; }
 .checks { margin-top: 1.75rem; display: grid; gap: .7rem; }
 .checks li { display: flex; gap: .7rem; align-items: baseline; color: var(--muted); }
-.checks li::before { content: "→"; color: var(--ink); }
+/* \FE0E forces the text-presentation glyph — without it iOS Safari can
+   substitute Apple Color Emoji's coloured rendering for this arrow, the
+   same fix applied to every other ↗/↓/→ icon on the site (see index.html
+   and work/*.html). */
+.checks li::before { content: "→\FE0E"; color: var(--ink); }
 .about__content .btn { margin-top: 2rem; }
 
 /* ---------- 5. Approach ---------- */

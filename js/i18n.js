@@ -14,7 +14,7 @@ const translations = {
 
     "hero.eyebrow": "Available for freelance work",
     "hero.desc": "Hi, I'm Mick Yuttana — a UX/UI & Product Designer focused on simplifying complex systems into intuitive, trustworthy digital experiences.",
-    "hero.ctaTalk": "Start a project",
+    "hero.ctaTalk": "Get in touch",
     "hero.scroll": "Scroll down",
     "hero.scrollMarquee": "SCROLL DOWN • SCROLL DOWN • ",
     "hero.stat1": "Years Experience",
@@ -155,7 +155,7 @@ const translations = {
 
     "hero.eyebrow": "พร้อมรับงานฟรีแลนซ์",
     "hero.desc": "สวัสดีครับ ผมมิค ยุทธนา — UX/UI & Product Designer ที่เน้นแปลงระบบซับซ้อนให้กลายเป็นประสบการณ์ดิจิทัลที่ใช้งานง่ายและน่าเชื่อถือ",
-    "hero.ctaTalk": "เริ่มโปรเจกต์",
+    "hero.ctaTalk": "ติดต่อผม",
     "hero.scroll": "เลื่อนลง",
     "hero.scrollMarquee": "เลื่อนลง • เลื่อนลง • ",
     "hero.stat1": "ปีประสบการณ์",
