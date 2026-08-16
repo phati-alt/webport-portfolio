@@ -426,6 +426,10 @@ body {
   text-decoration: none; color: inherit;
 }
 .case.is-hidden { display: none; }
+/* .case--more (the "view more projects" tile) is full-size like every
+   other card here — its shorter scroll footprint is handled in JS
+   (initCasesScroll's scrollBudget()) instead of by shrinking the card
+   itself. See that function's comment for why. */
 .case__media {
   position: relative; height: clamp(460px, 78vh, 680px);
   border-radius: var(--radius); overflow: hidden; background: var(--paper-2);
@@ -435,6 +439,33 @@ body {
   transition: transform .9s var(--ease);
 }
 .case:hover .case__media img { transform: scale(1.06); }
+/* the "more projects" tile — a plain [data-tone] fill (same colour set
+   the case-study template's own placeholder media-blocks use) standing
+   in for a cover photo, with just a centred CTA label instead. Height/
+   radius/overflow are all inherited from the shared .case__media rule
+   above, so it sits in the same row rhythm as every real card. */
+/* same fill every other card's .case__media already shows through the
+   edges of its photo — var(--paper-2), not a [data-tone] colour, so this
+   tile reads as "part of the same row" instead of a distinct accent
+   block. color: var(--ink) rather than a fixed dark value since
+   --paper-2 itself flips between a light-gray and dark-navy step across
+   themes, and ink already tracks that correctly everywhere else. */
+.case__media--cta {
+  display: grid; place-items: center;
+  background: var(--paper-2);
+  color: var(--ink);
+}
+.case__cta-label {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: clamp(1.1rem, 1.6vw, 1.5rem); font-weight: 600; letter-spacing: -.02em;
+}
+.case__cta-arrow {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  transition: transform var(--speed) var(--ease);
+}
+.case:hover .case__cta-arrow { transform: rotate(45deg); }
 
 /* Below the enhanced-mode breakpoint (900px — the same one initCasesScroll
    gates on) there's no horizontal scroll at all, native or scrubbed: the

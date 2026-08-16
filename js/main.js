@@ -459,9 +459,30 @@
     // ScrollTrigger refresh (resize, font swap, image load) rather than
     // once at setup, for the same reason invalidateOnRefresh matters
     // everywhere else in this file.
+    // The full x-travel distance the grid actually needs (every card,
+    // .case--more included, at its real rendered width) vs. the shorter
+    // scroll distance that travel is allowed to take — see scrollBudget's
+    // comment below for why these two are deliberately different numbers.
+    const fullDistance = () => Math.max(0, grid.scrollWidth - pinEl.clientWidth);
+
+    // .case--more (the "view more projects" tile, full card size like
+    // every other one) only counts for half its own width here: it's a
+    // single label, not a project to browse, so the extra scroll a full
+    // card's worth of width would otherwise add to the *entire section*
+    // (this is what stretches finishing Cases, not just reaching this one
+    // tile) gets discounted by half. x itself still travels fullDistance()
+    // in full further down, so the tile still ends up completely revealed,
+    // flush against the gutter — it just gets there over less scroll than
+    // its on-screen size would suggest, the same total length as when it
+    // was rendered at half-width, without actually being half-width.
+    function scrollBudget() {
+      const moreCard = grid.querySelector('.case--more');
+      const discount = moreCard ? moreCard.getBoundingClientRect().width / 2 : 0;
+      return Math.max(0, fullDistance() - discount);
+    }
+
     function setHeight() {
-      const extra = Math.max(0, grid.scrollWidth - pinEl.clientWidth);
-      scrollEl.style.height = `${pinEl.offsetHeight + extra}px`;
+      scrollEl.style.height = `${pinEl.offsetHeight + scrollBudget()}px`;
     }
     setHeight();
 
@@ -488,11 +509,11 @@
     gsap.fromTo(grid,
       { x: 0 },
       {
-        x: () => -Math.max(0, grid.scrollWidth - pinEl.clientWidth),
+        x: () => -fullDistance(),
         ease: 'none',
         scrollTrigger: {
           trigger: scrollEl, start: 'top top',
-          end: () => '+=' + (Math.max(0, grid.scrollWidth - pinEl.clientWidth) - headerH()),
+          end: () => '+=' + (scrollBudget() - headerH()),
           scrub: true, invalidateOnRefresh: true,
           onRefresh: setHeight
         }

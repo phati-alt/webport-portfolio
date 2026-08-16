@@ -1,0 +1,164 @@
+<!--
+  MORE PROJECTS — simple image gallery, not a full case study
+  =============================================================
+  Linked from the "View more projects" tile at the end of the Cases
+  section on the homepage. Unlike work/<slug>.html pages, this one has no
+  narrative structure (problem/process/solution/results) — just a short
+  intro and a grid of images.
+
+  To add real projects: replace each <figure> below — swap the
+  placeholder <div class="media-block"> for an <img src="../assets/work/
+  ...">, and set a real figcaption. Add or remove <figure> blocks freely,
+  .cs-gallery reflows to however many are there (2 columns down to
+  tablet, 1 column on phones — same breakpoint as everywhere else on the
+  site, see .cs-gallery's media query in css/style.css).
+-->
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More Projects | Mick Yuttana</title>
+<meta name="description" content="A few more projects and explorations from Mick Yuttana, UX/UI & Product Designer.">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&f[]=chillax@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/png" href="../assets/avatar-icon.png">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/style.css">
+
+<script>
+  (function () {
+    var t = localStorage.getItem('studio-theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.classList.add('js');
+  })();
+</script>
+</head>
+<body>
+
+<div class="cursor" id="cursor" aria-hidden="true">
+  <svg class="cursor__ring" viewBox="0 0 100 100">
+    <defs><path id="cursorRing" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"></path></defs>
+    <text><textPath href="#cursorRing">VIEW CASE&nbsp;•&nbsp;VIEW CASE&nbsp;•&nbsp;VIEW CASE&nbsp;•&nbsp;</textPath></text>
+  </svg>
+  <span class="cursor__blob"><span class="cursor__arrow">↗</span></span>
+</div>
+
+<!-- ===== Header (identical to studio/index.html, links go back through ../index.html) ===== -->
+<header class="header" id="header" data-header>
+  <a href="../index.html#home" class="header__logo">
+    <span class="header__logo-mark"><img src="../assets/avatar-icon.png" alt="Mick Yuttana"></span>
+    <span class="header__logo-text">Mick Yuttana</span>
+  </a>
+
+  <nav class="header__nav" id="nav">
+    <a href="../index.html#work" class="header__link" data-i18n="nav.work">Work</a>
+    <a href="../index.html#about" class="header__link" data-i18n="nav.about">About</a>
+    <a href="../index.html#services" class="header__link" data-i18n="nav.services">Services</a>
+    <a href="../index.html#process" class="header__link" data-i18n="nav.process">Process</a>
+    <a href="../index.html#experience" class="header__link" data-i18n="nav.experience">Experience</a>
+    <a href="../index.html#contact" class="header__link" data-i18n="nav.contact">Contact</a>
+  </nav>
+
+  <div class="header__actions">
+    <button class="pill" id="langToggle" aria-label="Switch language"><span id="langCurrent">EN</span></button>
+    <button class="pill pill--icon" id="themeToggle" aria-label="Toggle dark mode">
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===== Intro ===== -->
+  <section class="cs-hero">
+    <div class="wrap">
+      <p class="pretitle" data-i18n="more.eyebrow" data-reveal>More Projects</p>
+      <h1 class="cs-hero__title" data-i18n="more.title" data-reveal>A few more things I've worked on</h1>
+      <p class="lede" data-i18n="more.desc" data-reveal>Smaller projects and explorations that didn't get a full case study of their own.</p>
+    </div>
+  </section>
+
+  <!-- ===== Gallery — placeholder tiles until real project images are
+       added. Each <figure> is independent: swap its media-block for an
+       <img>, edit/remove the figcaption, done. ===== -->
+  <section class="cs-section" style="border-top: none; padding-top: 0;">
+    <div class="wrap">
+      <div class="cs-gallery">
+        <figure data-reveal>
+          <div class="media-block" data-tone="blue"><span>Project</span></div>
+          <figcaption>Project name</figcaption>
+        </figure>
+        <figure data-reveal>
+          <div class="media-block" data-tone="pink"><span>Project</span></div>
+          <figcaption>Project name</figcaption>
+        </figure>
+        <figure data-reveal>
+          <div class="media-block" data-tone="yellow"><span>Project</span></div>
+          <figcaption>Project name</figcaption>
+        </figure>
+        <figure data-reveal>
+          <div class="media-block" data-tone="purple"><span>Project</span></div>
+          <figcaption>Project name</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Footer (identical to studio/index.html) ===== -->
+<footer class="footer">
+
+  <div class="wrap footer__cols">
+    <div class="footer__col">
+      <p class="footer__label" data-i18n="footer.nowPlaying">Currently focused on</p>
+      <div class="song">
+        <span class="song__artist" data-i18n="footer.focusLine1">Human-centered product design</span>
+        <span class="song__title" data-i18n="footer.focusLine2">Design systems that scale</span>
+      </div>
+    </div>
+
+    <nav class="footer__col footer__nav" aria-label="Footer">
+      <a href="../index.html#work" data-i18n="nav.work">Work</a>
+      <a href="../index.html#about" data-i18n="nav.about">About</a>
+      <a href="../index.html#services" data-i18n="nav.services">Services</a>
+      <a href="../index.html#process" data-i18n="nav.process">Process</a>
+      <a href="../index.html#experience" data-i18n="nav.experience">Experience</a>
+      <a href="../index.html#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="footer__col footer__info">
+      <p>
+        <a href="mailto:phatiyuttana@gmail.com">phatiyuttana@gmail.com</a><br>
+        Bangkok, Thailand<br><br>
+        <span data-i18n="footer.tagline">UX/UI & Product Designer based in Bangkok, Thailand.</span>
+      </p>
+      <div class="footer__social">
+        <a href="https://www.linkedin.com/in/yuttana-phati-5566042b5/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap footer__bottom">
+    <a href="../index.html#home" class="footer__logo">Mick<span>.</span>Yuttana</a>
+    <p>&copy; <span id="year"></span> Mick Yuttana. <span data-i18n="footer.rights">All rights reserved.</span></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

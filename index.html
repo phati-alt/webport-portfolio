@@ -119,10 +119,6 @@
       <div class="intro__text" data-text-reveal>
         <p data-i18n="intro.text">I design systems that people can actually trust. Strategy, interface, design systems, research, handover: five disciplines, one point of view. What we build together ends up in someone's working day — let's make that day better.</p>
       </div>
-      <a href="#work" class="btn btn--link" data-hover>
-        <span class="btn__circle">↓</span>
-        <span class="btn__label" data-i18n="intro.cta">See selected work</span>
-      </a>
     </div>
   </section>
 
@@ -193,6 +189,22 @@
         <a class="case" href="work/orbit.html" data-reveal data-hover-case>
           <div class="case__media">
             <img src="assets/work/wordpress.png" alt="WordPress website" loading="lazy">
+          </div>
+        </a>
+
+        <!-- "More projects" tile — links to a simple image-gallery page
+             (work/more-projects.html) instead of a single case study.
+             No photo yet: a plain data-tone placeholder fill, same as the
+             case-study template's own media-block pattern, so it doesn't
+             sit there broken until one's added. Swap the placeholder
+             <div> below for a real <img> (matching the other 6 cards)
+             once there's a project image to use as its cover. -->
+        <a class="case case--more" href="work/more-projects.html" data-reveal data-hover-case>
+          <div class="case__media case__media--cta">
+            <span class="case__cta-label">
+              <span data-i18n="work.moreProjects">View more projects</span>
+              <span class="case__cta-arrow" aria-hidden="true">↗</span>
+            </span>
           </div>
         </a>
 
