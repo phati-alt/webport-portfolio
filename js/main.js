@@ -835,6 +835,51 @@
     initBanner();
     initTextReveal();
 
+    // initHeader() (2nd) creates each nav link's "which section am I in"
+    // trigger against whatever the document's height happens to be at that
+    // point - which is before initCasesScroll() (9th) sets [data-cases-scroll]'s
+    // height, the single biggest contributor to the page's total scroll
+    // length. Every section below Cases (Process, Experience, Contact) gets
+    // cached at a start/end far too small for its true position, so a nav
+    // link past Cases can flip "active" while Cases is still on screen -
+    // scrolled position exceeds its stale, too-early start. initCasesScroll()
+    // already refreshes once itself a frame later for its own unrelated
+    // scrollbar-width reason, but that's a frame this page has already
+    // rendered a wrong nav highlight in. Refreshing here, synchronously,
+    // after every init() has had its say on the page's final height, means
+    // nothing below ever renders against stale trigger positions to begin
+    // with - including the hash landing right after this, which depends on
+    // the Cases scrub's own start being correct.
+    if (MOTION) ScrollTrigger.refresh();
+
+    // A URL hash present on first load - arriving at #work from a case
+    // page's header nav link, for instance - needs to land exactly where
+    // an in-page click on that same link would: same target, same offset,
+    // same animated scroll, via the same scrollToTarget() the in-page click
+    // handler in initHeader() calls. The browser's own native jump-to-anchor
+    // doesn't know about the sticky header height, and for #work
+    // specifically it can land inside the Cases row's scroll-hijacked range
+    // instead of at the section's true top - showing whatever card happens
+    // to sit at that scroll depth as if that were the start, and leaving
+    // less of the row's scroll budget to reach the last card. Runs after
+    // every init() above so every ScrollTrigger it corrects against
+    // (including the Cases scrub's start) is already in its final position.
+    if (location.hash.length > 1) {
+      const hashTarget = document.querySelector(location.hash);
+      if (hashTarget) {
+        scrollToTarget(hashTarget);
+
+        // Once the hash has done its one job - landing here at the right
+        // section - drop it from the address bar. Otherwise it lingers:
+        // hitting refresh later (maybe long after scrolling elsewhere)
+        // would keep re-landing on #work instead of the top of the page,
+        // which reads as the page being stuck on that section rather than
+        // a normal reload. replaceState swaps the URL without adding a
+        // history entry or touching scroll position.
+        history.replaceState(null, '', location.pathname + location.search);
+      }
+    }
+
     window.addEventListener('langchange', refreshTextReveal);
     if (MOTION) {
       // window 'load' doesn't guarantee web fonts have finished swapping in —
@@ -853,26 +898,19 @@
       if (document.fonts?.ready) document.fonts.ready.then(refreshSettled);
 
       // Returning to this page via the browser's back/forward cache does NOT
-      // fire 'load', so refreshSettled above never runs on that path. The DOM
-      // comes back frozen exactly as it was left - including the inline
-      // transform GSAP had applied to the Cases row - while the restored
-      // scroll position can be somewhere else entirely. Refreshing re-syncs
-      // the two, but a case page is the only way to leave this section
-      // mid-scrub in the first place, and coming back to it frozen mid-way
-      // across reads as broken, not resumed — so land at the section's start
-      // instead of wherever the scrub happened to be when you clicked a card.
+      // fire 'load', so refreshSettled above never runs on that path — the
+      // DOM comes back frozen exactly as it was left: every GSAP scrub, the
+      // Cases row's transform, the cursor's hover state, the Process rail,
+      // the Experience timeline, the About/Cases reveal circle. Patching
+      // those one at a time (Cases first, then the banner and cursor) kept
+      // missing the next one — Lenis's own scroll position is frozen too,
+      // and every scrub on the page reads that, not just the ones already
+      // found broken. Reloading is the only fix guaranteed to catch all of
+      // them: every section re-boots from scratch, correctly synced to
+      // wherever the browser restored the scroll position to. Trades an
+      // instant restore for a brief reload flash on back-navigation.
       window.addEventListener('pageshow', e => {
-        if (!e.persisted) return;
-        refreshSettled();
-
-        const scrollEl = document.querySelector('[data-cases-scroll]');
-        const cases = document.querySelector('.cases');
-        if (!scrollEl || !cases?.classList.contains('cases--scroll-enhanced')) return;
-        const st = ScrollTrigger.getAll().find(t => t.trigger === scrollEl);
-        if (!st || window.scrollY < st.start) return; // wasn't into the scrub, nothing to reset
-
-        if (lenis) lenis.scrollTo(st.start, { immediate: true });
-        else window.scrollTo(0, st.start);
+        if (e.persisted) location.reload();
       });
     }
   }
