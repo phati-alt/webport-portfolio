@@ -835,50 +835,14 @@
     initBanner();
     initTextReveal();
 
-    // initHeader() (2nd) creates each nav link's "which section am I in"
-    // trigger against whatever the document's height happens to be at that
-    // point - which is before initCasesScroll() (9th) sets [data-cases-scroll]'s
-    // height, the single biggest contributor to the page's total scroll
-    // length. Every section below Cases (Process, Experience, Contact) gets
-    // cached at a start/end far too small for its true position, so a nav
-    // link past Cases can flip "active" while Cases is still on screen -
-    // scrolled position exceeds its stale, too-early start. initCasesScroll()
-    // already refreshes once itself a frame later for its own unrelated
-    // scrollbar-width reason, but that's a frame this page has already
-    // rendered a wrong nav highlight in. Refreshing here, synchronously,
-    // after every init() has had its say on the page's final height, means
-    // nothing below ever renders against stale trigger positions to begin
-    // with - including the hash landing right after this, which depends on
-    // the Cases scrub's own start being correct.
+    // Several init()s above change the page's height — initCasesScroll()
+    // most of all, since it sizes [data-cases-scroll] from the card row's
+    // full width. initHeader() ran second, so its nav-highlight triggers
+    // cached start/end values measured against a document that was still
+    // short, and a link below Cases could light up while Cases was still
+    // on screen. One refresh here, after every init() has had its say,
+    // re-measures them all against the final height.
     if (MOTION) ScrollTrigger.refresh();
-
-    // A URL hash present on first load - arriving at #work from a case
-    // page's header nav link, for instance - needs to land exactly where
-    // an in-page click on that same link would: same target, same offset,
-    // same animated scroll, via the same scrollToTarget() the in-page click
-    // handler in initHeader() calls. The browser's own native jump-to-anchor
-    // doesn't know about the sticky header height, and for #work
-    // specifically it can land inside the Cases row's scroll-hijacked range
-    // instead of at the section's true top - showing whatever card happens
-    // to sit at that scroll depth as if that were the start, and leaving
-    // less of the row's scroll budget to reach the last card. Runs after
-    // every init() above so every ScrollTrigger it corrects against
-    // (including the Cases scrub's start) is already in its final position.
-    if (location.hash.length > 1) {
-      const hashTarget = document.querySelector(location.hash);
-      if (hashTarget) {
-        scrollToTarget(hashTarget);
-
-        // Once the hash has done its one job - landing here at the right
-        // section - drop it from the address bar. Otherwise it lingers:
-        // hitting refresh later (maybe long after scrolling elsewhere)
-        // would keep re-landing on #work instead of the top of the page,
-        // which reads as the page being stuck on that section rather than
-        // a normal reload. replaceState swaps the URL without adding a
-        // history entry or touching scroll position.
-        history.replaceState(null, '', location.pathname + location.search);
-      }
-    }
 
     window.addEventListener('langchange', refreshTextReveal);
     if (MOTION) {
@@ -913,6 +877,33 @@
         if (e.persisted) location.reload();
       });
     }
+
+    landOnHash();
+  }
+
+  // Arriving with a hash — #work from a case page's header nav, say —
+  // should land exactly where clicking that same link in-page lands, so it
+  // goes through the same scrollToTarget(). The browser's own anchor jump
+  // doesn't account for the sticky header, and for #work it can land inside
+  // the Cases row's scrubbed range, showing a mid-row card as if it were
+  // the start with less scroll left to reach the last one.
+  //
+  // Called last in boot(), after the listeners above are wired: a hash that
+  // isn't a valid CSS selector (#2024, or anything with a colon) makes
+  // querySelector throw, and running this earlier meant that throw silently
+  // cost the page its font-swap refresh and its bfcache reload. The catch
+  // keeps a junk hash from mattering at all.
+  function landOnHash() {
+    if (location.hash.length < 2) return;
+
+    let target = null;
+    try { target = document.querySelector(location.hash); } catch { /* not a selector */ }
+    if (!target) return;
+
+    scrollToTarget(target);
+    // The hash has done its one job. Left in the URL it would re-land on
+    // that section on the next refresh, instead of the top of the page.
+    history.replaceState(null, '', location.pathname + location.search);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

@@ -50,6 +50,12 @@ while ($listener.IsListening) {
     if (-not $contentType) { $contentType = "application/octet-stream" }
     $bytes = [System.IO.File]::ReadAllBytes($filePath)
     $res.ContentType = $contentType
+    # Without an explicit Cache-Control the browser falls back to heuristic
+    # caching and will happily keep serving a main.js or style.css it fetched
+    # minutes ago - so an edit looks like it did nothing, and the next thing
+    # tested is a fix that is not actually on the page. Never what you want
+    # from a dev server.
+    $res.Headers.Add("Cache-Control", "no-store, must-revalidate")
     $res.ContentLength64 = $bytes.Length
     $res.OutputStream.Write($bytes, 0, $bytes.Length)
   } else {
