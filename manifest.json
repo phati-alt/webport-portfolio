@@ -1,0 +1,11 @@
+{
+  "name": "Mick Yuttana — UX/UI & Product Designer",
+  "short_name": "Mick Yuttana",
+  "start_url": "/index.html",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#1434cb",
+  "icons": [
+    { "src": "/assets/avatar-icon.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

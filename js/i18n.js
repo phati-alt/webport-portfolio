@@ -1,7 +1,12 @@
 /* ============ i18n: EN / TH (studio edition) ============
-   Self-contained — does not share state with the root site's js/i18n.js.
-   Add a key here and reference it in the markup with data-i18n="key".
-   Use data-i18n-html on the element when the value contains markup.        */
+   Site-wide copy shared by every page. Add a key here and reference it in
+   the markup with data-i18n="key". Use data-i18n-html on the element when
+   the value contains markup, data-i18n-aria-label / -alt / -content to
+   translate those attributes instead of the text.
+
+   Copy belonging to ONE case study does NOT live here — it lives in that
+   case's own work/<slug>/data.js, read through data-i18n-case. See the
+   CASE_DATA block in apply() below, and work/README.md.                   */
 
 const translations = {
   en: {
@@ -27,21 +32,6 @@ const translations = {
 
     "work.eyebrow": "Cases",
     "work.title": "Results for products that hold up",
-    "work.filterMobile": "Mobile App",
-    "work.filterWeb": "Web App",
-    "work.filterDesignSystem": "Design System",
-    "work.card1.title": "Finza — Fintech Mobile App",
-    "work.card1.desc": "Redesigning a personal finance app to simplify budgeting and boost daily engagement.",
-    "work.card2.title": "Orbit — E-commerce Dashboard",
-    "work.card2.desc": "An analytics dashboard that helps sellers track performance at a glance.",
-    "work.card3.title": "Lumen — Design System",
-    "work.card3.desc": "A unified component library scaling design consistency across five product teams.",
-    "work.card4.title": "Wanderly — Travel Booking App",
-    "work.card4.desc": "Simplifying trip planning with a delightful, story-driven booking flow.",
-    "work.card5.title": "Vitalis — Healthcare Portal",
-    "work.card5.desc": "Making patient records and appointments accessible for every age group.",
-    "work.card6.title": "Nomly — Food Delivery App",
-    "work.card6.desc": "Reducing checkout drop-off with a streamlined ordering experience.",
     "work.moreProjects": "View more projects",
 
     "more.eyebrow": "More Projects",
@@ -168,21 +158,6 @@ const translations = {
 
     "work.eyebrow": "ผลงาน",
     "work.title": "ผลลัพธ์สำหรับโปรดักต์ที่ใช้งานได้จริง",
-    "work.filterMobile": "แอปมือถือ",
-    "work.filterWeb": "เว็บแอป",
-    "work.filterDesignSystem": "Design System",
-    "work.card1.title": "Finza — แอปการเงินส่วนบุคคล",
-    "work.card1.desc": "รีดีไซน์แอปการเงินส่วนบุคคลให้วางแผนงบประมาณง่ายขึ้น และเพิ่มการใช้งานประจำวัน",
-    "work.card2.title": "Orbit — แดชบอร์ดอีคอมเมิร์ซ",
-    "work.card2.desc": "แดชบอร์ดวิเคราะห์ข้อมูลที่ช่วยให้ผู้ขายติดตามผลการดำเนินงานได้ในหน้าจอเดียว",
-    "work.card3.title": "Lumen — Design System",
-    "work.card3.desc": "ไลบรารีคอมโพเนนต์รวมศูนย์ที่ช่วยรักษาความสอดคล้องของดีไซน์ในทีมโปรดักต์ทั้ง 5 ทีม",
-    "work.card4.title": "Wanderly — แอปจองทริปท่องเที่ยว",
-    "work.card4.desc": "ทำให้การวางแผนทริปง่ายขึ้นด้วยขั้นตอนการจองที่สนุกและมีเรื่องราว",
-    "work.card5.title": "Vitalis — พอร์ทัลด้านสุขภาพ",
-    "work.card5.desc": "ทำให้ประวัติผู้ป่วยและการนัดหมายเข้าถึงได้ง่ายสำหรับผู้ใช้ทุกช่วงวัย",
-    "work.card6.title": "Nomly — แอปสั่งอาหารเดลิเวอรี่",
-    "work.card6.desc": "ลดอัตราการทิ้งตะกร้าด้วยขั้นตอนการสั่งซื้อที่กระชับขึ้น",
     "work.moreProjects": "ดูโปรเจกต์อื่นๆ",
 
     "more.eyebrow": "โปรเจกต์อื่นๆ",
@@ -313,6 +288,28 @@ const I18N = (() => {
       const value = dict[el.getAttribute('data-i18n-aria-label')];
       if (value !== undefined) el.setAttribute('aria-label', value);
     });
+
+    // Copy that belongs to a single case study, read from that case
+    // folder's own data.js (window.CASE_DATA = { en: {…}, th: {…} }).
+    // Every work/<slug>/index.html loads its data.js BEFORE this file, so
+    // the first apply() call below already sees it — and the language
+    // toggle re-runs this same loop, so no per-page listener is needed.
+    // Pages without a data.js (the homepage, work/more-projects/) simply
+    // have no CASE_DATA and no [data-i18n-case] elements, so this is a
+    // no-op there rather than a special case to guard.
+    const caseDict = window.CASE_DATA && (window.CASE_DATA[lang] || window.CASE_DATA.en);
+    if (caseDict) {
+      document.querySelectorAll('[data-i18n-case]').forEach(el => {
+        const value = caseDict[el.getAttribute('data-i18n-case')];
+        if (value === undefined) return;
+        if (el.hasAttribute('data-i18n-html')) el.innerHTML = value;
+        else el.textContent = value;
+      });
+      document.querySelectorAll('[data-i18n-case-alt]').forEach(el => {
+        const value = caseDict[el.getAttribute('data-i18n-case-alt')];
+        if (value !== undefined) el.setAttribute('alt', value);
+      });
+    }
 
     if (current) current.textContent = lang.toUpperCase();
     root.setAttribute('lang', lang === 'th' ? 'th' : 'en');

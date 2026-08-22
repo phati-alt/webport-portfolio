@@ -24,8 +24,25 @@ while ($listener.IsListening) {
   $req = $context.Request
   $res = $context.Response
   $path = $req.Url.LocalPath
-  if ($path -eq "/") { $path = "/index.html" }
   $filePath = Join-Path $root ($path.TrimStart("/"))
+
+  # Directory URLs serve that directory's index.html — how Vercel, GitHub
+  # Pages and nginx all behave, and what work/<slug>/ case-study URLs rely
+  # on. Without this every case page 404s locally while working in
+  # production, which is the worst way to find a broken link.
+  if (Test-Path $filePath -PathType Container) {
+    # A directory asked for without its trailing slash has to redirect
+    # rather than be served directly: the page's relative paths (data.js,
+    # assets/cover.png) resolve against the URL, so /work/foo would look
+    # for /work/data.js instead of /work/foo/data.js.
+    if (-not $path.EndsWith("/")) {
+      $res.StatusCode = 301
+      $res.RedirectLocation = $path + "/"
+      $res.OutputStream.Close()
+      continue
+    }
+    $filePath = Join-Path $filePath "index.html"
+  }
 
   if (Test-Path $filePath -PathType Leaf) {
     $ext = [System.IO.Path]::GetExtension($filePath)

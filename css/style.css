@@ -1196,41 +1196,147 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   .btn { width: 100%; justify-content: space-between; }
 }
 
-/* ---------- Case study pages (work/*.html) ----------
-   Deliberately thin: everything reuses tokens and components already defined
-   above (.pretitle, .section-title, .lede, .tags, .media-block, .numbers__*,
-   .btn) — these rules only add the layout that's specific to a case page. */
-.cs-hero { padding-top: calc(var(--header-h) + clamp(2rem, 5vw, 4rem)); padding-bottom: var(--section); }
-.cs-hero__title {
-  font-size: clamp(2rem, 1.1rem + 4vw, 4.5rem); font-weight: 600;
-  letter-spacing: -.03em; line-height: 1.02; text-wrap: balance;
-  max-width: 20ch; margin-top: .75rem;
-}
-.cs-meta {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap);
-  margin: clamp(2.5rem, 5vw, 4rem) 0 0; padding: 0;
-  padding-top: clamp(1.5rem, 3vw, 2.5rem); border-top: 1px solid var(--rule);
-}
-.cs-meta dt { font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
-.cs-meta dd { font-size: 1.05rem; font-weight: 500; margin: 0; }
-/* riding on .media-block for the tone/colour/centred-label styling */
-.cs-cover.media-block { aspect-ratio: 16 / 9; margin-top: clamp(2.5rem, 5vw, 4rem); }
+/* ---------- Case study pages (work/<slug>/index.html) ----------
+   Editorial layout on top of the same tokens and components the rest of
+   the site uses (.pretitle, .lede, .btn, .media-block, --radius, --ease).
+   The two structural ideas here: the cover runs wider than the text column
+   so the page opens on an image rather than a paragraph, and each section
+   is a two-column block whose left label sticks while its body scrolls —
+   the same sticky mechanic the Services stack and Cases row already use. */
 
-.cs-section { padding-block: clamp(3rem, 6vw, 6rem); border-top: 1px solid var(--rule); }
-.cs-section__title { font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.6rem); font-weight: 600; letter-spacing: -.02em; margin-bottom: 1.25rem; }
-.cs-section .lede + .lede { margin-top: 1rem; }
+/* thin scroll-progress rule under the fixed header, scaled by main.js */
+.cs-progress {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  height: 2px; background: transparent; pointer-events: none;
+}
+.cs-progress span {
+  display: block; height: 100%; background: var(--primary);
+  transform: scaleX(0); transform-origin: 0 50%;
+}
+
+.cs-hero { padding-top: calc(var(--header-h) + clamp(2rem, 5vw, 4rem)); padding-bottom: clamp(3rem, 6vw, 6rem); }
+.cs-hero__title {
+  font-size: clamp(2.2rem, 1.1rem + 4.4vw, 5rem); font-weight: 600;
+  letter-spacing: -.035em; line-height: 1.02; text-wrap: balance;
+  max-width: 18ch; margin-top: .75rem;
+}
+.cs-hero__summary { max-width: 62ch; margin-top: clamp(1.25rem, 2.5vw, 2rem); color: var(--muted); }
+
+/* wider than .wrap on purpose — the cover is the first thing on the page
+   and reads as a full-bleed plate rather than an illustration inside the
+   text column. Its own inset matches .wrap--wide's rather than --gutter. */
+.cs-cover {
+  margin: clamp(2.5rem, 5vw, 4.5rem) 0 0;
+  padding-inline: clamp(1.25rem, 6vw, 120px);
+}
+.cs-cover img {
+  display: block; width: 100%; max-width: 1920px; margin-inline: auto;
+  border-radius: var(--radius); background: var(--paper-2);
+}
+/* placeholder variant, used by _template until a real cover exists */
+.cs-cover.media-block { aspect-ratio: 16 / 9; padding-inline: 0; margin-inline: clamp(1.25rem, 6vw, 120px); }
+
+.cs-meta {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(1rem, 2vw, 2rem);
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0; padding: 0;
+}
+.cs-meta > div { padding-left: 1.1rem; border-left: 2px solid var(--rule); }
+.cs-meta dt { font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .45rem; }
+.cs-meta dd { font-size: 1.02rem; font-weight: 500; margin: 0; line-height: 1.35; }
+
+.cs-section { padding-block: clamp(3rem, 7vw, 7rem); border-top: 1px solid var(--rule); }
+
+/* label column left, body right. The label sticks below the fixed header
+   for the length of its own section, so long bodies keep their heading
+   on screen — same offset .stack__item uses so the two feel related. */
+.cs-block { display: grid; grid-template-columns: minmax(180px, 24%) 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+.cs-block__aside { position: sticky; top: calc(var(--header-h) + 1.5rem); }
+.cs-block__title { font-size: clamp(1.4rem, 1rem + 1.2vw, 2rem); font-weight: 600; letter-spacing: -.02em; margin-top: .9rem; text-wrap: balance; }
+/* circle badge matching the Process rail's nodes and the Services cards */
+.cs-step {
+  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  border: 1px solid var(--rule);
+  font-size: .85rem; font-weight: 600; letter-spacing: .02em;
+}
+.cs-block__body > .lede + .lede { margin-top: 1.15rem; }
+.cs-block__body > .lede { max-width: 68ch; }
+
+/* pull quote — the one place on a case page where type gets loud */
+.cs-quote {
+  margin: clamp(2rem, 4vw, 3.5rem) 0 0; padding: 0 0 0 clamp(1.25rem, 2.5vw, 2rem);
+  border-left: 3px solid var(--primary);
+  font-size: clamp(1.3rem, 1rem + 1.4vw, 2.1rem); font-weight: 500;
+  letter-spacing: -.02em; line-height: 1.28; text-wrap: balance;
+  max-width: 30ch;
+}
 
 .cs-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); margin-top: clamp(2rem, 4vw, 3rem); }
 .cs-gallery figure { margin: 0; }
+/* one figure per gallery spans the full width — breaks the grid's rhythm
+   so a set of screenshots reads as a layout rather than a contact sheet */
+.cs-gallery figure.is-wide { grid-column: 1 / -1; }
 .cs-gallery .media-block { aspect-ratio: 4 / 3; }
-.cs-gallery figcaption { margin-top: .75rem; color: var(--muted); font-size: .92rem; }
+.cs-gallery figure.is-wide .media-block { aspect-ratio: 16 / 9; }
+.cs-gallery img { display: block; width: 100%; border-radius: var(--radius-sm); background: var(--paper-2); }
+.cs-gallery figcaption { margin-top: .8rem; color: var(--muted); font-size: .92rem; line-height: 1.45; }
 
-.cs-next { text-align: center; padding-block: var(--section); border-top: 1px solid var(--rule); }
-.cs-next .btn { margin-top: 1.75rem; }
+/* results numbers on their own tinted plate so they read as the payoff
+   rather than three more paragraphs */
+.cs-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(2rem, 4vw, 3rem); padding: clamp(1.75rem, 3.5vw, 3rem);
+  background: var(--paper-2); border-radius: var(--radius);
+}
+.cs-stats__item strong {
+  display: block; font-size: clamp(1.8rem, 1.2rem + 2.2vw, 3.2rem); font-weight: 600;
+  letter-spacing: -.03em; line-height: 1.05;
+}
+.cs-stats__item span { display: block; margin-top: .5rem; color: var(--muted); font-size: .92rem; line-height: 1.4; }
+
+/* next project as an image card rather than a centred button — it is the
+   only outbound link at the bottom of the page, so it earns the space */
+.cs-next { padding-block: clamp(3rem, 6vw, 6rem) var(--section); border-top: 1px solid var(--rule); }
+.cs-next__card {
+  position: relative; display: block; overflow: hidden;
+  border-radius: var(--radius); text-decoration: none; color: inherit;
+  aspect-ratio: 21 / 9; background: var(--paper-2);
+}
+.cs-next__card img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: top;
+  transition: transform .9s var(--ease);
+}
+.cs-next__card:hover img { transform: scale(1.04); }
+/* fixed dark scrim + light text, not theme tokens: this sits on a photo in
+   both themes, same reasoning as the header's translucent capsule */
+.cs-next__body {
+  position: absolute; inset: auto 0 0 0; z-index: 1;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  background: linear-gradient(to top, rgba(4, 10, 24, .82), rgba(4, 10, 24, 0));
+  color: #fff;
+}
+.cs-next__body .pretitle { color: rgba(255, 255, 255, .72); }
+.cs-next__title { font-size: clamp(1.3rem, 1rem + 1.6vw, 2.4rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.1; margin-top: .4rem; text-wrap: balance; }
+.cs-next__arrow {
+  display: grid; place-items: center; flex: none;
+  width: clamp(44px, 5vw, 60px); aspect-ratio: 1; border-radius: 50%;
+  background: #fff; color: #0a0a0a;
+  transition: transform var(--speed) var(--ease);
+}
+.cs-next__card:hover .cs-next__arrow { transform: rotate(45deg); }
 
 @media (max-width: 900px) {
+  /* the sticky label loses its point once it sits above the body instead
+     of beside it — it would pin over the text it introduces */
+  .cs-block { grid-template-columns: 1fr; gap: 1.5rem; }
+  .cs-block__aside { position: static; display: flex; align-items: center; gap: 1rem; }
+  .cs-block__title { margin-top: 0; }
   .cs-meta { grid-template-columns: repeat(2, 1fr); row-gap: 1.5rem; }
   .cs-gallery { grid-template-columns: 1fr; }
+  .cs-stats { grid-template-columns: 1fr; }
+  .cs-next__card { aspect-ratio: 4 / 3; }
 }
 
 /* ---------- Reduced motion ---------- */

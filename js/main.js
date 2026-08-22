@@ -772,6 +772,16 @@
       const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
       localStorage.setItem('studio-theme', next);
+      // Keeps the browser-chrome tint (address bar / status bar on mobile)
+      // matching the site's own --primary for whichever theme is now
+      // active — the two hex values here are that token's light/dark
+      // values from tokens.css, duplicated rather than read from a
+      // CSS var because nothing else in this file touches computed
+      // styles just to fetch a color. The pre-paint <script> in each
+      // page's <head> sets the same pairing on load, before this handler
+      // ever runs, so a toggle mid-session and a fresh load agree.
+      document.querySelector('meta[name="theme-color"]')
+        ?.setAttribute('content', next === 'dark' ? '#3163e9' : '#1434cb');
     });
   }
 
@@ -783,6 +793,27 @@
     });
   }
 
+  /* ---------- 11. Case-study reading progress ---------- */
+  /* Only exists on work/<slug>/ pages — no other page has a
+     [data-cs-progress] element, so this returns early there rather than
+     needing a page check. Driven by a plain scrub with no pin, the same
+     mechanism the Process rail and Career timeline line-fills already use,
+     so it tracks the Lenis-driven scroll position rather than listening to
+     raw scroll events. */
+  function initCaseProgress() {
+    const bar = document.querySelector('[data-cs-progress]');
+    if (!bar || !MOTION) return;
+
+    gsap.to(bar, {
+      scaleX: 1, ease: 'none',
+      scrollTrigger: {
+        trigger: document.documentElement,
+        start: 'top top', end: 'bottom bottom',
+        scrub: true, invalidateOnRefresh: true
+      }
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -791,6 +822,7 @@
     initHeader();
     initTheme();
     initResumeBtn();
+    initCaseProgress();
     initCursor();
     initBand();
     initBandContents();
@@ -819,6 +851,29 @@
       // that dust has settled instead of racing it.
       window.addEventListener('load', refreshSettled);
       if (document.fonts?.ready) document.fonts.ready.then(refreshSettled);
+
+      // Returning to this page via the browser's back/forward cache does NOT
+      // fire 'load', so refreshSettled above never runs on that path. The DOM
+      // comes back frozen exactly as it was left - including the inline
+      // transform GSAP had applied to the Cases row - while the restored
+      // scroll position can be somewhere else entirely. Refreshing re-syncs
+      // the two, but a case page is the only way to leave this section
+      // mid-scrub in the first place, and coming back to it frozen mid-way
+      // across reads as broken, not resumed — so land at the section's start
+      // instead of wherever the scrub happened to be when you clicked a card.
+      window.addEventListener('pageshow', e => {
+        if (!e.persisted) return;
+        refreshSettled();
+
+        const scrollEl = document.querySelector('[data-cases-scroll]');
+        const cases = document.querySelector('.cases');
+        if (!scrollEl || !cases?.classList.contains('cases--scroll-enhanced')) return;
+        const st = ScrollTrigger.getAll().find(t => t.trigger === scrollEl);
+        if (!st || window.scrollY < st.start) return; // wasn't into the scrub, nothing to reset
+
+        if (lenis) lenis.scrollTo(st.start, { immediate: true });
+        else window.scrollTo(0, st.start);
+      });
     }
   }
 

@@ -13,6 +13,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <link rel="icon" type="image/png" href="assets/avatar-icon.png">
+<link rel="apple-touch-icon" href="assets/avatar-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1434cb">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/style.css">
 
@@ -22,6 +25,8 @@
     var t = localStorage.getItem('studio-theme') || 'light';
     document.documentElement.setAttribute('data-theme', t);
     document.documentElement.classList.add('js');
+    var mc = document.querySelector('meta[name="theme-color"]');
+    if (mc) mc.setAttribute('content', t === 'dark' ? '#3163e9' : '#1434cb');
   })();
 </script>
 </head>
@@ -124,11 +129,12 @@
 
   <!-- ===== 3. Work — masonry grid with hover circle ===== -->
   <section class="cases" id="work">
-    <!-- 6 real projects (Mobile Application has 2). hrefs use all 6 built
-         template pages until each project gets its own page. Big overlay
-         cards — title/tags sit on the image itself instead of below it, so
-         the card can run tall instead of stopping at the image's own aspect
-         ratio.
+    <!-- One card per case study. Each links to work/<slug>/, a folder that
+         holds that project's page, its images and its own EN/TH copy —
+         nothing about a case lives anywhere else, so adding or removing one
+         is adding or removing a folder plus the card below. The cover image
+         here is the same file that case's own page uses as its hero, so
+         they can never drift apart. See work/README.md.
 
          [data-cases-scroll]/[data-cases-pin] together are a "tall wrapper +
          position:sticky inner + scrubbed x" horizontal-scroll section (see
@@ -156,39 +162,39 @@
         </div>
         <div class="cases__grid" id="casesGrid">
 
-        <a class="case" href="work/finza.html" data-reveal data-hover-case>
+        <a class="case" href="work/government-project/" data-reveal data-hover-case>
           <div class="case__media">
-            <img src="assets/work/government.png" alt="Government groundwater monitoring dashboard" loading="lazy">
+            <img src="work/government-project/assets/cover.png" alt="Government groundwater monitoring dashboard" loading="lazy">
           </div>
         </a>
 
-        <a class="case" href="work/lumen.html" data-reveal data-hover-case>
+        <a class="case" href="work/platform/" data-reveal data-hover-case>
           <div class="case__media">
-            <img src="assets/work/platform.png" alt="Platform product dashboard" loading="lazy">
+            <img src="work/platform/assets/cover.png" alt="Platform product dashboard" loading="lazy">
           </div>
         </a>
 
-        <a class="case" href="work/nomly.html" data-reveal data-hover-case>
+        <a class="case" href="work/ev-charger/" data-reveal data-hover-case>
           <div class="case__media">
-            <img src="assets/work/mobile-1.png" alt="Mobile application screens" loading="lazy">
+            <img src="work/ev-charger/assets/cover.png" alt="EV charging app screens" loading="lazy">
           </div>
         </a>
 
-        <a class="case" href="work/wanderly.html" data-reveal data-hover-case>
+        <a class="case" href="work/drin-doctor/" data-reveal data-hover-case>
           <div class="case__media">
-            <img src="assets/work/mobile-2.png" alt="Mobile application screens" loading="lazy">
+            <img src="work/drin-doctor/assets/cover.png" alt="DR.in for Doctor app screens" loading="lazy">
           </div>
         </a>
 
-        <a class="case" href="work/vitalis.html" data-reveal data-hover-case>
+        <a class="case" href="work/custom-dashboard/" data-reveal data-hover-case>
           <div class="case__media">
-            <img src="assets/work/custom-dashboard.png" alt="Custom IoT monitoring dashboard" loading="lazy">
+            <img src="work/custom-dashboard/assets/cover.png" alt="Custom IoT monitoring dashboard" loading="lazy">
           </div>
         </a>
 
-        <a class="case" href="work/orbit.html" data-reveal data-hover-case>
+        <a class="case" href="work/wordpress-website/" data-reveal data-hover-case>
           <div class="case__media">
-            <img src="assets/work/wordpress.png" alt="WordPress website" loading="lazy">
+            <img src="work/wordpress-website/assets/cover.png" alt="WordPress website" loading="lazy">
           </div>
         </a>
 
@@ -199,7 +205,7 @@
              sit there broken until one's added. Swap the placeholder
              <div> below for a real <img> (matching the other 6 cards)
              once there's a project image to use as its cover. -->
-        <a class="case case--more" href="work/more-projects.html" data-reveal data-hover-case>
+        <a class="case case--more" href="work/more-projects/" data-reveal data-hover-case>
           <div class="case__media case__media--cta">
             <span class="case__cta-label">
               <span data-i18n="work.moreProjects">View more projects</span>

@@ -7,7 +7,7 @@
   intro and a grid of images.
 
   To add real projects: replace each <figure> below — swap the
-  placeholder <div class="media-block"> for an <img src="../assets/work/
+  placeholder <div class="media-block"> for an <img src="../../assets/work/
   ...">, and set a real figcaption. Add or remove <figure> blocks freely,
   .cs-gallery reflows to however many are there (2 columns down to
   tablet, 1 column on phones — same breakpoint as everywhere else on the
@@ -27,9 +27,12 @@
 <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&f[]=chillax@600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="icon" type="image/png" href="../assets/avatar-icon.png">
-<link rel="stylesheet" href="../css/tokens.css">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/png" href="../../assets/avatar-icon.png">
+<link rel="apple-touch-icon" href="../../assets/avatar-icon.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#1434cb">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/style.css">
 
 <script>
   (function () {
@@ -37,6 +40,8 @@
     if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', t);
     document.documentElement.classList.add('js');
+    var mc = document.querySelector('meta[name="theme-color"]');
+    if (mc) mc.setAttribute('content', t === 'dark' ? '#3163e9' : '#1434cb');
   })();
 </script>
 </head>
@@ -52,27 +57,27 @@
 
 <!-- ===== Header (identical to studio/index.html, links go back through ../index.html) ===== -->
 <header class="header" id="header" data-header>
-  <a href="../index.html#home" class="header__logo">
-    <span class="header__logo-mark"><img src="../assets/avatar-icon.png" alt="Mick Yuttana"></span>
+  <a href="../../index.html#home" class="header__logo">
+    <span class="header__logo-mark"><img src="../../assets/avatar-icon.png" alt="Mick Yuttana"></span>
     <span class="header__logo-text">Mick Yuttana</span>
   </a>
 
   <nav class="header__nav" id="nav">
-    <a href="../index.html#work" class="header__link" data-i18n="nav.work">Work</a>
-    <a href="../index.html#about" class="header__link" data-i18n="nav.about">About</a>
-    <a href="../index.html#services" class="header__link" data-i18n="nav.services">Services</a>
-    <a href="../index.html#process" class="header__link" data-i18n="nav.process">Process</a>
-    <a href="../index.html#experience" class="header__link" data-i18n="nav.experience">Experience</a>
-    <a href="../index.html#contact" class="header__link" data-i18n="nav.contact">Contact</a>
+    <a href="../../index.html#work" class="header__link" data-i18n="nav.work">Work</a>
+    <a href="../../index.html#about" class="header__link" data-i18n="nav.about">About</a>
+    <a href="../../index.html#services" class="header__link" data-i18n="nav.services">Services</a>
+    <a href="../../index.html#process" class="header__link" data-i18n="nav.process">Process</a>
+    <a href="../../index.html#experience" class="header__link" data-i18n="nav.experience">Experience</a>
+    <a href="../../index.html#contact" class="header__link" data-i18n="nav.contact">Contact</a>
   </nav>
 
   <div class="header__actions">
-    <button class="pill" id="langToggle" aria-label="Switch language"><span id="langCurrent">EN</span></button>
-    <button class="pill pill--icon" id="themeToggle" aria-label="Toggle dark mode">
+    <button class="pill" id="langToggle" aria-label="Switch language" data-i18n-aria-label="a11y.switchLanguage"><span id="langCurrent">EN</span></button>
+    <button class="pill pill--icon" id="themeToggle" aria-label="Toggle dark mode" data-i18n-aria-label="a11y.toggleDarkMode">
       <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
       <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
-    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+    <button class="burger" id="burger" aria-label="Menu" data-i18n-aria-label="a11y.menu" aria-expanded="false"><span></span><span></span></button>
   </div>
 </header>
 
@@ -127,13 +132,13 @@
       </div>
     </div>
 
-    <nav class="footer__col footer__nav" aria-label="Footer">
-      <a href="../index.html#work" data-i18n="nav.work">Work</a>
-      <a href="../index.html#about" data-i18n="nav.about">About</a>
-      <a href="../index.html#services" data-i18n="nav.services">Services</a>
-      <a href="../index.html#process" data-i18n="nav.process">Process</a>
-      <a href="../index.html#experience" data-i18n="nav.experience">Experience</a>
-      <a href="../index.html#contact" data-i18n="nav.contact">Contact</a>
+    <nav class="footer__col footer__nav" aria-label="Footer" data-i18n-aria-label="a11y.footerNav">
+      <a href="../../index.html#work" data-i18n="nav.work">Work</a>
+      <a href="../../index.html#about" data-i18n="nav.about">About</a>
+      <a href="../../index.html#services" data-i18n="nav.services">Services</a>
+      <a href="../../index.html#process" data-i18n="nav.process">Process</a>
+      <a href="../../index.html#experience" data-i18n="nav.experience">Experience</a>
+      <a href="../../index.html#contact" data-i18n="nav.contact">Contact</a>
     </nav>
 
     <div class="footer__col footer__info">
@@ -149,7 +154,7 @@
   </div>
 
   <div class="wrap footer__bottom">
-    <a href="../index.html#home" class="footer__logo">Mick<span>.</span>Yuttana</a>
+    <a href="../../index.html#home" class="footer__logo">Mick<span>.</span>Yuttana</a>
     <p>&copy; <span id="year"></span> Mick Yuttana. <span data-i18n="footer.rights">All rights reserved.</span></p>
   </div>
 </footer>
@@ -158,7 +163,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
-<script src="../js/i18n.js"></script>
-<script src="../js/main.js"></script>
+<script src="../../js/i18n.js"></script>
+<script src="../../js/main.js"></script>
 </body>
 </html>
