@@ -11,8 +11,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Platform — Case Study | Mick Yuttana</title>
-<meta name="description" content="Case study: Platform — UX/UI and product design work by Mick Yuttana.">
+<title>Construction Management Platform — Case Study | Mick Yuttana</title>
+<meta name="description" content="Case study: Construction Management Platform — UX/UI and product design work by Mick Yuttana.">
 
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -107,6 +107,24 @@
       <div class="cs-block__body">
         <p class="lede" data-i18n-case="problem1" data-reveal>[What was broken or missing before this project?]</p>
         <p class="lede" data-i18n-case="problem2" data-reveal>[Any constraint worth mentioning — timeline, technical, stakeholder.]</p>
+
+        <ul class="cs-ut" data-reveal>
+          <li class="cs-ut__item is-served">
+            <span class="cs-ut__role" data-i18n-case="ut1Role"></span>
+            <span class="cs-ut__need" data-i18n-case="ut1Need"></span>
+            <span class="cs-ut__flag" data-i18n="cs.ut.served"></span>
+          </li>
+          <li class="cs-ut__item is-gap">
+            <span class="cs-ut__role" data-i18n-case="ut2Role"></span>
+            <span class="cs-ut__need" data-i18n-case="ut2Need"></span>
+            <span class="cs-ut__flag" data-i18n="cs.ut.gap"></span>
+          </li>
+          <li class="cs-ut__item is-gap">
+            <span class="cs-ut__role" data-i18n-case="ut3Role"></span>
+            <span class="cs-ut__need" data-i18n-case="ut3Need"></span>
+            <span class="cs-ut__flag" data-i18n="cs.ut.gap"></span>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -128,6 +146,51 @@
     <div class="wrap cs-block">
       <div class="cs-block__aside" data-reveal>
         <span class="cs-step">03</span>
+        <h2 class="cs-block__title" data-i18n="cs.framework.title">Framework Decision</h2>
+      </div>
+      <div class="cs-block__body">
+        <div class="cs-fw" data-reveal>
+          <div class="cs-fw__col cs-fw__col--before">
+            <h3 class="cs-fw__label" data-i18n-case="fwOldLabel">[What you moved off]</h3>
+            <ul class="cs-fw__list">
+              <li data-i18n-case="fwOld1"></li>
+              <li data-i18n-case="fwOld2"></li>
+              <li data-i18n-case="fwOld3"></li>
+              <li data-i18n-case="fwOld4"></li>
+              <li data-i18n-case="fwOld5"></li>
+            </ul>
+          </div>
+          <div class="cs-fw__col cs-fw__col--after">
+            <h3 class="cs-fw__label" data-i18n-case="fwNewLabel">[What you moved to]</h3>
+            <ul class="cs-fw__list">
+              <li data-i18n-case="fwNew1"></li>
+              <li data-i18n-case="fwNew2"></li>
+              <li data-i18n-case="fwNew3"></li>
+              <li data-i18n-case="fwNew4"></li>
+              <li data-i18n-case="fwNew5"></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cs-fw__trade" data-reveal>
+          <p class="cs-fw__trade-label" data-i18n="cs.framework.tradeoff">Trade-off</p>
+          <p class="cs-fw__trade-line">
+            <span class="cs-fw__trade-term" data-i18n="cs.framework.short">Short term</span>
+            <span data-i18n-case="fwTradeShort">[What it cost]</span>
+          </p>
+          <p class="cs-fw__trade-line">
+            <span class="cs-fw__trade-term" data-i18n="cs.framework.long">Long term</span>
+            <span data-i18n-case="fwTradeLong">[What it bought]</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section">
+    <div class="wrap cs-block">
+      <div class="cs-block__aside" data-reveal>
+        <span class="cs-step">04</span>
         <h2 class="cs-block__title" data-i18n="cs.solution.title">The Solution</h2>
       </div>
       <div class="cs-block__body">
@@ -157,7 +220,7 @@
   <section class="cs-section">
     <div class="wrap cs-block">
       <div class="cs-block__aside" data-reveal>
-        <span class="cs-step">04</span>
+        <span class="cs-step">05</span>
         <h2 class="cs-block__title" data-i18n="cs.results.title">Results</h2>
       </div>
       <div class="cs-block__body">
@@ -167,6 +230,43 @@
           <div class="cs-stats__item"><strong data-i18n-case="stat1">[XX%]</strong><span data-i18n-case="stat1Label">[What this measures]</span></div>
           <div class="cs-stats__item"><strong data-i18n-case="stat2">[XX%]</strong><span data-i18n-case="stat2Label">[What this measures]</span></div>
           <div class="cs-stats__item"><strong data-i18n-case="stat3">[XX%]</strong><span data-i18n-case="stat3Label">[What this measures]</span></div>
+        </div>
+
+        <figure class="cs-quotebox" data-reveal>
+          <blockquote data-i18n-case="testimonialQuote">[What someone who used or sold it said]</blockquote>
+          <figcaption>
+            <span class="cs-quotebox__name" data-i18n-case="testimonialName">[Who said it]</span>
+            <span class="cs-quotebox__role" data-i18n-case="testimonialRole">[Their role]</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section">
+    <div class="wrap cs-block">
+      <div class="cs-block__aside" data-reveal>
+        <span class="cs-step">06</span>
+        <h2 class="cs-block__title" data-i18n="cs.reflection.title">What I took from it</h2>
+      </div>
+      <div class="cs-block__body">
+        <div class="cs-reflect" data-reveal>
+          <div class="cs-reflect__item">
+            <h3 data-i18n-case="reflect1Title"></h3>
+            <p data-i18n-case="reflect1Text"></p>
+          </div>
+          <div class="cs-reflect__item">
+            <h3 data-i18n-case="reflect2Title"></h3>
+            <p data-i18n-case="reflect2Text"></p>
+          </div>
+          <div class="cs-reflect__item">
+            <h3 data-i18n-case="reflect3Title"></h3>
+            <p data-i18n-case="reflect3Text"></p>
+          </div>
+          <div class="cs-reflect__item">
+            <h3 data-i18n-case="reflect4Title"></h3>
+            <p data-i18n-case="reflect4Text"></p>
+          </div>
         </div>
       </div>
     </div>

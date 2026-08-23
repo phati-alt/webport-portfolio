@@ -27,7 +27,7 @@ window.CASE_DATA = {
     stat2Label: "Reporting lag removed",
     stat3: "12",
     stat3Label: "Officers in usability testing",
-    nextTitle: "Construction & facility management platform",
+    nextTitle: "Construction Management Platform",
     pageTitle: "Government Project"
   },
 
@@ -55,7 +55,7 @@ window.CASE_DATA = {
     stat2Label: "ตัดความล่าช้าของรายงาน",
     stat3: "12",
     stat3Label: "เจ้าหน้าที่ที่ร่วมทดสอบ",
-    nextTitle: "แพลตฟอร์มบริหารงานก่อสร้างและอาคาร",
+    nextTitle: "แพลตฟอร์มบริหารงานก่อสร้าง",
     pageTitle: "Government Project"
   }
 };

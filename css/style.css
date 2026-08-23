@@ -1321,6 +1321,147 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   max-width: 30ch;
 }
 
+/* ---------- User types: who the old design actually served ---------- */
+/* A list, not cards: these are read top to bottom as a verdict per role,
+   and stacking them keeps the served / not-served flags in one column
+   where the pattern is obvious at a glance. */
+.cs-ut {
+  list-style: none; margin: clamp(1.5rem, 3vw, 2.25rem) 0 0; padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.cs-ut__item {
+  display: grid; gap: .15rem 1.25rem; align-items: baseline;
+  grid-template-columns: minmax(9rem, 22%) 1fr auto;
+  padding: clamp(.9rem, 1.8vw, 1.15rem) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.cs-ut__role { font-weight: 600; font-size: .95rem; }
+.cs-ut__need { color: var(--muted); font-size: .93rem; line-height: 1.5; }
+/* The flag is a word, not just a colour — the state has to survive
+   greyscale and colour-blindness, same reasoning as the framework lists. */
+.cs-ut__flag {
+  justify-self: end; white-space: nowrap;
+  font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+  padding: .25rem .6rem; border-radius: 999px;
+}
+.cs-ut__item.is-served .cs-ut__flag {
+  color: #30a46c; background: color-mix(in srgb, #30a46c 14%, transparent);
+}
+.cs-ut__item.is-gap .cs-ut__flag {
+  color: #e5484d; background: color-mix(in srgb, #e5484d 14%, transparent);
+}
+/* Narrow: role and its verdict stay together on the first line, the need
+   wraps underneath. Placed explicitly — leaving it to auto-placement put
+   the flag below the full-width need instead of beside the role, which
+   read as three separate lines with no pairing. */
+@media (max-width: 700px) {
+  .cs-ut__item { grid-template-columns: 1fr auto; }
+  .cs-ut__role { grid-column: 1; grid-row: 1; }
+  .cs-ut__flag { grid-column: 2; grid-row: 1; }
+  .cs-ut__need { grid-column: 1 / -1; grid-row: 2; margin-top: .3rem; }
+}
+
+/* ---------- Testimonial ---------- */
+/* Someone else's words, so it is visually quoted rather than styled like
+   the case's own pull quote — smaller, attributed, and set on a plate so
+   the shift in voice is visible before it is read. */
+.cs-quotebox {
+  margin: clamp(2rem, 4vw, 3rem) 0 0;
+  padding: clamp(1.4rem, 2.5vw, 2rem);
+  background: var(--paper-2); border-radius: var(--radius-sm);
+}
+.cs-quotebox blockquote {
+  margin: 0; font-size: clamp(1rem, .95rem + .3vw, 1.15rem);
+  line-height: 1.6; text-wrap: pretty;
+}
+.cs-quotebox blockquote::before { content: '\201C'; }
+.cs-quotebox blockquote::after { content: '\201D'; }
+.cs-quotebox figcaption {
+  margin-top: 1rem; display: flex; flex-wrap: wrap; gap: .15rem .6rem;
+  align-items: baseline; font-size: .88rem;
+}
+.cs-quotebox__name { font-weight: 600; }
+.cs-quotebox__role { color: var(--muted); }
+
+/* ---------- Reflection ---------- */
+.cs-reflect {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+.cs-reflect__item {
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+  border: 1px solid var(--rule); border-radius: var(--radius-sm);
+}
+.cs-reflect__item h3 {
+  margin: 0; font-size: .98rem; font-weight: 600; letter-spacing: -.01em;
+}
+.cs-reflect__item p {
+  margin: .5rem 0 0; color: var(--muted); font-size: .93rem; line-height: 1.55;
+}
+/* The template ships four slots; a case with fewer just leaves the rest
+   blank rather than needing its own markup. */
+.cs-reflect__item:has(h3:empty) { display: none; }
+@media (max-width: 700px) {
+  .cs-reflect { grid-template-columns: 1fr; }
+}
+
+/* ---------- Framework decision: before/after + trade-off ---------- */
+/* Two columns read as a comparison on sight, which a prose paragraph
+   describing the same choice does not. Colour is deliberately not the only
+   signal — each list marks its own items with a glyph, so the two sides
+   stay distinguishable in greyscale and to anyone who does not separate
+   red from green. */
+.cs-fw {
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+.cs-fw__col {
+  padding: clamp(1.1rem, 2vw, 1.6rem);
+  border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  background: var(--paper-2);
+}
+.cs-fw__col--before { border-top: 3px solid color-mix(in srgb, #e5484d 70%, var(--rule)); }
+.cs-fw__col--after { border-top: 3px solid color-mix(in srgb, #30a46c 70%, var(--rule)); }
+.cs-fw__label {
+  margin: 0 0 .9rem; font-size: .95rem; font-weight: 600; letter-spacing: -.01em;
+}
+.cs-fw__list { margin: 0; padding: 0; list-style: none; }
+.cs-fw__list li {
+  position: relative; padding-left: 1.6rem; margin-top: .55rem;
+  font-size: .93rem; line-height: 1.5; color: var(--muted);
+}
+.cs-fw__list li::before {
+  position: absolute; left: 0; top: 0;
+  font-weight: 700; font-size: .85rem;
+}
+.cs-fw__col--before .cs-fw__list li::before { content: '\00D7'; color: #e5484d; }
+.cs-fw__col--after .cs-fw__list li::before { content: '\2713'; color: #30a46c; }
+/* The template always ships five slots per side; a comparison with fewer
+   points leaves the rest empty rather than needing its own markup. */
+.cs-fw__list li:empty { display: none; }
+
+.cs-fw__trade {
+  margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+  border-left: 3px solid var(--primary);
+  background: var(--paper-2); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.cs-fw__trade-label {
+  margin: 0 0 .7rem; font-size: .72rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.cs-fw__trade-line { margin: .5rem 0 0; font-size: .95rem; line-height: 1.55; }
+.cs-fw__trade-term {
+  display: inline-block; min-width: 6.5rem;
+  font-weight: 600; color: var(--ink);
+}
+
+@media (max-width: 700px) {
+  .cs-fw { grid-template-columns: 1fr; }
+  .cs-fw__trade-term { display: block; min-width: 0; margin-bottom: .15rem; }
+}
+
 /* ---------- More Projects: cards + modal ---------- */
 /* Same treatment as the homepage case cards — rounded frame, slow image
    push-in, label sliding up on hover — but laid out as a grid rather than

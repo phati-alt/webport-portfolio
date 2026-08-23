@@ -123,6 +123,15 @@
       <div class="cs-block__body">
         <p class="lede" data-i18n-case="problem1" data-reveal>[What was broken or missing before this project?]</p>
         <p class="lede" data-i18n-case="problem2" data-reveal>[Any constraint worth mentioning — timeline, technical, stakeholder.]</p>
+
+        <!-- USERTYPES-START  Optional, and generated rather than written out
+             here: the served / not-served state comes from the CSV's utNOk
+             column, and a class cannot be set through data-i18n-case, which
+             only writes text. Fill ut1Role/ut1Need/ut1Ok upward; the build
+             stops at the first empty role and drops the block entirely if
+             there is no ut1Role. -->
+        <ul class="cs-ut" data-reveal></ul>
+        <!-- USERTYPES-END -->
       </div>
     </div>
   </section>
@@ -139,6 +148,57 @@
       </div>
     </div>
   </section>
+
+  <!-- FRAMEWORK-START  Optional. tools/build-cases.ps1 drops this whole
+       section for any case whose CSV has no fwOldLabel row, and renumbers
+       the .cs-step badges afterwards, so a page without it still counts
+       01, 02, 03 in order. Fill fwOld1-5 / fwNew1-5 to use it; blank rows
+       collapse, so a comparison can be shorter than five points. -->
+  <section class="cs-section">
+    <div class="wrap cs-block">
+      <div class="cs-block__aside" data-reveal>
+        <span class="cs-step">03</span>
+        <h2 class="cs-block__title" data-i18n="cs.framework.title">Framework Decision</h2>
+      </div>
+      <div class="cs-block__body">
+        <div class="cs-fw" data-reveal>
+          <div class="cs-fw__col cs-fw__col--before">
+            <h3 class="cs-fw__label" data-i18n-case="fwOldLabel">[What you moved off]</h3>
+            <ul class="cs-fw__list">
+              <li data-i18n-case="fwOld1"></li>
+              <li data-i18n-case="fwOld2"></li>
+              <li data-i18n-case="fwOld3"></li>
+              <li data-i18n-case="fwOld4"></li>
+              <li data-i18n-case="fwOld5"></li>
+            </ul>
+          </div>
+          <div class="cs-fw__col cs-fw__col--after">
+            <h3 class="cs-fw__label" data-i18n-case="fwNewLabel">[What you moved to]</h3>
+            <ul class="cs-fw__list">
+              <li data-i18n-case="fwNew1"></li>
+              <li data-i18n-case="fwNew2"></li>
+              <li data-i18n-case="fwNew3"></li>
+              <li data-i18n-case="fwNew4"></li>
+              <li data-i18n-case="fwNew5"></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cs-fw__trade" data-reveal>
+          <p class="cs-fw__trade-label" data-i18n="cs.framework.tradeoff">Trade-off</p>
+          <p class="cs-fw__trade-line">
+            <span class="cs-fw__trade-term" data-i18n="cs.framework.short">Short term</span>
+            <span data-i18n-case="fwTradeShort">[What it cost]</span>
+          </p>
+          <p class="cs-fw__trade-line">
+            <span class="cs-fw__trade-term" data-i18n="cs.framework.long">Long term</span>
+            <span data-i18n-case="fwTradeLong">[What it bought]</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- FRAMEWORK-END -->
 
   <section class="cs-section">
     <div class="wrap cs-block">
@@ -187,9 +247,55 @@
           <div class="cs-stats__item"><strong data-i18n-case="stat2">[XX%]</strong><span data-i18n-case="stat2Label">[What this measures]</span></div>
           <div class="cs-stats__item"><strong data-i18n-case="stat3">[XX%]</strong><span data-i18n-case="stat3Label">[What this measures]</span></div>
         </div>
+
+        <!-- TESTIMONIAL-START  Optional; dropped unless testimonialQuote is
+             filled. Someone else's words about the work, so it sits with the
+             results rather than in a section of its own. -->
+        <figure class="cs-quotebox" data-reveal>
+          <blockquote data-i18n-case="testimonialQuote">[What someone who used or sold it said]</blockquote>
+          <figcaption>
+            <span class="cs-quotebox__name" data-i18n-case="testimonialName">[Who said it]</span>
+            <span class="cs-quotebox__role" data-i18n-case="testimonialRole">[Their role]</span>
+          </figcaption>
+        </figure>
+        <!-- TESTIMONIAL-END -->
       </div>
     </div>
   </section>
+
+  <!-- REFLECTION-START  Optional; dropped unless reflect1Title is filled.
+       Sits after the results on purpose - it is what the work taught me,
+       which only means anything once the outcome has been stated. Empty
+       slots collapse, so three or two entries are fine. -->
+  <section class="cs-section">
+    <div class="wrap cs-block">
+      <div class="cs-block__aside" data-reveal>
+        <span class="cs-step">05</span>
+        <h2 class="cs-block__title" data-i18n="cs.reflection.title">What I took from it</h2>
+      </div>
+      <div class="cs-block__body">
+        <div class="cs-reflect" data-reveal>
+          <div class="cs-reflect__item">
+            <h3 data-i18n-case="reflect1Title"></h3>
+            <p data-i18n-case="reflect1Text"></p>
+          </div>
+          <div class="cs-reflect__item">
+            <h3 data-i18n-case="reflect2Title"></h3>
+            <p data-i18n-case="reflect2Text"></p>
+          </div>
+          <div class="cs-reflect__item">
+            <h3 data-i18n-case="reflect3Title"></h3>
+            <p data-i18n-case="reflect3Text"></p>
+          </div>
+          <div class="cs-reflect__item">
+            <h3 data-i18n-case="reflect4Title"></h3>
+            <p data-i18n-case="reflect4Text"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- REFLECTION-END -->
 
   <section class="cs-next">
     <div class="wrap">

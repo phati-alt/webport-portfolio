@@ -8,8 +8,8 @@ window.CASES_INDEX = {
     th: { category: "แพลตฟอร์มภาครัฐ", title: "ระบบติดตามน้ำบาดาลสำหรับหน่วยงานรัฐ" }
   },
   "platform": {
-    en: { category: "Web Platform", title: "Construction & facility management platform" },
-    th: { category: "เว็บแพลตฟอร์ม", title: "แพลตฟอร์มบริหารงานก่อสร้างและอาคาร" }
+    en: { category: "Product Platform", title: "Construction Management Platform" },
+    th: { category: "แพลตฟอร์มผลิตภัณฑ์", title: "แพลตฟอร์มบริหารงานก่อสร้าง" }
   },
   "ev-charger": {
     en: { category: "Mobile App", title: "EV Charger — find a charge before the battery decides" },

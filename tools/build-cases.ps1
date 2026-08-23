@@ -107,7 +107,7 @@ function Replace-Region($html, $name, $replacement) {
 }
 
 $slugs = @($rows | Select-Object -ExpandProperty slug -Unique)
-$built = 0; $skipped = @(); $galleries = @(); $noCover = @()
+$built = 0; $skipped = @(); $galleries = @(); $noCover = @(); $optional = @()
 
 # Collected per case and written out afterwards as js/cases-index.js - see
 # the comment above that write for what it is for.
@@ -268,6 +268,65 @@ for ($i = 0; $i -lt $slugs.Count; $i++) {
   ) -join "`n"
   $html = Replace-Region $html 'NEXT' $next
 
+  # -- optional sections. Each is kept only where the CSV has something to
+  # put in it; a case without the copy loses the whole block rather than
+  # shipping an empty table, an unattributed quote or four blank headings.
+  $has = { param($key) [bool]($caseRows | Where-Object { $_.key -eq $key -and $_.en } | Select-Object -First 1) }
+
+  foreach ($opt in @(
+    @{ Region = 'FRAMEWORK';   Key = 'fwOldLabel' },
+    @{ Region = 'USERTYPES';   Key = 'ut1Role' },
+    @{ Region = 'TESTIMONIAL'; Key = 'testimonialQuote' },
+    @{ Region = 'REFLECTION';  Key = 'reflect1Title' }
+  )) {
+    if (& $has $opt.Key) {
+      # Keep the section, strip only its marker comments.
+      $html = [System.Text.RegularExpressions.Regex]::Replace(
+        $html, '[ \t]*<!-- ' + $opt.Region + '-(START|END).*?-->\r?\n', '',
+        [System.Text.RegularExpressions.RegexOptions]::Singleline)
+      $optional += "$slug/$($opt.Region.ToLower())"
+    } else {
+      $html = Replace-Region $html $opt.Region ''
+    }
+  }
+
+  # -- user types: built here rather than sat in the template, because the
+  # served / not-served state has to become a CSS class and data-i18n-case
+  # can only write text. Reads ut1..utN until a role comes back empty.
+  if (& $has 'ut1Role') {
+    $val = { param($k, $lang) $r = $caseRows | Where-Object { $_.key -eq $k } | Select-Object -First 1; if ($r) { $r.$lang } else { '' } }
+    $items = New-Object System.Text.StringBuilder
+    for ($u = 1; $u -le 6; $u++) {
+      if (-not (& $val "ut${u}Role" 'en')) { break }
+      $ok = ((& $val "ut${u}Ok" 'en') -match '^(yes|true|1)$')
+      $state = if ($ok) { 'is-served' } else { 'is-gap' }
+      $label = if ($ok) { 'cs.ut.served' } else { 'cs.ut.gap' }
+      [void]$items.AppendLine('          <li class="cs-ut__item ' + $state + '">')
+      [void]$items.AppendLine('            <span class="cs-ut__role" data-i18n-case="ut' + $u + 'Role"></span>')
+      [void]$items.AppendLine('            <span class="cs-ut__need" data-i18n-case="ut' + $u + 'Need"></span>')
+      [void]$items.AppendLine('            <span class="cs-ut__flag" data-i18n="' + $label + '"></span>')
+      [void]$items.AppendLine('          </li>')
+    }
+    $list = '        <ul class="cs-ut" data-reveal>' + "`n" +
+            ($items.ToString() -replace "`r`n", "`n").TrimEnd() + "`n" +
+            '        </ul>'
+    $html = [System.Text.RegularExpressions.Regex]::Replace(
+      $html, '[ \t]*<ul class="cs-ut" data-reveal></ul>',
+      [System.Text.RegularExpressions.MatchEvaluator]{ param($m) $list })
+  }
+
+  # Sections are numbered in the template, but the framework block above is
+  # optional - so on a page without it the numbers would skip. Renumber the
+  # badges in document order and the count is right either way.
+  $stepNo = 0
+  $html = [System.Text.RegularExpressions.Regex]::Replace(
+    $html, '(<span class="cs-step">)\d+(</span>)',
+    [System.Text.RegularExpressions.MatchEvaluator]{
+      param($m)
+      $script:stepNo++
+      $m.Groups[1].Value + $script:stepNo.ToString('00') + $m.Groups[2].Value
+    })
+
   Write-Utf8 (Join-Path $destDir 'index.html') $html
 
   # Keep this case's card copy for the homepage index written below.
@@ -318,6 +377,9 @@ if ($galleries.Count -gt 0) {
   Write-Host "Galleries wired from assets/: $($galleries -join ', ')"
 } else {
   Write-Host "No screen-*.png found yet - galleries left as placeholders."
+}
+if ($optional.Count -gt 0) {
+  Write-Host "Optional sections included: $($optional -join ", ")"
 }
 if ($noCover.Count -gt 0) {
   Write-Host "No assets/cover.png yet: $($noCover -join ', ')" -ForegroundColor Yellow
