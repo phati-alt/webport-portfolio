@@ -61,7 +61,20 @@
   --nav-ink:   #1a1a1a;
   --nav-hover: rgba(26, 26, 26, .07);
 
+  /* Review-stamp colours, for the served / not-served verdicts on a case
+     page. Darker than the obvious green/red: those sit around 3:1 on white,
+     which is under the 4.5:1 floor for the small caps they are set in.
+     Flipped for dark mode below, where the same hues have to lift off navy
+     instead. */
+  --stamp-ok:  #0b6b3a;
+  --stamp-no:  #b3282d;
+
   --font: "Switzer", "Noto Sans Thai", "Helvetica Neue", Arial, sans-serif;
+  /* Utility register: sheet numbers, stamps, stat figures, attributions.
+     A system stack, so it costs no extra font load — and monospace is the
+     native voice of the subject here, where everything is annotated with a
+     drawing reference, a PO number or a spec section. */
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
   /* hero wordmark only — Chillax is loaded at 600 only, so no faux bold */
   --font-display: "Chillax", var(--font);
   --wordmark: #20317e;        /* dark blue (primary-active from file) — strong on the white paper */
@@ -116,4 +129,6 @@
   --nav-bg:      rgba(2, 15, 39, .6);
   --nav-ink:     #ffffff;
   --nav-hover:   rgba(255, 255, 255, .08);
+  --stamp-ok:    #58cc8f;   /* lifted off the navy canvas, same roles as light */
+  --stamp-no:    #ff8085;
 }

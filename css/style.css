@@ -1302,12 +1302,22 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 .cs-block { display: grid; grid-template-columns: minmax(180px, 24%) 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: start; }
 .cs-block__aside { position: sticky; top: calc(var(--header-h) + 1.5rem); }
 .cs-block__title { font-size: clamp(1.4rem, 1rem + 1.2vw, 2rem); font-weight: 600; letter-spacing: -.02em; margin-top: .9rem; text-wrap: balance; }
-/* circle badge matching the Process rail's nodes and the Services cards */
+/* A sheet reference, not a badge. These sections are a numbered document
+   set, and the number reads better as an annotation above the title —
+   mono, spaced, hairline under it — than as a circle repeated six times
+   down the page. The circle is still the right device on the homepage's
+   Process rail and Services cards, which are nodes rather than sections;
+   this class is only used on case pages and the More Projects modal. */
 .cs-step {
-  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
-  background: color-mix(in srgb, currentColor 10%, transparent);
-  border: 1px solid var(--rule);
-  font-size: .85rem; font-weight: 600; letter-spacing: .02em;
+  display: block; width: auto; height: auto;
+  padding: 0 0 .65rem; border: 0; border-bottom: 1px solid var(--rule);
+  border-radius: 0; background: none;
+  font-family: var(--font-mono); font-size: .74rem; font-weight: 500;
+  /* Muted rather than the brand blue: at this size blue clears only
+     3.7:1 on the dark canvas, under the 4.5 floor for text — and the
+     palette reserves --primary for links and CTAs, which a static
+     section number is not. The colour on this page belongs to the stamp. */
+  letter-spacing: .2em; color: var(--muted);
 }
 .cs-block__body > .lede + .lede { margin-top: 1.15rem; }
 .cs-block__body > .lede { max-width: 68ch; }
@@ -1337,18 +1347,25 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 }
 .cs-ut__role { font-weight: 600; font-size: .95rem; }
 .cs-ut__need { color: var(--muted); font-size: .93rem; line-height: 1.5; }
-/* The flag is a word, not just a colour — the state has to survive
-   greyscale and colour-blindness, same reasoning as the framework lists. */
+/* The verdict is stamped, because that is what this product does to a
+   document: every submittal in it comes back marked APPROVED or REVISE AND
+   RESUBMIT. Borrowing the artifact makes the judgement read as a review
+   rather than a status chip, and it is the one loud thing on the page —
+   so it stays a thin outline and a small rotation, with no texture, no
+   shadow and no distressing. A word, not only a colour, so the state
+   survives greyscale and a red-green colour deficiency. */
 .cs-ut__flag {
   justify-self: end; white-space: nowrap;
-  font-size: .78rem; font-weight: 600; letter-spacing: .04em;
-  padding: .25rem .6rem; border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: .66rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  padding: .4rem .65rem; border-radius: 2px;
+  border: 1px solid currentColor;
+  transform: rotate(-1.5deg);
 }
-.cs-ut__item.is-served .cs-ut__flag {
-  color: #30a46c; background: color-mix(in srgb, #30a46c 14%, transparent);
-}
-.cs-ut__item.is-gap .cs-ut__flag {
-  color: #e5484d; background: color-mix(in srgb, #e5484d 14%, transparent);
+.cs-ut__item.is-served .cs-ut__flag { color: var(--stamp-ok); }
+.cs-ut__item.is-gap .cs-ut__flag { color: var(--stamp-no); }
+@media (prefers-reduced-motion: reduce) {
+  .cs-ut__flag { transform: none; }
 }
 /* Narrow: role and its verdict stay together on the first line, the need
    wraps underneath. Placed explicitly — leaving it to auto-placement put
@@ -1378,20 +1395,32 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 .cs-quotebox blockquote::after { content: '\201D'; }
 .cs-quotebox figcaption {
   margin-top: 1rem; display: flex; flex-wrap: wrap; gap: .15rem .6rem;
-  align-items: baseline; font-size: .88rem;
+  align-items: baseline;
+  font-family: var(--font-mono); font-size: .74rem; letter-spacing: .06em;
 }
-.cs-quotebox__name { font-weight: 600; }
+.cs-quotebox__name { font-weight: 500; }
 .cs-quotebox__role { color: var(--muted); }
 
 /* ---------- Reflection ---------- */
+/* Notes, not features. This is a retrospective at the end of the page, so
+   it is set as a numbered list with the numeral hung in the margin — four
+   bordered cards gave it the same weight as the work itself. The counter
+   is CSS, so blank slots drop out without leaving a gap in the numbering. */
 .cs-reflect {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(1rem, 2vw, 1.5rem);
+  gap: clamp(1.5rem, 3vw, 2.25rem) clamp(2rem, 4vw, 3.5rem);
   margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  counter-reset: reflect;
 }
 .cs-reflect__item {
-  padding: clamp(1.1rem, 2vw, 1.5rem);
-  border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  counter-increment: reflect;
+  padding-left: 2.4rem; position: relative;
+}
+.cs-reflect__item::before {
+  content: counter(reflect, decimal-leading-zero);
+  position: absolute; left: 0; top: .15rem;
+  font-family: var(--font-mono); font-size: .74rem; letter-spacing: .1em;
+  color: var(--muted);
 }
 .cs-reflect__item h3 {
   margin: 0; font-size: .98rem; font-weight: 600; letter-spacing: -.01em;
@@ -1416,16 +1445,28 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2vw, 1.5rem);
   margin-top: clamp(1.5rem, 3vw, 2.25rem);
 }
+/* Weighted, not mirrored. This was a decision, not a comparison: one side
+   was rejected. Giving both columns the same plate and the same weight
+   would say the opposite — that it is still an open question. So the old
+   stack recedes to a hairline outline and muted text, and the chosen one
+   comes forward on a plate with the brand rule above it. */
 .cs-fw__col {
   padding: clamp(1.1rem, 2vw, 1.6rem);
-  border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  border-radius: var(--radius-sm);
+}
+.cs-fw__col--before {
+  border: 1px solid var(--rule);
+  background: none;
+}
+.cs-fw__col--after {
+  border: 1px solid transparent;
+  border-top: 2px solid var(--primary);
   background: var(--paper-2);
 }
-.cs-fw__col--before { border-top: 3px solid color-mix(in srgb, #e5484d 70%, var(--rule)); }
-.cs-fw__col--after { border-top: 3px solid color-mix(in srgb, #30a46c 70%, var(--rule)); }
 .cs-fw__label {
   margin: 0 0 .9rem; font-size: .95rem; font-weight: 600; letter-spacing: -.01em;
 }
+.cs-fw__col--before .cs-fw__label { color: var(--muted); font-weight: 500; }
 .cs-fw__list { margin: 0; padding: 0; list-style: none; }
 .cs-fw__list li {
   position: relative; padding-left: 1.6rem; margin-top: .55rem;
@@ -1435,8 +1476,9 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   position: absolute; left: 0; top: 0;
   font-weight: 700; font-size: .85rem;
 }
-.cs-fw__col--before .cs-fw__list li::before { content: '\00D7'; color: #e5484d; }
-.cs-fw__col--after .cs-fw__list li::before { content: '\2713'; color: #30a46c; }
+.cs-fw__col--before .cs-fw__list li::before { content: '\00D7'; color: var(--stamp-no); }
+.cs-fw__col--after .cs-fw__list li::before { content: '\2713'; color: var(--stamp-ok); }
+.cs-fw__col--after .cs-fw__list li { color: var(--ink); }
 /* The template always ships five slots per side; a comparison with fewer
    points leaves the rest empty rather than needing its own markup. */
 .cs-fw__list li:empty { display: none; }
@@ -1588,8 +1630,9 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 /* Below the case page's own two-column breakpoint the aside stacks above
    the body, same as .cs-block does there. */
 @media (max-width: 900px) {
-  .mp-modal__block .cs-block__aside { display: flex; align-items: center; gap: .9rem; }
+  .mp-modal__block .cs-block__aside { display: flex; align-items: baseline; gap: .85rem; }
   .mp-modal__block .cs-block__title { margin-top: 0; }
+  .mp-modal__block .cs-step { border-bottom: 0; padding-bottom: 0; }
   .mp-modal .cs-stats { grid-template-columns: 1fr; }
 }
 @media (max-width: 900px) {
@@ -1611,14 +1654,19 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 
 /* results numbers on their own tinted plate so they read as the payoff
    rather than three more paragraphs */
+/* Measurements, set like measurements: figures in the utility face, each
+   sitting under its own rule, reading across as a row of readings rather
+   than three cards on a tinted plate. The plate went because the stamp is
+   already carrying this page — a second filled panel competes with it. */
 .cs-stats {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 2.5rem);
-  margin-top: clamp(2rem, 4vw, 3rem); padding: clamp(1.75rem, 3.5vw, 3rem);
-  background: var(--paper-2); border-radius: var(--radius);
+  margin-top: clamp(2rem, 4vw, 3rem);
 }
+.cs-stats__item { padding-top: 1rem; border-top: 2px solid var(--ink); }
 .cs-stats__item strong {
-  display: block; font-size: clamp(1.8rem, 1.2rem + 2.2vw, 3.2rem); font-weight: 600;
-  letter-spacing: -.03em; line-height: 1.05;
+  display: block; font-family: var(--font-mono);
+  font-size: clamp(1.6rem, 1.1rem + 1.9vw, 2.8rem); font-weight: 500;
+  letter-spacing: -.03em; line-height: 1.05; font-variant-numeric: tabular-nums;
 }
 .cs-stats__item span { display: block; margin-top: .5rem; color: var(--muted); font-size: .92rem; line-height: 1.4; }
 
@@ -1659,8 +1707,11 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   /* the sticky label loses its point once it sits above the body instead
      of beside it — it would pin over the text it introduces */
   .cs-block { grid-template-columns: 1fr; gap: 1.5rem; }
-  .cs-block__aside { position: static; display: flex; align-items: center; gap: 1rem; }
+  .cs-block__aside { position: static; display: flex; align-items: baseline; gap: .85rem; }
   .cs-block__title { margin-top: 0; }
+  /* Inline beside the title here, so the rule that underlines it in the
+     two-column layout would just cut between two words. */
+  .cs-block__aside .cs-step { border-bottom: 0; padding-bottom: 0; }
   .cs-meta { grid-template-columns: repeat(2, 1fr); row-gap: 1.5rem; }
   .cs-gallery { grid-template-columns: 1fr; }
   .cs-stats { grid-template-columns: 1fr; }
