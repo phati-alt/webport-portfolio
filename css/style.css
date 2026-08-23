@@ -439,6 +439,56 @@ body {
   transition: transform .9s var(--ease);
 }
 .case:hover .case__media img { transform: scale(1.06); }
+
+/* Card label — the project's category and title, over the cover. Text is
+   filled in from js/cases-index.js (see i18n.js), so it stays tied to the
+   same CSV rows the case page itself reads.
+
+   White on a scrim rather than a theme token: it sits on a photograph,
+   which has no idea what the page theme is, so --ink would go invisible
+   against a light cover in dark mode. The gradient is what guarantees
+   contrast, so it has to stay even where the image is already dark. */
+.case__label,
+.mp-card__label {
+  position: absolute; inset-inline: 0; bottom: 0; z-index: 1;
+  padding: clamp(1.1rem, 2.4vw, 1.9rem);
+  color: #fff; pointer-events: none;
+  background: linear-gradient(to top,
+    rgba(6, 10, 24, .82) 0%, rgba(6, 10, 24, .45) 55%, rgba(6, 10, 24, 0) 100%);
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .45s var(--ease), transform .45s var(--ease);
+}
+.case__label-category,
+.mp-card__label-category {
+  display: block;
+  margin: 0 0 .35rem; font-size: .72rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; opacity: .8;
+}
+.case__label-title,
+.mp-card__label-title {
+  display: block;
+  margin: 0; font-size: clamp(1.05rem, 1.7vw, 1.45rem);
+  font-weight: 600; letter-spacing: -.02em; line-height: 1.25;
+  text-wrap: balance;
+}
+/* :focus-visible too, so the label is reachable by keyboard and not only
+   by a pointer that a touch device does not have. */
+.case:hover .case__label,
+.case:focus-visible .case__label,
+.mp-card:hover .mp-card__label,
+.mp-card:focus-visible .mp-card__label { opacity: 1; transform: none; }
+
+/* Nothing on a touchscreen ever fires hover, so the label would simply
+   never appear there. Show it outright instead — the same information,
+   just without the reveal it has no gesture for. */
+@media (hover: none) {
+  .case__label,
+  .mp-card__label { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case__label,
+  .mp-card__label { transition: none; transform: none; }
+}
 /* the "more projects" tile — a plain [data-tone] fill (same colour set
    the case-study template's own placeholder media-blocks use) standing
    in for a cover photo, with just a centred CTA label instead. Height/
@@ -1269,6 +1319,143 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   font-size: clamp(1.3rem, 1rem + 1.4vw, 2.1rem); font-weight: 500;
   letter-spacing: -.02em; line-height: 1.28; text-wrap: balance;
   max-width: 30ch;
+}
+
+/* ---------- More Projects: cards + modal ---------- */
+/* Same treatment as the homepage case cards — rounded frame, slow image
+   push-in, label sliding up on hover — but laid out as a grid rather than
+   the homepage's scrubbed horizontal row, and sized by aspect-ratio
+   instead of the row's fixed viewport height. These covers are landscape
+   (roughly 3:2); forcing them into the case row's tall portrait frame
+   would crop the device mockups in half. */
+.mp-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--gap); margin-top: clamp(2rem, 4vw, 3rem);
+}
+.mp-card {
+  /* it opens a dialog rather than navigating, so it is a <button> — which
+     means undoing the browser's button styling before anything else */
+  display: block; width: 100%; padding: 0; border: 0;
+  background: none; font: inherit; color: inherit; text-align: left;
+  cursor: pointer;
+}
+.mp-card__media {
+  position: relative; display: block; aspect-ratio: 3 / 2;
+  border-radius: var(--radius); overflow: hidden; background: var(--paper-2);
+}
+.mp-card__media img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  transition: transform .9s var(--ease);
+}
+.mp-card:hover .mp-card__media img { transform: scale(1.06); }
+.mp-card:focus-visible .mp-card__media {
+  outline: 2px solid var(--primary); outline-offset: 3px;
+}
+
+/* The dialog sits on top of everything, so it carries its own surface
+   colours from the theme tokens rather than inheriting a section's. */
+.mp-modal {
+  width: min(1280px, calc(100vw - 3rem));
+  max-height: min(94vh, 1100px);
+  padding: 0; border: 0; border-radius: var(--radius);
+  background: var(--paper); color: var(--ink);
+  overflow: hidden auto;
+  /* The dialog is its own scroll container, and a track running down the
+     inside edge of a rounded panel cuts across the corner radius and reads
+     as a seam in the design. Scrolling itself is untouched — wheel, drag,
+     keys and the scrollbar-free trackpad gesture all still work; only the
+     bar is hidden. Safe here precisely because it is a short, self-evidently
+     scrollable panel: the cover image is always cut off at the fold, so
+     there is no doubt that there is more below. */
+  scrollbar-width: none;              /* Firefox */
+  -ms-overflow-style: none;           /* legacy Edge */
+}
+.mp-modal::-webkit-scrollbar { width: 0; height: 0; display: none; }
+.mp-modal::backdrop { background: rgba(6, 10, 24, .62); backdrop-filter: blur(3px); }
+
+/* Case-page rhythm, scaled to a dialog: standfirst, full-bleed cover, meta
+   row, then the write-up beside a numbered section head. The horizontal
+   inset is shared by everything except the cover, which bleeds. */
+.mp-modal__inner { --mp-pad: clamp(1.5rem, 3.5vw, 4rem); }
+.mp-modal__hero {
+  padding: clamp(2.5rem, 4.5vw, 4rem) var(--mp-pad) clamp(1.75rem, 3vw, 2.5rem);
+}
+.mp-modal__title {
+  margin: .75rem 0 0;
+  font-size: clamp(1.7rem, 1.1rem + 2.6vw, 3.2rem); font-weight: 600;
+  letter-spacing: -.035em; line-height: 1.06; text-wrap: balance;
+  max-width: 20ch;
+}
+.mp-modal__summary {
+  margin-top: clamp(1rem, 2vw, 1.4rem); max-width: 58ch; color: var(--muted);
+}
+/* Capping the cover's height does two jobs at this panel width. Stretched
+   to a full 1280 the covers ran taller than the dialog itself, so opening a
+   project put a wall of image between the title and everything written
+   about it. And these files are 689px wide — filling that width meant
+   scaling them 1.86x, which visibly softens a screenshot full of small UI
+   text. Bounded by height and contained instead, they land near their
+   native size and stay sharp; the leftover space either side reads as a
+   mount, the same way the case pages inset their cover. */
+.mp-modal__cover {
+  margin: 0; background: var(--paper-2);
+  display: grid; place-items: center;
+  padding: clamp(1rem, 2vw, 2rem);
+}
+.mp-modal__cover img {
+  display: block; width: auto; height: auto;
+  max-width: 100%; max-height: 52vh;
+}
+.mp-modal__meta { margin: clamp(1.5rem, 3vw, 2.25rem) var(--mp-pad) 0; }
+.mp-modal__block {
+  padding: clamp(1.75rem, 3.5vw, 2.75rem) var(--mp-pad) clamp(2.25rem, 4vw, 3.25rem);
+}
+/* .cs-block__aside is sticky under the site header on a real case page;
+   inside a dialog there is no header to clear, and a label that follows
+   the scroll in a panel this short just drifts away from its own text. */
+.mp-modal__block .cs-block__aside { position: static; }
+
+/* Pinned to the dialog, not the image: the image scrolls away on a short
+   viewport and the close control has to stay reachable. */
+.mp-modal__close {
+  position: sticky; top: 0; float: right; z-index: 2;
+  display: grid; place-items: center; width: 40px; height: 40px;
+  margin: .75rem .75rem -40px 0;
+  border: 0; border-radius: 50%; cursor: pointer;
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(6px);
+  color: var(--ink);
+  transition: background var(--speed) var(--ease);
+}
+.mp-modal__close:hover { background: var(--paper-2); }
+
+/* The case page runs three stats across; the modal carries two, and its
+   number scale is tied to viewport width, which is the wrong ruler inside
+   a fixed-width panel — a wide window would size these for a column far
+   larger than the one they sit in. */
+/* Scoped under .mp-modal on purpose: .cs-stats is defined further down this
+   file, so a bare .mp-modal__stats ties on specificity and loses on source
+   order — which left two stats spread across the base rule's three columns,
+   with an empty third. */
+.mp-modal .cs-stats { grid-template-columns: repeat(2, 1fr); }
+.mp-modal .cs-stats__item strong { font-size: clamp(1.6rem, 1.2rem + 1vw, 2.3rem); }
+
+/* Successive blocks would otherwise stack their full top and bottom
+   padding into a large gap; only the first needs the space above it. */
+.mp-modal__block + .mp-modal__block { padding-top: 0; }
+
+/* Below the case page's own two-column breakpoint the aside stacks above
+   the body, same as .cs-block does there. */
+@media (max-width: 900px) {
+  .mp-modal__block .cs-block__aside { display: flex; align-items: center; gap: .9rem; }
+  .mp-modal__block .cs-block__title { margin-top: 0; }
+  .mp-modal .cs-stats { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .mp-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-card__media img { transition: none; }
 }
 
 .cs-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); margin-top: clamp(2rem, 4vw, 3rem); }

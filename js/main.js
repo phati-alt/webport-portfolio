@@ -814,6 +814,112 @@
     });
   }
 
+  /* ---------- 12. More Projects: card labels + detail modal ---------- */
+  /* Only work/more-projects/ has [data-mp-grid], so this returns early
+     everywhere else rather than needing a page check. Copy comes from that
+     folder's own data.js (window.MORE_PROJECTS), the same pattern the case
+     pages use for CASE_DATA — the cards and the dialog are both filled from
+     it, so adding a project means editing that file and the markup, never
+     this function. */
+  function initMoreProjects() {
+    const grid = document.querySelector('[data-mp-grid]');
+    const modal = document.querySelector('[data-mp-modal]');
+    if (!grid || !modal) return;
+
+    const cards = [...grid.querySelectorAll('[data-mp-id]')];
+    const fields = [...modal.querySelectorAll('[data-mp-modal-field]')];
+    const modalImg = modal.querySelector('[data-mp-modal-img]');
+    let openId = null;
+
+    const entryFor = id => {
+      const item = window.MORE_PROJECTS?.[id];
+      if (!item) return null;
+      return item[I18N.getLang()] || item.en;
+    };
+
+    // Card labels and the open dialog both re-render from the same helper,
+    // so switching language mid-dialog updates what is on screen instead of
+    // leaving the previous language sitting there until it is reopened.
+    const render = () => {
+      cards.forEach(card => {
+        const data = entryFor(card.dataset.mpId);
+        if (!data) return;
+        card.querySelectorAll('[data-mp-field]').forEach(el => {
+          const value = data[el.dataset.mpField];
+          if (value !== undefined) el.textContent = value;
+        });
+        // The button's only text is the label, which is hidden until hover
+        // — give screen readers and the tooltip the title outright.
+        if (data.title) card.setAttribute('aria-label', data.title);
+      });
+
+      if (!openId) return;
+      const data = entryFor(openId);
+      if (!data) return;
+      fields.forEach(el => {
+        const value = data[el.dataset.mpModalField];
+        if (value !== undefined) el.textContent = value;
+      });
+    };
+
+    render();
+    window.addEventListener('langchange', render);
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        openId = card.dataset.mpId;
+        const img = card.querySelector('img');
+        if (img && modalImg) {
+          modalImg.src = img.currentSrc || img.src;
+          modalImg.alt = '';
+        }
+        render();
+        modal.scrollTop = 0;
+        // showModal (not show) is what gives the focus trap, Esc handling
+        // and inert background; the ::backdrop only renders for it too.
+        modal.showModal();
+
+        // Lenis binds wheel on the window and preventDefaults it to drive
+        // its own smooth scroll, so a wheel over this dialog was swallowed
+        // before the dialog could scroll natively — the panel would not move
+        // at all, even though it overflows. <dialog>'s inert background is
+        // no help: inert blocks interaction with the elements behind, not a
+        // listener already bound to the window.
+        //
+        // What actually fixes it is the data-lenis-prevent attribute on the
+        // dialog (Lenis skips events originating inside such an element),
+        // verified by toggling the attribute and watching defaultPrevented
+        // flip. stop() alone does NOT do it: a stopped Lenis still
+        // preventDefaults, because that is how it holds the page still.
+        // Which is exactly why it is called here too — it locks the page
+        // behind the dialog, so the backdrop cannot be scrolled past and
+        // closing returns you where you were.
+        lenis?.stop();
+      });
+    });
+
+    modal.querySelector('[data-mp-close]')?.addEventListener('click', () => modal.close());
+
+    // A <dialog> fills its whole top layer, so a click on the dimmed area
+    // still lands on the dialog element itself. Comparing against the
+    // element's own box is what separates "clicked the backdrop" from
+    // "clicked the content" without an extra wrapper div.
+    modal.addEventListener('click', e => {
+      if (e.target !== modal) return;
+      const box = modal.getBoundingClientRect();
+      const inside = e.clientX >= box.left && e.clientX <= box.right &&
+                     e.clientY >= box.top && e.clientY <= box.bottom;
+      if (!inside) modal.close();
+    });
+
+    // Fires however the dialog was dismissed — close button, backdrop, or
+    // the Esc key <dialog> handles itself — so Lenis is always resumed.
+    modal.addEventListener('close', () => {
+      openId = null;
+      lenis?.start();
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -823,6 +929,7 @@
     initTheme();
     initResumeBtn();
     initCaseProgress();
+    initMoreProjects();
     initCursor();
     initBand();
     initBandContents();

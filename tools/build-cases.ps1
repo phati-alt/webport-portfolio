@@ -109,6 +109,10 @@ function Replace-Region($html, $name, $replacement) {
 $slugs = @($rows | Select-Object -ExpandProperty slug -Unique)
 $built = 0; $skipped = @(); $galleries = @(); $noCover = @()
 
+# Collected per case and written out afterwards as js/cases-index.js - see
+# the comment above that write for what it is for.
+$cardIndex = @()
+
 for ($i = 0; $i -lt $slugs.Count; $i++) {
   $slug = $slugs[$i]
   $caseDir = Join-Path $root "work/$slug"
@@ -265,7 +269,46 @@ for ($i = 0; $i -lt $slugs.Count; $i++) {
   $html = Replace-Region $html 'NEXT' $next
 
   Write-Utf8 (Join-Path $destDir 'index.html') $html
+
+  # Keep this case's card copy for the homepage index written below.
+  $val = { param($k, $lang) $r = $caseRows | Where-Object { $_.key -eq $k } | Select-Object -First 1; if ($r) { Esc $r.$lang } else { '' } }
+  $cardIndex += [pscustomobject]@{
+    Slug       = $slug
+    CategoryEn = (& $val 'category' 'en'); CategoryTh = (& $val 'category' 'th')
+    TitleEn    = (& $val 'title' 'en');    TitleTh    = (& $val 'title' 'th')
+  }
+
   $built++
+}
+
+# ---- 3. js/cases-index.js -------------------------------------------
+# The homepage shows every case as a card, and each card now names its
+# project on hover. That copy already exists per case in the CSV, but a
+# case's own data.js only ever loads on that case's page - the homepage
+# has no way to read six of them. Rather than retyping the titles into
+# js/i18n.js (where case-specific copy does not belong, and where the old
+# numbered work.card1.title keys became untraceable), the build emits the
+# few fields the cards need, for every case at once, in CSV row order.
+# One source of truth: retitle a case in the sheet and its homepage card
+# follows on the next build.
+if ($cardIndex.Count -gt 0) {
+  $ib = New-Object System.Text.StringBuilder
+  [void]$ib.AppendLine('/* GENERATED FILE - do not edit by hand.')
+  [void]$ib.AppendLine('   Source of truth is content/cases.csv; regenerate with:')
+  [void]$ib.AppendLine('     powershell -ExecutionPolicy Bypass -File tools/build-cases.ps1')
+  [void]$ib.AppendLine('   Loaded by index.html only, to label the case cards. */')
+  [void]$ib.AppendLine('window.CASES_INDEX = {')
+  for ($j = 0; $j -lt $cardIndex.Count; $j++) {
+    $c = $cardIndex[$j]
+    $tail = if ($j -lt $cardIndex.Count - 1) { ',' } else { '' }
+    [void]$ib.AppendLine('  "' + $c.Slug + '": {')
+    [void]$ib.AppendLine('    en: { category: "' + $c.CategoryEn + '", title: "' + $c.TitleEn + '" },')
+    [void]$ib.AppendLine('    th: { category: "' + $c.CategoryTh + '", title: "' + $c.TitleTh + '" }')
+    [void]$ib.AppendLine('  }' + $tail)
+  }
+  [void]$ib.AppendLine('};')
+  $indexDest = if ($OutDir) { Join-Path $OutDir 'cases-index.js' } else { Join-Path $root 'js/cases-index.js' }
+  Write-Utf8 $indexDest $ib.ToString()
 }
 
 Write-Host ""

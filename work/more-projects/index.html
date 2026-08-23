@@ -100,33 +100,150 @@
        independent: add, remove or reorder them freely. ===== -->
   <section class="cs-section" style="border-top: none; padding-top: 0;">
     <div class="wrap">
-      <div class="cs-gallery">
-        <figure data-reveal>
-          <img src="assets/project-1.png" alt="">
-        </figure>
-        <figure data-reveal>
-          <img src="assets/project-2.png" alt="">
-        </figure>
-        <figure data-reveal>
-          <img src="assets/project-3.png" alt="">
-        </figure>
-        <figure data-reveal>
-          <img src="assets/project-4.png" alt="">
-        </figure>
-        <figure data-reveal>
-          <img src="assets/project-5.png" alt="">
-        </figure>
-        <figure data-reveal>
-          <img src="assets/project-6.png" alt="">
-        </figure>
-        <figure data-reveal>
-          <img src="assets/project-7.png" alt="">
-        </figure>
+      <div class="mp-grid" data-mp-grid>
+        <button class="mp-card" type="button" data-mp-id="project-1" data-reveal data-hover>
+          <span class="mp-card__media">
+            <img src="assets/project-1.png" alt="" loading="lazy">
+            <span class="mp-card__label">
+              <span class="mp-card__label-category" data-mp-field="category"></span>
+              <span class="mp-card__label-title" data-mp-field="title"></span>
+            </span>
+          </span>
+        </button>
+        <button class="mp-card" type="button" data-mp-id="project-2" data-reveal data-hover>
+          <span class="mp-card__media">
+            <img src="assets/project-2.png" alt="" loading="lazy">
+            <span class="mp-card__label">
+              <span class="mp-card__label-category" data-mp-field="category"></span>
+              <span class="mp-card__label-title" data-mp-field="title"></span>
+            </span>
+          </span>
+        </button>
+        <button class="mp-card" type="button" data-mp-id="project-3" data-reveal data-hover>
+          <span class="mp-card__media">
+            <img src="assets/project-3.png" alt="" loading="lazy">
+            <span class="mp-card__label">
+              <span class="mp-card__label-category" data-mp-field="category"></span>
+              <span class="mp-card__label-title" data-mp-field="title"></span>
+            </span>
+          </span>
+        </button>
+        <button class="mp-card" type="button" data-mp-id="project-4" data-reveal data-hover>
+          <span class="mp-card__media">
+            <img src="assets/project-4.png" alt="" loading="lazy">
+            <span class="mp-card__label">
+              <span class="mp-card__label-category" data-mp-field="category"></span>
+              <span class="mp-card__label-title" data-mp-field="title"></span>
+            </span>
+          </span>
+        </button>
+        <button class="mp-card" type="button" data-mp-id="project-5" data-reveal data-hover>
+          <span class="mp-card__media">
+            <img src="assets/project-5.png" alt="" loading="lazy">
+            <span class="mp-card__label">
+              <span class="mp-card__label-category" data-mp-field="category"></span>
+              <span class="mp-card__label-title" data-mp-field="title"></span>
+            </span>
+          </span>
+        </button>
+        <button class="mp-card" type="button" data-mp-id="project-6" data-reveal data-hover>
+          <span class="mp-card__media">
+            <img src="assets/project-6.png" alt="" loading="lazy">
+            <span class="mp-card__label">
+              <span class="mp-card__label-category" data-mp-field="category"></span>
+              <span class="mp-card__label-title" data-mp-field="title"></span>
+            </span>
+          </span>
+        </button>
+        <button class="mp-card" type="button" data-mp-id="project-7" data-reveal data-hover>
+          <span class="mp-card__media">
+            <img src="assets/project-7.png" alt="" loading="lazy">
+            <span class="mp-card__label">
+              <span class="mp-card__label-category" data-mp-field="category"></span>
+              <span class="mp-card__label-title" data-mp-field="title"></span>
+            </span>
+          </span>
+        </button>
       </div>
     </div>
   </section>
 
 </main>
+
+<!-- ===== Project modal — one dialog reused by every card; initMoreProjects()
+     in js/main.js fills it from data.js on open. Starts hidden and empty,
+     so nothing here needs to change when projects are added or removed.
+     <dialog> gives the focus trap, Esc-to-close and inert background for
+     free rather than reimplementing them. ===== -->
+<dialog class="mp-modal" data-mp-modal data-lenis-prevent aria-labelledby="mpModalTitle">
+  <button class="mp-modal__close" type="button" data-mp-close aria-label="Close" data-i18n-aria-label="a11y.close">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+
+  <!-- Same reading order as a case page: category and title first, then the
+       cover, the meta row, and the write-up under a numbered section head.
+       The classes are the case page's own (.cs-meta, .cs-block, .cs-step)
+       so the two stay visually in step from one stylesheet. -->
+  <article class="mp-modal__inner">
+    <header class="mp-modal__hero">
+      <p class="pretitle" data-mp-modal-field="category"></p>
+      <h2 class="mp-modal__title" id="mpModalTitle" data-mp-modal-field="title"></h2>
+      <p class="lede mp-modal__summary" data-mp-modal-field="summary"></p>
+    </header>
+
+    <figure class="mp-modal__cover">
+      <img data-mp-modal-img src="" alt="">
+    </figure>
+
+    <dl class="cs-meta mp-modal__meta">
+      <div><dt data-i18n="cs.meta.roleLabel">Role</dt><dd data-mp-modal-field="role"></dd></div>
+      <div><dt data-i18n="more.modal.yearLabel">Year</dt><dd data-mp-modal-field="year"></dd></div>
+      <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-mp-modal-field="platform"></dd></div>
+    </dl>
+
+    <section class="cs-block mp-modal__block">
+      <div class="cs-block__aside">
+        <span class="cs-step">01</span>
+        <h3 class="cs-block__title" data-i18n="cs.overview.title">The Problem</h3>
+      </div>
+      <div class="cs-block__body">
+        <p class="lede" data-mp-modal-field="problem"></p>
+      </div>
+    </section>
+
+    <section class="cs-block mp-modal__block">
+      <div class="cs-block__aside">
+        <span class="cs-step">02</span>
+        <h3 class="cs-block__title" data-i18n="cs.process.title">Process</h3>
+      </div>
+      <div class="cs-block__body">
+        <p class="lede" data-mp-modal-field="process"></p>
+        <blockquote class="cs-quote" data-mp-modal-field="quote"></blockquote>
+      </div>
+    </section>
+
+    <section class="cs-block mp-modal__block">
+      <div class="cs-block__aside">
+        <span class="cs-step">03</span>
+        <h3 class="cs-block__title" data-i18n="cs.solution.title">The Solution</h3>
+      </div>
+      <div class="cs-block__body">
+        <p class="lede" data-mp-modal-field="solution"></p>
+
+        <dl class="cs-stats mp-modal__stats">
+          <div class="cs-stats__item">
+            <strong data-mp-modal-field="stat1"></strong>
+            <span data-mp-modal-field="stat1Label"></span>
+          </div>
+          <div class="cs-stats__item">
+            <strong data-mp-modal-field="stat2"></strong>
+            <span data-mp-modal-field="stat2Label"></span>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </article>
+</dialog>
 
 <!-- ===== Footer (identical to studio/index.html) ===== -->
 <footer class="footer">
@@ -171,6 +288,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="data.js"></script>
 <script src="../../js/i18n.js"></script>
 <script src="../../js/main.js"></script>
 </body>

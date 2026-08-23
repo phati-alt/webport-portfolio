@@ -37,6 +37,9 @@ const translations = {
     "more.eyebrow": "More Projects",
     "more.title": "A few more things I've worked on",
     "more.desc": "Smaller projects and explorations that didn't get a full case study of their own.",
+    "more.modal.yearLabel": "Year",
+    "more.modal.overviewLabel": "Overview",
+    "more.modal.hint": "Tap a project for details",
 
     "services.titleInline": "From strategy to handover",
     "skills.card1.title": "Design Strategy",
@@ -132,7 +135,8 @@ const translations = {
     "a11y.switchLanguage": "Switch language",
     "a11y.toggleDarkMode": "Toggle dark mode",
     "a11y.menu": "Menu",
-    "a11y.footerNav": "Footer"
+    "a11y.footerNav": "Footer",
+    "a11y.close": "Close"
   },
 
   th: {
@@ -163,6 +167,9 @@ const translations = {
     "more.eyebrow": "โปรเจกต์อื่นๆ",
     "more.title": "ผลงานอื่น ๆ ที่เคยทำ",
     "more.desc": "โปรเจกต์เล็ก ๆ และงานทดลองที่ยังไม่ได้ทำเป็น case study เต็มรูปแบบ",
+    "more.modal.yearLabel": "ปี",
+    "more.modal.overviewLabel": "ภาพรวม",
+    "more.modal.hint": "แตะที่โปรเจกต์เพื่อดูรายละเอียด",
 
     "services.titleInline": "ตั้งแต่กลยุทธ์จนถึงการส่งมอบ",
     "skills.card1.title": "กลยุทธ์การออกแบบ",
@@ -258,7 +265,8 @@ const translations = {
     "a11y.switchLanguage": "สลับภาษา",
     "a11y.toggleDarkMode": "สลับโหมดมืด",
     "a11y.menu": "เมนู",
-    "a11y.footerNav": "ลิงก์ท้ายเว็บไซต์"
+    "a11y.footerNav": "ลิงก์ท้ายเว็บไซต์",
+    "a11y.close": "ปิด"
   }
 };
 
@@ -308,6 +316,26 @@ const I18N = (() => {
       document.querySelectorAll('[data-i18n-case-alt]').forEach(el => {
         const value = caseDict[el.getAttribute('data-i18n-case-alt')];
         if (value !== undefined) el.setAttribute('alt', value);
+      });
+    }
+
+    // The homepage's case cards, labelled from js/cases-index.js — one
+    // generated file holding just the category and title of every case, so
+    // the cards read from the same CSV rows the case pages do instead of
+    // keeping a second copy of six project titles in this file. A card is
+    // marked with data-case-ref="<slug>" and each field inside it with
+    // data-case-field="category|title". Only index.html loads that script,
+    // so this is a no-op everywhere else.
+    const cardIndex = window.CASES_INDEX;
+    if (cardIndex) {
+      document.querySelectorAll('[data-case-ref]').forEach(card => {
+        const entry = cardIndex[card.getAttribute('data-case-ref')];
+        if (!entry) return;
+        const fields = entry[lang] || entry.en;
+        card.querySelectorAll('[data-case-field]').forEach(el => {
+          const value = fields[el.getAttribute('data-case-field')];
+          if (value !== undefined) el.textContent = value;
+        });
       });
     }
 
