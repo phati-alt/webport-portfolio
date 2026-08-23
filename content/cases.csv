@@ -28,7 +28,7 @@ platform,title,"Construction Management Platform","แพลตฟอร์ม�
 platform,summary,"A SaaS platform that puts the tools a construction project needs in one place - documents, schedule, inspections and a project-wide dashboard - so owners, consultants, contractors and subcontractors plan from the same picture.","แพลตฟอร์ม SaaS ที่รวมเครื่องมือที่งานก่อสร้างต้องใช้ไว้ในที่เดียว - เอกสาร แผนงาน การตรวจสอบ และ Dashboard ภาพรวมโครงการ - ให้เจ้าของโครงการ ที่ปรึกษา ผู้รับเหมา และผู้รับเหมาช่วง วางแผนจากภาพเดียวกัน"
 platform,coverAlt,"Construction management platform shown on laptop, tablet and phone","แพลตฟอร์มบริหารงานก่อสร้างบนแล็ปท็อป แท็บเล็ต และมือถือ"
 platform,role,"UX/UI Designer, Design System Lead","UX/UI Designer, Design System Lead"
-platform,timeline,"2022 — ongoing","2565 — ถึงปัจจุบัน"
+platform,timeline,"2023 - present","2566 - ปัจจุบัน"
 platform,platform,"SaaS - web + mobile","SaaS - เว็บ + มือถือ"
 platform,tools,"Figma, Design Tokens, Shadcn UI, Tailwind CSS","Figma, Design Tokens, Shadcn UI, Tailwind CSS"
 platform,problem1,"The dashboard had been built for executives, and only for them. The data was all there, but an engineer, a contractor or an architect could not pull out the part that applied to their own work - so the people closest to the site were the ones it served worst.","Dashboard เดิมถูกสร้างมาเพื่อผู้บริหาร และเพื่อผู้บริหารเท่านั้น ข้อมูลมีครบ แต่วิศวกร ผู้รับเหมา หรือสถาปนิก ดึงส่วนที่ตรงกับงานของตัวเองออกมาดูไม่ได้ คนที่อยู่ใกล้หน้างานที่สุดจึงเป็นกลุ่มที่ระบบตอบโจทย์น้อยที่สุด"
