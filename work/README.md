@@ -6,13 +6,13 @@ adding or removing a project never means hunting through shared files.
 
 ```
 work/
-  _template/              copy this to start a new case
+  _template/              THE page. Every case page is built from this one.
     index.html
     data.js
     assets/
   government-project/
-    index.html            the page (structure + layout only)
-    data.js               this project's copy, EN + TH
+    index.html            GENERATED from _template — do not edit
+    data.js               GENERATED from content/cases.csv — do not edit
     assets/
       cover.png           hero image, also used as the card on the homepage
   platform/
@@ -25,6 +25,15 @@ work/
 
 URLs are the folder name: `work/government-project/` → served as that
 folder's `index.html`.
+
+Only two files are ever written by hand: `work/_template/index.html` for
+anything every case page shares, and `content/cases.csv` for what any one
+case says. Each `work/<slug>/index.html` and `data.js` is generated from
+those two and overwritten on every build.
+
+That split exists because the six case pages used to be six full copies of
+the same page — 243 of 251 lines identical — so adding one `<meta>` tag
+meant patching six files by script and hoping none of them had drifted.
 
 ## Where copy lives
 
@@ -50,39 +59,44 @@ instead of rendering blank.
 
 ## Add a case
 
-1. `cp -r work/_template work/<slug>` — the slug becomes the URL, so keep
-   it lowercase-with-hyphens.
+1. `mkdir -p work/<slug>/assets` — the slug becomes the URL, so keep it
+   lowercase-with-hyphens.
 2. Drop the cover image in `work/<slug>/assets/cover.png`, plus any
    `screen-1.png`, `screen-2.png` … alongside it. The build wires both
    the cover and the gallery from whatever is actually in that folder.
 3. Add that slug's rows to `content/cases.csv` (see "Editing content"
-   below) and run the build — do not hand-edit `data.js`, it is
-   generated.
-4. In `work/<slug>/index.html`, set the `<title>` and the `<meta
-   name="description">`, then point the "Next project" card at whichever
-   case should follow this one — both its `href` AND its cover `<img>`.
+   below), including a `pageTitle` row — that one becomes the `<title>`
+   and the meta description.
+4. Run the build. The page, its `<title>`, and the "Next project" chain
+   are all written for you.
 5. Add the card to `index.html` in the `#casesGrid` block — copy an
    existing `<a class="case">`, point `href` at `work/<slug>/` and `src`
    at that folder's `cover.png`.
 
+Where the slug sits in the CSV decides where it sits in the "Next project"
+chain: each page points at the next slug in row order, and the last one
+wraps back to the first.
+
 ## Remove a case
 
 1. Delete the folder.
-2. Delete its `<a class="case">` from `#casesGrid` in `index.html`.
-3. Fix the "Next project" card on whichever case pointed at the one you
-   removed — its `href` and its cover image both. They are a manual
-   chain; nothing auto-detects a gap.
+2. Delete its rows from `content/cases.csv`.
+3. Delete its `<a class="case">` from `#casesGrid` in `index.html`.
+4. Run the build — the "Next project" chain closes over the gap on its
+   own. It used to be hand-written into each page, so removing a case
+   left another page linking to a folder that wasn't there.
 
-Those three are the whole list — nothing else on the site references a
+Those four are the whole list — nothing else on the site references a
 case folder.
 
 
 ## Editing content: the sheet
 
 All case copy lives in one spreadsheet, `content/cases.csv`, and gets
-compiled into the per-case `data.js` files. You should not hand-edit
-`data.js` any more — it says so at the top of each one, and a rebuild
-overwrites it.
+compiled into the per-case `data.js` files — and into each page's
+`<title>` and meta description, via the `pageTitle` row. You should not
+hand-edit `data.js` or `index.html` any more — both say so at the top, and
+a rebuild overwrites them.
 
 **The loop is: edit the sheet -> run one command -> refresh the browser.**
 

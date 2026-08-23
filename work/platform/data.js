@@ -27,7 +27,8 @@ window.CASE_DATA = {
     stat2Label: "Sharing one token set",
     stat3: "Paper →︎ digital",
     stat3Label: "Full workflow migration",
-    nextTitle: "EV Charger"
+    nextTitle: "EV Charger",
+    pageTitle: "Platform"
   },
 
   th: {
@@ -54,6 +55,7 @@ window.CASE_DATA = {
     stat2Label: "ใช้ Token ชุดเดียวร่วมกัน",
     stat3: "กระดาษ →︎ ดิจิทัล",
     stat3Label: "ย้ายกระบวนการทั้งหมด",
-    nextTitle: "แอปชาร์จรถ EV"
+    nextTitle: "แอปชาร์จรถ EV",
+    pageTitle: "Platform"
   }
 };

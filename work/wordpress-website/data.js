@@ -27,7 +27,8 @@ window.CASE_DATA = {
     stat2Label: "Reused across projects",
     stat3: "4 moves",
     stat3Label: "Repeatable per-theme design pass",
-    nextTitle: "Groundwater monitoring for a government agency"
+    nextTitle: "Groundwater monitoring for a government agency",
+    pageTitle: "WordPress Website"
   },
 
   th: {
@@ -54,6 +55,7 @@ window.CASE_DATA = {
     stat2Label: "ใช้ซ้ำข้ามโปรเจกต์",
     stat3: "4 ขั้น",
     stat3Label: "ชุดปรับดีไซน์ที่ทำซ้ำได้",
-    nextTitle: "ระบบติดตามน้ำบาดาลสำหรับหน่วยงานรัฐ"
+    nextTitle: "ระบบติดตามน้ำบาดาลสำหรับหน่วยงานรัฐ",
+    pageTitle: "WordPress Website"
   }
 };

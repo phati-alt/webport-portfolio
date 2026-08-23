@@ -27,7 +27,8 @@ window.CASE_DATA = {
     stat2Label: "Booking confirmation",
     stat3: "Auto",
     stat3Label: "Connector filtering by default",
-    nextTitle: "DR.in for Doctor"
+    nextTitle: "DR.in for Doctor",
+    pageTitle: "EV Charger"
   },
 
   th: {
@@ -54,6 +55,7 @@ window.CASE_DATA = {
     stat2Label: "ยืนยันการจอง",
     stat3: "อัตโนมัติ",
     stat3Label: "กรองหัวชาร์จให้ตั้งแต่แรก",
-    nextTitle: "DR.in for Doctor"
+    nextTitle: "DR.in for Doctor",
+    pageTitle: "EV Charger"
   }
 };

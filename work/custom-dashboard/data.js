@@ -27,7 +27,8 @@ window.CASE_DATA = {
     stat2Label: "Detection moved off end-of-shift",
     stat3: "40+",
     stat3Label: "Sensor streams per view",
-    nextTitle: "WordPress sites for client brands"
+    nextTitle: "WordPress sites for client brands",
+    pageTitle: "Custom Dashboard"
   },
 
   th: {
@@ -54,6 +55,7 @@ window.CASE_DATA = {
     stat2Label: "ย้ายการตรวจจับออกจากท้ายกะ",
     stat3: "40+",
     stat3Label: "สตรีมเซนเซอร์ต่อหนึ่งหน้าจอ",
-    nextTitle: "เว็บไซต์ WordPress ให้แบรนด์ลูกค้า"
+    nextTitle: "เว็บไซต์ WordPress ให้แบรนด์ลูกค้า",
+    pageTitle: "Custom Dashboard"
   }
 };

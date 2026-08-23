@@ -27,7 +27,8 @@ window.CASE_DATA = {
     stat2Label: "Systems collapsed into one app",
     stat3: "Full UI",
     stat3Label: "Screens specced for handoff",
-    nextTitle: "Custom IoT monitoring dashboards"
+    nextTitle: "Custom IoT monitoring dashboards",
+    pageTitle: "DR.in for Doctor"
   },
 
   th: {
@@ -54,6 +55,7 @@ window.CASE_DATA = {
     stat2Label: "ยุบสามระบบเหลือแอปเดียว",
     stat3: "ครบทุกจอ",
     stat3Label: "สเปก UI สำหรับส่งมอบ",
-    nextTitle: "แดชบอร์ดตรวจสอบ IoT แบบสั่งทำ"
+    nextTitle: "แดชบอร์ดตรวจสอบ IoT แบบสั่งทำ",
+    pageTitle: "DR.in for Doctor"
   }
 };
