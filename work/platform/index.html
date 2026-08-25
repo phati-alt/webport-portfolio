@@ -94,7 +94,13 @@
         <div><dt data-i18n="cs.meta.timelineLabel">Timeline</dt><dd data-i18n-case="timeline">[Timeline]</dd></div>
         <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-i18n-case="platform">[Platform]</dd></div>
         <div><dt data-i18n="cs.meta.toolsLabel">Tools</dt><dd data-i18n-case="tools">[Tools]</dd></div>
+        <!-- Team and client are not on every case; a div whose dd comes back
+             empty hides itself rather than leaving a labelled blank. -->
+        <div><dt data-i18n="cs.meta.teamLabel">Team</dt><dd data-i18n-case="team"></dd></div>
+        <div><dt data-i18n="cs.meta.clientLabel">Client</dt><dd data-i18n-case="client"></dd></div>
       </dl>
+
+      <p class="cs-context" data-i18n-case="contextText" data-reveal></p>
     </div>
   </section>
 
@@ -107,6 +113,23 @@
       <div class="cs-block__body">
         <p class="lede" data-i18n-case="problem1" data-reveal>[What was broken or missing before this project?]</p>
         <p class="lede" data-i18n-case="problem2" data-reveal>[Any constraint worth mentioning — timeline, technical, stakeholder.]</p>
+
+        <ul class="cs-probs" data-reveal>
+          <li>
+            <h3 data-i18n-case="prob1Title"></h3>
+            <p data-i18n-case="prob1Text"></p>
+          </li>
+          <li>
+            <h3 data-i18n-case="prob2Title"></h3>
+            <p data-i18n-case="prob2Text"></p>
+          </li>
+          <li>
+            <h3 data-i18n-case="prob3Title"></h3>
+            <p data-i18n-case="prob3Text"></p>
+          </li>
+        </ul>
+
+
 
         <ul class="cs-ut" data-reveal>
           <li class="cs-ut__item is-served">
@@ -137,6 +160,15 @@
       </div>
       <div class="cs-block__body">
         <p class="lede" data-i18n-case="process1" data-reveal>[Research, discovery, key decisions along the way.]</p>
+
+        <ol class="cs-steps" data-reveal>
+          <li><span data-i18n-case="ps1Title"></span><span data-i18n-case="ps1Text"></span></li>
+          <li><span data-i18n-case="ps2Title"></span><span data-i18n-case="ps2Text"></span></li>
+          <li><span data-i18n-case="ps3Title"></span><span data-i18n-case="ps3Text"></span></li>
+          <li><span data-i18n-case="ps4Title"></span><span data-i18n-case="ps4Text"></span></li>
+          <li><span data-i18n-case="ps5Title"></span><span data-i18n-case="ps5Text"></span></li>
+          <li><span data-i18n-case="ps6Title"></span><span data-i18n-case="ps6Text"></span></li>
+        </ol>
         <blockquote class="cs-quote" data-i18n-case="quote" data-reveal>[The one line worth pulling out of the section above.]</blockquote>
       </div>
     </div>
@@ -196,6 +228,27 @@
       <div class="cs-block__body">
         <p class="lede" data-i18n-case="solution1" data-reveal>[Describe the final design and why it works.]</p>
 
+        <div class="cs-sol" data-reveal>
+          <div class="cs-sol__item">
+            <h3 data-i18n-case="sol1Title"></h3>
+            <p data-i18n-case="sol1Text"></p>
+          </div>
+          <div class="cs-sol__item">
+            <h3 data-i18n-case="sol2Title"></h3>
+            <p data-i18n-case="sol2Text"></p>
+          </div>
+          <div class="cs-sol__item">
+            <h3 data-i18n-case="sol3Title"></h3>
+            <p data-i18n-case="sol3Text"></p>
+          </div>
+          <div class="cs-sol__item">
+            <h3 data-i18n-case="sol4Title"></h3>
+            <p data-i18n-case="sol4Text"></p>
+          </div>
+        </div>
+
+
+
         <!-- Swap each media-block for <img src="assets/screen-N.png" alt="">.
              Keep one figure marked is-wide so the grid has a rhythm.
              Add or drop <figure> blocks freely. -->
@@ -230,6 +283,29 @@
           <div class="cs-stats__item"><strong data-i18n-case="stat1">[XX%]</strong><span data-i18n-case="stat1Label">[What this measures]</span></div>
           <div class="cs-stats__item"><strong data-i18n-case="stat2">[XX%]</strong><span data-i18n-case="stat2Label">[What this measures]</span></div>
           <div class="cs-stats__item"><strong data-i18n-case="stat3">[XX%]</strong><span data-i18n-case="stat3Label">[What this measures]</span></div>
+          <!-- A fourth reading is optional; it hides itself when unfilled. -->
+          <div class="cs-stats__item"><strong data-i18n-case="stat4"></strong><span data-i18n-case="stat4Label"></span></div>
+        </div>
+
+        <div class="cs-impact" data-reveal>
+          <p class="cs-impact__label" data-i18n="cs.impact.title">Business impact</p>
+          <ul class="cs-impact__list">
+            <li>
+              <span class="cs-impact__name" data-i18n-case="bi1Name"></span>
+              <span class="cs-impact__type" data-i18n-case="bi1Type"></span>
+              <span class="cs-impact__flag" data-i18n="cs.impact.closed">Closed</span>
+            </li>
+            <li>
+              <span class="cs-impact__name" data-i18n-case="bi2Name"></span>
+              <span class="cs-impact__type" data-i18n-case="bi2Type"></span>
+              <span class="cs-impact__flag" data-i18n="cs.impact.closed">Closed</span>
+            </li>
+            <li>
+              <span class="cs-impact__name" data-i18n-case="bi3Name"></span>
+              <span class="cs-impact__type" data-i18n-case="bi3Type"></span>
+              <span class="cs-impact__flag" data-i18n="cs.impact.closed">Closed</span>
+            </li>
+          </ul>
         </div>
 
         <figure class="cs-quotebox" data-reveal>

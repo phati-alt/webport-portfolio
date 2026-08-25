@@ -13,41 +13,43 @@
    file's base name, with the same fields in en and th. */
 window.MORE_PROJECTS = {
   'project-1': {
+    audit: 'real',
     en: {
-      category: 'Facility Management',
-      title: 'Work order templates for a maintenance platform',
-      summary: 'Build a work order once, dispatch it to any asset — and let the technician in the field open the same structure the planner set up at a desk.',
+      category: 'Product Platform',
+      title: 'Facility Management Platform',
+      summary: 'Asset tracking, work orders, maintenance and inventory in one platform — with forms the teams using it can shape themselves.',
       role: 'UX/UI Designer',
       year: '2023',
-      platform: 'Web + iOS',
-      problem: 'Every work order was being written from scratch, so the same recurring inspection was described differently by whoever happened to raise it. Reporting across sites was guesswork, because no two records used the same fields.',
-      process: 'I mapped the orders teams actually repeated, and found most collapsed into a handful of shapes. That became a template: a form, a category and a checklist saved once, then reused wherever it applied. The mobile view was designed against the same location and asset tree rather than a simplified copy of it.',
-      quote: 'Most of what looked like a hundred different jobs turned out to be six, repeated.',
-      solution: 'Planners assemble templates on the web app; technicians open them in the field with the structure intact. Because both surfaces read the same tree, nothing has to be re-learned when work moves from planning to the floor.',
-      stat1: '6 templates',
-      stat1Label: 'Covered most recurring work',
-      stat2: 'Web + iOS',
-      stat2Label: 'One shared asset structure'
+      platform: 'Web platform + mobile',
+      problem: 'Poor usability, dense data displays and a confusing work order flow held technicians up — the people the system existed for were the ones it slowed down most. And the legacy system could not scale: every new client requirement pushed against what it could take.',
+      process: 'I worked with the Product Owner from feature ideation rather than receiving a finished brief, turning client requirements into workflows instead of screens — which meant pushing back on some and proposing alternatives. The design system was built alongside the developers rather than handed to them, with the same names for the same things on both sides.',
+      quote: 'Enterprise users open this every day. Efficiency beats wow — every click has to earn its place.',
+      solution: 'The work order flow became guided steps, so a technician always knows the stage they are at and what comes next. Data tables were rebuilt around a real hierarchy, with filter, sort and search behaving as one thing. And admins now build their own fields per job type instead of filing a request every time.',
+      stat1: '−50%',
+      stat1Label: 'Time to create a work order',
+      stat2: '70%',
+      stat2Label: 'Component reusability'
     },
     th: {
-      category: 'ระบบบริหารอาคาร',
-      title: 'เทมเพลตใบสั่งงานสำหรับแพลตฟอร์มงานซ่อมบำรุง',
-      summary: 'สร้างใบสั่งงานครั้งเดียว ใช้กับอุปกรณ์ตัวไหนก็ได้ และช่างที่หน้างานเห็นโครงสร้างเดียวกับที่ผู้วางแผนตั้งไว้',
+      category: 'แพลตฟอร์มผลิตภัณฑ์',
+      title: 'แพลตฟอร์มบริหารจัดการอาคารและสถานที่',
+      summary: 'รวมการติดตามทรัพย์สิน ใบสั่งงาน งานซ่อมบำรุง และคลังอะไหล่ไว้ในแพลตฟอร์มเดียว พร้อมฟอร์มที่ทีมผู้ใช้ปรับเองได้',
       role: 'UX/UI Designer',
       year: '2566',
-      platform: 'เว็บ + iOS',
-      problem: 'ใบสั่งงานทุกใบถูกเขียนขึ้นใหม่ทุกครั้ง งานตรวจรอบเดิม ๆ จึงถูกอธิบายไม่เหมือนกันแล้วแต่คนที่เปิดงาน การทำรายงานข้ามไซต์กลายเป็นการเดา เพราะไม่มีสองรายการไหนใช้ฟิลด์ชุดเดียวกัน',
-      process: 'ผมไล่ดูใบสั่งงานที่ทีมทำซ้ำจริง ๆ แล้วพบว่าส่วนใหญ่ยุบลงเหลือไม่กี่รูปแบบ นั่นกลายเป็นเทมเพลต — ฟอร์ม หมวดหมู่ และเช็กลิสต์ที่บันทึกไว้ครั้งเดียว แล้วนำไปใช้ซ้ำได้ทุกที่ที่เกี่ยวข้อง ส่วนหน้าจอมือถือออกแบบบนโครงสร้างสถานที่และอุปกรณ์ชุดเดียวกัน ไม่ใช่เวอร์ชันย่อ',
-      quote: 'สิ่งที่ดูเหมือนงานร้อยแบบ จริง ๆ แล้วคืองานหกแบบที่ทำซ้ำ',
-      solution: 'ผู้วางแผนประกอบเทมเพลตบนเว็บ ช่างเปิดใช้ที่หน้างานโดยโครงสร้างยังครบ เพราะทั้งสองฝั่งอ่านโครงสร้างเดียวกัน จึงไม่ต้องเรียนรู้ใหม่เมื่องานย้ายจากการวางแผนไปสู่หน้างาน',
-      stat1: '6 เทมเพลต',
-      stat1Label: 'ครอบคลุมงานที่ทำซ้ำเกือบทั้งหมด',
-      stat2: 'เว็บ + iOS',
-      stat2Label: 'ใช้โครงสร้างอุปกรณ์ร่วมกัน'
+      platform: 'แพลตฟอร์มเว็บ + มือถือ',
+      problem: 'ใช้งานยาก ข้อมูลแน่นอ่านไม่ออก และ Work Order Flow ที่สับสน ทำให้ช่างเทคนิคติดขัด คนที่ระบบมีไว้เพื่อเขากลับเป็นคนที่ถูกถ่วงมากที่สุด อีกทั้งระบบเดิมขยายต่อไม่ได้ ทุก Requirement ใหม่จากลูกค้าล้วนชนเพดานของมัน',
+      process: 'ผมทำงานกับ Product Owner ตั้งแต่ขั้นคิดฟีเจอร์ ไม่ใช่รอรับ Brief ที่เสร็จแล้ว แปลง Requirement ของลูกค้าให้เป็น Workflow ไม่ใช่หน้าจอ ซึ่งหมายถึงการโต้แย้งบางข้อและเสนอทางเลือกอื่น ส่วน Design System สร้างไปพร้อมกับ Developer ไม่ใช่ทำเสร็จแล้วส่งให้ โดยใช้ชื่อเดียวกันเรียกของสิ่งเดียวกันทั้งสองฝั่ง',
+      quote: 'ผู้ใช้ Enterprise เปิดระบบนี้ทุกวัน ประสิทธิภาพสำคัญกว่าความว้าว ทุกคลิกต้องมีเหตุผลรองรับ',
+      solution: 'Work Order Flow กลายเป็นขั้นตอนที่นำทาง ช่างรู้เสมอว่าอยู่ขั้นไหนและต้องทำอะไรต่อ ตารางข้อมูลถูกสร้างใหม่บนลำดับชั้นที่ชัด โดยให้ตัวกรอง การเรียง และการค้นหาทำงานเป็นเรื่องเดียวกัน ส่วนผู้ดูแลระบบสร้างฟิลด์เองได้ตามประเภทงาน แทนที่จะต้องยื่นเรื่องทุกครั้ง',
+      stat1: '−50%',
+      stat1Label: 'เวลาสร้างใบสั่งงาน',
+      stat2: '70%',
+      stat2Label: 'การนำ Component กลับมาใช้ซ้ำ'
     }
   },
 
   'project-2': {
+    audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
     en: {
       category: 'IoT Monitoring',
       title: 'Gateway and device alerting dashboard',
@@ -83,6 +85,7 @@ window.MORE_PROJECTS = {
   },
 
   'project-3': {
+    audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
     en: {
       category: 'Government Service',
       title: 'Permit application system for the Royal Forest Department',
@@ -118,6 +121,7 @@ window.MORE_PROJECTS = {
   },
 
   'project-4': {
+    audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
     en: {
       category: 'Environmental Dashboard',
       title: 'Water quality monitoring for Airports of Thailand',
@@ -153,6 +157,7 @@ window.MORE_PROJECTS = {
   },
 
   'project-5': {
+    audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
     en: {
       category: 'Health App',
       title: 'Vaccination and health record companion',
@@ -188,6 +193,7 @@ window.MORE_PROJECTS = {
   },
 
   'project-6': {
+    audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
     en: {
       category: 'Procurement App',
       title: 'Purchase request tracking on mobile',
@@ -223,6 +229,7 @@ window.MORE_PROJECTS = {
   },
 
   'project-7': {
+    audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
     en: {
       category: 'Lifestyle App',
       title: 'Num Eiang — Chinese auspicious date calendar',

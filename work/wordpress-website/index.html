@@ -94,7 +94,13 @@
         <div><dt data-i18n="cs.meta.timelineLabel">Timeline</dt><dd data-i18n-case="timeline">[Timeline]</dd></div>
         <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-i18n-case="platform">[Platform]</dd></div>
         <div><dt data-i18n="cs.meta.toolsLabel">Tools</dt><dd data-i18n-case="tools">[Tools]</dd></div>
+        <!-- Team and client are not on every case; a div whose dd comes back
+             empty hides itself rather than leaving a labelled blank. -->
+        <div><dt data-i18n="cs.meta.teamLabel">Team</dt><dd data-i18n-case="team"></dd></div>
+        <div><dt data-i18n="cs.meta.clientLabel">Client</dt><dd data-i18n-case="client"></dd></div>
       </dl>
+
+
     </div>
   </section>
 
@@ -109,6 +115,10 @@
         <p class="lede" data-i18n-case="problem2" data-reveal>[Any constraint worth mentioning — timeline, technical, stakeholder.]</p>
 
 
+
+
+
+
       </div>
     </div>
   </section>
@@ -121,6 +131,8 @@
       </div>
       <div class="cs-block__body">
         <p class="lede" data-i18n-case="process1" data-reveal>[Research, discovery, key decisions along the way.]</p>
+
+
         <blockquote class="cs-quote" data-i18n-case="quote" data-reveal>[The one line worth pulling out of the section above.]</blockquote>
       </div>
     </div>
@@ -136,6 +148,10 @@
       </div>
       <div class="cs-block__body">
         <p class="lede" data-i18n-case="solution1" data-reveal>[Describe the final design and why it works.]</p>
+
+
+
+
 
         <!-- Swap each media-block for <img src="assets/screen-N.png" alt="">.
              Keep one figure marked is-wide so the grid has a rhythm.
@@ -171,7 +187,11 @@
           <div class="cs-stats__item"><strong data-i18n-case="stat1">[XX%]</strong><span data-i18n-case="stat1Label">[What this measures]</span></div>
           <div class="cs-stats__item"><strong data-i18n-case="stat2">[XX%]</strong><span data-i18n-case="stat2Label">[What this measures]</span></div>
           <div class="cs-stats__item"><strong data-i18n-case="stat3">[XX%]</strong><span data-i18n-case="stat3Label">[What this measures]</span></div>
+          <!-- A fourth reading is optional; it hides itself when unfilled. -->
+          <div class="cs-stats__item"><strong data-i18n-case="stat4"></strong><span data-i18n-case="stat4Label"></span></div>
         </div>
+
+
 
 
       </div>
@@ -182,8 +202,8 @@
 
   <section class="cs-next">
     <div class="wrap">
-      <a class="cs-next__card" href="../government-project/" data-hover>
-        <img src="../government-project/assets/cover.png" alt="">
+      <a class="cs-next__card" href="../custom-dashboard/" data-hover>
+        <img src="../custom-dashboard/assets/cover.png" alt="">
         <div class="cs-next__body">
           <div>
             <p class="pretitle" data-i18n="cs.next.label">Next project</p>

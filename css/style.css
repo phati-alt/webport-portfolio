@@ -1321,6 +1321,10 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 }
 .cs-block__body > .lede + .lede { margin-top: 1.15rem; }
 .cs-block__body > .lede { max-width: 68ch; }
+/* A case that names its faults as cards below only needs one line of
+   framing above them, so the second paragraph comes back empty — and an
+   empty <p> still takes its line-height and opens a gap. */
+.cs-block__body > .lede:empty { display: none; }
 
 /* pull quote — the one place on a case page where type gets loud */
 .cs-quote {
@@ -1329,6 +1333,156 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   font-size: clamp(1.3rem, 1rem + 1.4vw, 2.1rem); font-weight: 500;
   letter-spacing: -.02em; line-height: 1.28; text-wrap: balance;
   max-width: 30ch;
+}
+
+/* ---------- Context paragraph, under the meta row ---------- */
+/* Sits with the facts rather than opening a section of its own: what the
+   product is, said once, before the case starts making an argument. */
+.cs-context {
+  max-width: 72ch; margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+  color: var(--muted); line-height: 1.65;
+}
+/* A meta pair whose value never arrives would otherwise show a label over
+   nothing — Team and Client are not filled on every case. */
+.cs-meta > div:has(dd:empty) { display: none; }
+
+/* ---------- Problems: named faults ---------- */
+/* A rule down the edge in the warning colour, not a filled card. These are
+   the things that were wrong, and the mark is the same one the verdict
+   stamps use — so a reader who has met the stamps further down the page
+   already knows what that colour means here. */
+.cs-probs {
+  list-style: none; margin: clamp(1.75rem, 3.5vw, 2.5rem) 0 0; padding: 0;
+  display: grid; gap: clamp(1rem, 2vw, 1.4rem);
+}
+.cs-probs li {
+  padding: .2rem 0 .2rem clamp(1rem, 2vw, 1.5rem);
+  border-left: 2px solid var(--stamp-no);
+}
+.cs-probs h3 {
+  margin: 0; font-size: 1rem; font-weight: 600; letter-spacing: -.01em;
+}
+.cs-probs p {
+  margin: .45rem 0 0; color: var(--muted); font-size: .95rem; line-height: 1.6;
+  max-width: 62ch;
+}
+.cs-probs li:has(h3:empty) { display: none; }
+
+/* The goal, set as the mirror of a problem card — same rule down the edge,
+   the verdict colour that means the opposite. Read together they are the
+   fault and what it was meant to become. */
+.cs-goal {
+  margin-top: clamp(1rem, 2vw, 1.4rem);
+  padding: .2rem 0 .2rem clamp(1rem, 2vw, 1.5rem);
+  border-left: 2px solid var(--stamp-ok);
+}
+.cs-goal h3 {
+  margin: 0; font-size: 1rem; font-weight: 600; letter-spacing: -.01em;
+}
+.cs-goal p {
+  margin: .45rem 0 0; color: var(--muted); font-size: .95rem; line-height: 1.6;
+  max-width: 62ch;
+}
+
+/* ---------- Design decisions: the choice beside its reason ---------- */
+/* A definition list, because that is exactly what this is — each decision
+   defined by why it was made. Two columns so the eye can run down the
+   choices alone, or read across when one of them raises a question. */
+.cs-dec {
+  margin: clamp(1.75rem, 3.5vw, 2.5rem) 0 0;
+  border-top: 1px solid var(--rule);
+}
+.cs-dec > div {
+  display: grid; grid-template-columns: minmax(10rem, 32%) 1fr;
+  gap: .3rem clamp(1.5rem, 3vw, 2.5rem); align-items: baseline;
+  padding: .95rem 0; border-bottom: 1px solid var(--rule);
+}
+.cs-dec dt { font-weight: 600; font-size: .95rem; letter-spacing: -.01em; }
+.cs-dec dd {
+  margin: 0; color: var(--muted); font-size: .93rem; line-height: 1.55;
+}
+.cs-dec > div:has(dt:empty) { display: none; }
+@media (max-width: 700px) {
+  .cs-dec > div { grid-template-columns: 1fr; }
+}
+
+/* ---------- Solution: the shipped pieces ---------- */
+/* Parallel parts, so a grid rather than a list — nothing here happens
+   before anything else. Hairline top rules instead of boxes, matching the
+   stats: the page's filled panel is spent on the trade-off callout. */
+.cs-sol {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(1.25rem, 2.5vw, 2rem) clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+.cs-sol__item { padding-top: .9rem; border-top: 1px solid var(--rule); }
+.cs-sol__item h3 {
+  margin: 0; font-size: .98rem; font-weight: 600; letter-spacing: -.01em;
+}
+.cs-sol__item p {
+  margin: .45rem 0 0; color: var(--muted); font-size: .93rem; line-height: 1.55;
+}
+.cs-sol__item:has(h3:empty) { display: none; }
+
+/* ---------- Process steps: a real sequence ---------- */
+/* Numbered, because these genuinely happen in order — assess before
+   decide, decide before rebuild. The counter is CSS so a shorter sequence
+   still reads 01, 02, 03 with no gap. */
+.cs-steps {
+  list-style: none; counter-reset: step;
+  margin: clamp(1.75rem, 3.5vw, 2.5rem) 0 0; padding: 0;
+  display: grid; gap: 0;
+  border-top: 1px solid var(--rule);
+}
+.cs-steps li {
+  counter-increment: step;
+  display: grid; grid-template-columns: 3.2rem minmax(6rem, 9rem) 1fr;
+  gap: .25rem 1rem; align-items: baseline;
+  padding: .85rem 0; border-bottom: 1px solid var(--rule);
+}
+.cs-steps li::before {
+  content: counter(step, decimal-leading-zero);
+  font-family: var(--font-mono); font-size: .74rem; letter-spacing: .1em;
+  color: var(--muted);
+}
+.cs-steps li > span:first-of-type { font-weight: 600; font-size: .95rem; }
+.cs-steps li > span:last-of-type { color: var(--muted); font-size: .93rem; line-height: 1.5; }
+.cs-steps li:has(span:first-of-type:empty) { display: none; }
+@media (max-width: 700px) {
+  .cs-steps li { grid-template-columns: 2.6rem 1fr; }
+  .cs-steps li > span:last-of-type { grid-column: 2; }
+  .cs-sol { grid-template-columns: 1fr; }
+}
+
+/* ---------- Business impact ---------- */
+.cs-impact { margin-top: clamp(2rem, 4vw, 3rem); }
+.cs-impact__label {
+  margin: 0 0 .9rem; font-family: var(--font-mono);
+  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted);
+}
+.cs-impact__list { list-style: none; margin: 0; padding: 0; }
+.cs-impact__list li {
+  display: grid; grid-template-columns: 1fr auto auto;
+  gap: .25rem 1rem; align-items: baseline;
+  padding: .8rem 0; border-top: 1px solid var(--rule);
+}
+.cs-impact__list li:last-child { border-bottom: 1px solid var(--rule); }
+.cs-impact__name { font-weight: 600; font-size: .98rem; }
+.cs-impact__type { color: var(--muted); font-size: .9rem; }
+/* The same stamp as the user-type verdicts, because it is the same kind of
+   mark — a decision recorded against a name. */
+.cs-impact__flag {
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .12em;
+  text-transform: uppercase; white-space: nowrap;
+  padding: .3rem .55rem; border: 1px solid currentColor; border-radius: 2px;
+  color: var(--stamp-ok); transform: rotate(-1.5deg);
+}
+.cs-impact__list li:has(.cs-impact__name:empty) { display: none; }
+@media (prefers-reduced-motion: reduce) { .cs-impact__flag { transform: none; } }
+@media (max-width: 700px) {
+  .cs-impact__list li { grid-template-columns: 1fr auto; }
+  .cs-impact__type { grid-column: 1; }
 }
 
 /* ---------- User types: who the old design actually served ---------- */
@@ -1663,6 +1817,14 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   margin-top: clamp(2rem, 4vw, 3rem);
 }
 .cs-stats__item { padding-top: 1rem; border-top: 2px solid var(--ink); }
+/* A fourth reading is optional; without it the row stays three across.
+   Gated above the breakpoint on purpose: :has() out-specifies the plain
+   .cs-stats rule that stacks these on a phone, so left ungated it would
+   hold four columns at 375px wide. */
+@media (min-width: 901px) {
+  .cs-stats:has(.cs-stats__item:nth-child(4) strong:not(:empty)) { grid-template-columns: repeat(4, 1fr); }
+}
+.cs-stats__item:has(strong:empty) { display: none; }
 .cs-stats__item strong {
   display: block; font-family: var(--font-mono);
   font-size: clamp(1.6rem, 1.1rem + 1.9vw, 2.8rem); font-weight: 500;
@@ -1728,3 +1890,30 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   .cursor { display: none; }
   .band__circle-inner { transform: scaleX(1.4); }
 }
+
+/* ===== TEMPORARY: content audit badges =========================
+   A working aid while the case copy is being replaced with real
+   content — deliberately loud and deliberately ugly, so it can never
+   be mistaken for part of the design or accidentally left in.
+
+   Injected by initDataStatus() in js/main.js, which only finds its
+   data while $showDataStatus is $true in tools/build-cases.ps1.
+   To remove for good: flip that switch, then delete this block and
+   that function.
+   ============================================================== */
+.cs-audit {
+  position: absolute; top: 10px; left: 10px; z-index: 5;
+  font-family: var(--font-mono); font-size: .64rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: .35rem .55rem; border-radius: 3px;
+  color: #000; background: #ffd400; border: 2px solid #000;
+  pointer-events: none; white-space: nowrap;
+}
+.cs-audit.is-real { background: #4ade80; }
+.cs-audit.is-mockup { background: #ffd400; }
+/* On a case page it is a fixed tag rather than a corner label, so it
+   stays visible however far down the page you have scrolled. */
+.cs-audit__bar {
+  position: fixed; left: 12px; bottom: 12px; z-index: 70;
+}
+.cs-audit__bar .cs-audit { position: static; }

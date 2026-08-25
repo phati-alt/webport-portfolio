@@ -28,7 +28,8 @@ window.CASE_DATA = {
     stat3: "40+",
     stat3Label: "Sensor streams per view",
     nextTitle: "WordPress sites for client brands",
-    pageTitle: "Custom Dashboard"
+    pageTitle: "Custom Dashboard",
+    dataStatus: "mockup"
   },
 
   th: {
@@ -56,6 +57,7 @@ window.CASE_DATA = {
     stat3: "40+",
     stat3Label: "สตรีมเซนเซอร์ต่อหนึ่งหน้าจอ",
     nextTitle: "เว็บไซต์ WordPress ให้แบรนด์ลูกค้า",
-    pageTitle: "Custom Dashboard"
+    pageTitle: "Custom Dashboard",
+    dataStatus: "mockup"
   }
 };

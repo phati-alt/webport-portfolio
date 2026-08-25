@@ -28,7 +28,8 @@ window.CASE_DATA = {
     stat3: "4 moves",
     stat3Label: "Repeatable per-theme design pass",
     nextTitle: "Groundwater monitoring for a government agency",
-    pageTitle: "WordPress Website"
+    pageTitle: "WordPress Website",
+    dataStatus: "mockup"
   },
 
   th: {
@@ -56,6 +57,7 @@ window.CASE_DATA = {
     stat3: "4 ขั้น",
     stat3Label: "ชุดปรับดีไซน์ที่ทำซ้ำได้",
     nextTitle: "ระบบติดตามน้ำบาดาลสำหรับหน่วยงานรัฐ",
-    pageTitle: "WordPress Website"
+    pageTitle: "WordPress Website",
+    dataStatus: "mockup"
   }
 };

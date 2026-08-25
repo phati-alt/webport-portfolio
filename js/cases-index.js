@@ -3,28 +3,35 @@
      powershell -ExecutionPolicy Bypass -File tools/build-cases.ps1
    Loaded by index.html only, to label the case cards. */
 window.CASES_INDEX = {
+  _audit: true,
   "government-project": {
-    en: { category: "Government Platform", title: "Groundwater monitoring for a government agency" },
-    th: { category: "แพลตฟอร์มภาครัฐ", title: "ระบบติดตามน้ำบาดาลสำหรับหน่วยงานรัฐ" }
+    en: { category: "Government Project", title: "Department of Groundwater Resources" },
+    th: { category: "โครงการภาครัฐ", title: "กรมทรัพยากรน้ำบาดาล" },
+    audit: { status: "real", screens: 0 }
   },
   "platform": {
     en: { category: "Product Platform", title: "Construction Management Platform" },
-    th: { category: "แพลตฟอร์มผลิตภัณฑ์", title: "แพลตฟอร์มบริหารงานก่อสร้าง" }
+    th: { category: "แพลตฟอร์มผลิตภัณฑ์", title: "แพลตฟอร์มบริหารงานก่อสร้าง" },
+    audit: { status: "real", screens: 0 }
   },
   "ev-charger": {
-    en: { category: "Mobile App", title: "EV Charger — find a charge before the battery decides" },
-    th: { category: "แอปมือถือ", title: "EV Charger — หาที่ชาร์จให้ทันก่อนแบตจะหมด" }
+    en: { category: "Concept Project", title: "EV Charger" },
+    th: { category: "โปรเจกต์แนวคิด", title: "EV Charger" },
+    audit: { status: "real", screens: 0 }
   },
   "drin-doctor": {
-    en: { category: "Mobile App", title: "DR.in — a clinical companion doctors can use between patients" },
-    th: { category: "แอปมือถือ", title: "DR.in — ผู้ช่วยแพทย์ที่ใช้ได้จริงในช่วงพักระหว่างคนไข้" }
-  },
-  "custom-dashboard": {
-    en: { category: "Data Dashboard", title: "Custom IoT dashboards for industrial operations" },
-    th: { category: "แดชบอร์ดข้อมูล", title: "แดชบอร์ด IoT สั่งทำสำหรับงานอุตสาหกรรม" }
+    en: { category: "Mobile Application", title: "DR.in for Doctor" },
+    th: { category: "แอปพลิเคชันมือถือ", title: "DR.in for Doctor" },
+    audit: { status: "real", screens: 0 }
   },
   "wordpress-website": {
     en: { category: "Website", title: "WordPress sites that stop looking like their template" },
-    th: { category: "เว็บไซต์", title: "เว็บ WordPress ที่ไม่เหลือกลิ่นเทมเพลต" }
+    th: { category: "เว็บไซต์", title: "เว็บ WordPress ที่ไม่เหลือกลิ่นเทมเพลต" },
+    audit: { status: "mockup", screens: 0 }
+  },
+  "custom-dashboard": {
+    en: { category: "Data Dashboard", title: "Custom IoT dashboards for industrial operations" },
+    th: { category: "แดชบอร์ดข้อมูล", title: "แดชบอร์ด IoT สั่งทำสำหรับงานอุตสาหกรรม" },
+    audit: { status: "mockup", screens: 0 }
   }
 };

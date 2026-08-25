@@ -920,6 +920,75 @@
     });
   }
 
+  /* ---------- TEMPORARY: content audit badges ---------- */
+  /* A working aid while the case copy is being replaced with the real
+     thing — marks which cases carry real content and which are still
+     placeholder, and how many screenshots have been added.
+
+     It draws nothing on its own: everything comes from data the build
+     only emits while $showDataStatus is $true in tools/build-cases.ps1.
+     Flip that to $false, re-run, and every badge disappears — this
+     function finds no data and returns. Delete it and the .cs-audit
+     rules in style.css whenever the audit is finished for good. */
+  function initDataStatus() {
+    const mark = (host, status, screens) => {
+      if (!status) return;
+      const el = document.createElement('span');
+      el.className = 'cs-audit is-' + status;
+      const shots = screens < 0 ? '' :
+        ' · ' + (screens ? screens + ' shots' : 'no shots');
+      el.textContent = (status === 'real' ? 'REAL' : 'MOCKUP') + shots;
+      host.appendChild(el);
+    };
+
+    // Case page: its own data.js carries the row.
+    const caseData = window.CASE_DATA?.en;
+    if (caseData?.dataStatus) {
+      const shots = document.querySelectorAll('.cs-gallery img').length;
+      const bar = document.createElement('div');
+      bar.className = 'cs-audit__bar';
+      mark(bar, caseData.dataStatus, shots);
+      document.body.appendChild(bar);
+    }
+
+    const index = window.CASES_INDEX;
+    if (!index) return;
+
+    // Homepage: one badge per card, from the generated index.
+    document.querySelectorAll('.case[data-case-ref]').forEach(card => {
+      const audit = index[card.dataset.caseRef]?.audit;
+      if (!audit) return;
+      const media = card.querySelector('.case__media') || card;
+      mark(media, audit.status, audit.screens);
+    });
+
+    // More Projects: its copy is hand-written with no CSV behind it, so the
+    // status sits per entry in that folder's data.js and each card can be
+    // flipped to 'real' on its own as its text gets verified. Gated on the
+    // build's _audit flag so the same single switch clears these too.
+    if (!index._audit || !window.MORE_PROJECTS) return;
+    const entries = Object.entries(window.MORE_PROJECTS);
+    entries.forEach(([id, item]) => {
+      const card = document.querySelector('.mp-card[data-mp-id="' + id + '"]');
+      if (!card || !item.audit) return;
+      mark(card.querySelector('.mp-card__media') || card, item.audit, -1);
+    });
+
+    // …and one for the page as a whole: how many of them are still
+    // placeholder, so the remaining work is a number rather than a count-up.
+    const left = entries.filter(([, i]) => i.audit === 'mockup').length;
+    if (!entries.length) return;
+    const bar = document.createElement('div');
+    bar.className = 'cs-audit__bar';
+    const el = document.createElement('span');
+    el.className = 'cs-audit is-' + (left ? 'mockup' : 'real');
+    el.textContent = left
+      ? left + ' of ' + entries.length + ' still mockup'
+      : 'all ' + entries.length + ' real';
+    bar.appendChild(el);
+    document.body.appendChild(bar);
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -930,6 +999,7 @@
     initResumeBtn();
     initCaseProgress();
     initMoreProjects();
+    initDataStatus();   // TEMPORARY — see the function's comment
     initCursor();
     initBand();
     initBandContents();

@@ -35,6 +35,19 @@
 
 param([string]$OutDir = '')
 
+# ---------------------------------------------------------------------
+#  TEMPORARY - content audit markers.
+#  While the case copy is being replaced with the real thing, each page
+#  and each homepage card carries a badge saying whether its text is real
+#  or still placeholder, and how many screenshots have been added. It is
+#  a working aid, not part of the design.
+#
+#  TO REMOVE: set this to $false and re-run. Nothing else needs deleting -
+#  the badges disappear from every page, because the data they read stops
+#  being emitted. The dataStatus rows in the CSV can then go too.
+# ---------------------------------------------------------------------
+$showDataStatus = $true
+
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $csvPath = Join-Path $root 'content/cases.csv'
@@ -127,6 +140,11 @@ for ($i = 0; $i -lt $slugs.Count; $i++) {
   if (-not (Test-Path $destDir)) { New-Item -ItemType Directory -Path $destDir -Force | Out-Null }
 
   $caseRows = @($rows | Where-Object { $_.slug -eq $slug })
+  # With the audit switch off, dataStatus never reaches data.js, so the
+  # badge has nothing to read and disappears without touching any markup.
+  if (-not $showDataStatus) {
+    $caseRows = @($caseRows | Where-Object { $_.key -ne 'dataStatus' })
+  }
 
   # ---- 1. data.js ---------------------------------------------------
   $sb = New-Object System.Text.StringBuilder
@@ -274,8 +292,15 @@ for ($i = 0; $i -lt $slugs.Count; $i++) {
   $has = { param($key) [bool]($caseRows | Where-Object { $_.key -eq $key -and $_.en } | Select-Object -First 1) }
 
   foreach ($opt in @(
+    @{ Region = 'CONTEXT';     Key = 'contextText' },
+    @{ Region = 'PROBLEMS';    Key = 'prob1Title' },
+    @{ Region = 'GOAL';        Key = 'goalTitle' },
+    @{ Region = 'DECISIONS';   Key = 'dec1Title' },
     @{ Region = 'FRAMEWORK';   Key = 'fwOldLabel' },
+    @{ Region = 'STEPS';       Key = 'ps1Title' },
+    @{ Region = 'SOLUTIONS';   Key = 'sol1Title' },
     @{ Region = 'USERTYPES';   Key = 'ut1Role' },
+    @{ Region = 'IMPACT';      Key = 'bi1Name' },
     @{ Region = 'TESTIMONIAL'; Key = 'testimonialQuote' },
     @{ Region = 'REFLECTION';  Key = 'reflect1Title' }
   )) {
@@ -335,6 +360,10 @@ for ($i = 0; $i -lt $slugs.Count; $i++) {
     Slug       = $slug
     CategoryEn = (& $val 'category' 'en'); CategoryTh = (& $val 'category' 'th')
     TitleEn    = (& $val 'title' 'en');    TitleTh    = (& $val 'title' 'th')
+    # Audit only; empty unless $showDataStatus is on, which is what makes
+    # the badges vanish everywhere from that one switch.
+    Status     = if ($showDataStatus) { & $val 'dataStatus' 'en' } else { '' }
+    Screens    = if ($showDataStatus) { $screens.Count } else { -1 }
   }
 
   $built++
@@ -357,12 +386,22 @@ if ($cardIndex.Count -gt 0) {
   [void]$ib.AppendLine('     powershell -ExecutionPolicy Bypass -File tools/build-cases.ps1')
   [void]$ib.AppendLine('   Loaded by index.html only, to label the case cards. */')
   [void]$ib.AppendLine('window.CASES_INDEX = {')
+  # The one flag every audit badge on the site checks, including the ones on
+  # work/more-projects/, whose copy is hand-written and has no CSV behind it.
+  # Emitted only while $showDataStatus is on, which is what lets a single
+  # switch clear the badges from pages this script does not even generate.
+  if ($showDataStatus) { [void]$ib.AppendLine('  _audit: true,') }
   for ($j = 0; $j -lt $cardIndex.Count; $j++) {
     $c = $cardIndex[$j]
     $tail = if ($j -lt $cardIndex.Count - 1) { ',' } else { '' }
     [void]$ib.AppendLine('  "' + $c.Slug + '": {')
     [void]$ib.AppendLine('    en: { category: "' + $c.CategoryEn + '", title: "' + $c.TitleEn + '" },')
-    [void]$ib.AppendLine('    th: { category: "' + $c.CategoryTh + '", title: "' + $c.TitleTh + '" }')
+    if ($c.Status) {
+      [void]$ib.AppendLine('    th: { category: "' + $c.CategoryTh + '", title: "' + $c.TitleTh + '" },')
+      [void]$ib.AppendLine('    audit: { status: "' + $c.Status + '", screens: ' + $c.Screens + ' }')
+    } else {
+      [void]$ib.AppendLine('    th: { category: "' + $c.CategoryTh + '", title: "' + $c.TitleTh + '" }')
+    }
     [void]$ib.AppendLine('  }' + $tail)
   }
   [void]$ib.AppendLine('};')
