@@ -25,9 +25,9 @@ window.CASES_INDEX = {
     audit: { status: "real", screens: 0 }
   },
   "wordpress-website": {
-    en: { category: "Website", title: "WordPress sites that stop looking like their template" },
-    th: { category: "เว็บไซต์", title: "เว็บ WordPress ที่ไม่เหลือกลิ่นเทมเพลต" },
-    audit: { status: "mockup", screens: 0 }
+    en: { category: "Website", title: "JST Group" },
+    th: { category: "เว็บไซต์", title: "JST Group" },
+    audit: { status: "real", screens: 0 }
   },
   "custom-dashboard": {
     en: { category: "Data Dashboard", title: "Custom IoT dashboards for industrial operations" },
