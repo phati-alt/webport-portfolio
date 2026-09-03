@@ -262,5 +262,41 @@ window.MORE_PROJECTS = {
       stat2: 'คุมลวดลาย',
       stat2Label: 'อยู่แค่พื้นหลังและหัวข้อ'
     }
+  },
+
+  'project-8': {
+    audit: 'real',
+    en: {
+      category: 'Mobile Application',
+      title: 'DR.in for Doctor',
+      summary: 'A digital health platform putting teleconsultation and e-prescription in reach online, at minimal cost.',
+      role: 'UI Designer (Internship)',
+      year: '2021–2022',
+      platform: 'Mobile — iOS and Android',
+      problem: 'Medical data and e-prescription workflows are inherently dense and complex. The challenge was displaying that information architecture without overwhelming the people using it — healthcare professionals and patients alike.',
+      process: 'The brief and wireframes came from the senior UX team, and the first job was understanding the user flow and the business logic behind them before drawing anything. The hardest part was the domain itself: I had to learn how prescribing actually works before the screens could be right rather than merely tidy.',
+      quote: 'In a medical interface, accuracy and safety come before aesthetics — a screen that looks calm but reads wrong is the worse outcome.',
+      solution: 'The visual direction had to read as trustworthy without turning clinical. Complex data was grouped so a prescription could be checked at a glance rather than parsed, and every foundational screen — Login and Settings included — was held to the same rules as the core flow.',
+      stat1: '20+',
+      stat1Label: 'Screens designed',
+      stat2: '5',
+      stat2Label: 'Core flows delivered'
+    },
+    th: {
+      category: 'แอปพลิเคชันมือถือ',
+      title: 'DR.in for Doctor',
+      summary: 'แพลตฟอร์มสุขภาพดิจิทัลที่ให้บริการปรึกษาแพทย์และสั่งยาออนไลน์ เข้าถึงได้ครบและค่าใช้จ่ายต่ำ',
+      role: 'UI Designer (ฝึกงาน)',
+      year: '2564–2565',
+      platform: 'มือถือ — iOS และ Android',
+      problem: 'ข้อมูลทางการแพทย์และขั้นตอนการสั่งยาออนไลน์ซับซ้อนในตัวเอง ความท้าทายคือจะแสดงโครงสร้างข้อมูลจำนวนมากนี้อย่างไรโดยไม่ทำให้ผู้ใช้ทั้งบุคลากรทางการแพทย์และผู้ป่วยรู้สึกล้น',
+      process: 'Brief และ Wireframe มาจากทีม Senior UX งานแรกคือทำความเข้าใจ User Flow และ Business Logic เบื้องหลังก่อนจะเริ่มออกแบบ ส่วนที่ยากที่สุดคือตัวโดเมนเอง ผมต้องเรียนรู้ว่าการสั่งยาจริงทำงานอย่างไร ก่อนที่หน้าจอจะถูกต้อง ไม่ใช่แค่ดูเรียบร้อย',
+      quote: 'ในงานออกแบบทางการแพทย์ ความถูกต้องและความปลอดภัยมาก่อนความสวยงาม หน้าจอที่ดูสงบแต่อ่านแล้วเข้าใจผิด คือผลลัพธ์ที่แย่กว่า',
+      solution: 'Visual Direction ต้องให้ความรู้สึกน่าเชื่อถือโดยไม่แข็งจนเกินไป ข้อมูลที่ซับซ้อนถูกจัดกลุ่มให้ตรวจใบสั่งยาได้ในสายตาเดียว ไม่ต้องไล่อ่าน และหน้าจอพื้นฐานทุกหน้า รวมถึง Login และ Settings ยึดกฎเดียวกับ Core Flow',
+      stat1: '20+',
+      stat1Label: 'หน้าจอที่ออกแบบ',
+      stat2: '5',
+      stat2Label: 'Core Flow ที่ส่งมอบ'
+    }
   }
 };

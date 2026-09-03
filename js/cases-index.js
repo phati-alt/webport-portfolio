@@ -19,11 +19,6 @@ window.CASES_INDEX = {
     th: { category: "โปรเจกต์แนวคิด", title: "EV Charger" },
     audit: { status: "real", screens: 0 }
   },
-  "drin-doctor": {
-    en: { category: "Mobile Application", title: "DR.in for Doctor" },
-    th: { category: "แอปพลิเคชันมือถือ", title: "DR.in for Doctor" },
-    audit: { status: "real", screens: 0 }
-  },
   "wordpress-website": {
     en: { category: "Website", title: "JST Group" },
     th: { category: "เว็บไซต์", title: "JST Group" },

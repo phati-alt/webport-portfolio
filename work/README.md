@@ -17,7 +17,6 @@ work/
       cover.png           hero image, also used as the card on the homepage
   platform/
   ev-charger/
-  drin-doctor/
   custom-dashboard/
   wordpress-website/
   more-projects/          simple image gallery, not a case study
