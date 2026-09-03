@@ -895,6 +895,13 @@
         // behind the dialog, so the backdrop cannot be scrolled past and
         // closing returns you where you were.
         lenis?.stop();
+
+        // lenis.stop() only stops its own wheel-driven virtual scroll — it
+        // does nothing about the page's real scroll position, which is
+        // still reachable behind the dialog via keyboard (Space, Page
+        // Down, arrows), a dragged scrollbar, or native touch scroll. This
+        // class disables that directly so only the modal itself scrolls.
+        root.classList.add('mp-modal-open');
       });
     });
 
@@ -917,6 +924,7 @@
     modal.addEventListener('close', () => {
       openId = null;
       lenis?.start();
+      root.classList.remove('mp-modal-open');
     });
   }
 

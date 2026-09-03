@@ -20,6 +20,12 @@ button, input, textarea { font: inherit; color: inherit; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
+/* More Projects modal open: lenis.stop() only halts Lenis's own
+   wheel-driven virtual scroll, not the page's real scroll position, which
+   stays reachable behind the dialog via keyboard, a dragged scrollbar, or
+   native touch. Locking overflow here is what actually stops that. */
+html.mp-modal-open, html.mp-modal-open body { overflow: hidden; }
+
 /* a faint ruled/graph-paper grid on the flat canvas colour — paired
    repeating-linear-gradients, one per axis, in --rule so it already
    matches the page's other hairlines and flips with the theme
