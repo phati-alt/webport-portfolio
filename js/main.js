@@ -939,13 +939,16 @@
      function finds no data and returns. Delete it and the .cs-audit
      rules in style.css whenever the audit is finished for good. */
   function initDataStatus() {
+    // Per-item status is a plain colour dot now — green for real, amber
+    // for mockup, no text — so it flags status without competing with
+    // the actual card content. title carries the detail for a hover.
     const mark = (host, status, screens) => {
       if (!status) return;
       const el = document.createElement('span');
       el.className = 'cs-audit is-' + status;
       const shots = screens < 0 ? '' :
         ' · ' + (screens ? screens + ' shots' : 'no shots');
-      el.textContent = (status === 'real' ? 'REAL' : 'MOCKUP') + shots;
+      el.title = (status === 'real' ? 'Real' : 'Mockup') + shots;
       host.appendChild(el);
     };
 
@@ -989,7 +992,10 @@
     const bar = document.createElement('div');
     bar.className = 'cs-audit__bar';
     const el = document.createElement('span');
-    el.className = 'cs-audit is-' + (left ? 'mockup' : 'real');
+    // This one is a running count, not a per-item flag, so it keeps its
+    // text — the summary--tag modifier opts it back out of the plain-dot
+    // styling every other .cs-audit gets.
+    el.className = 'cs-audit cs-audit--summary is-' + (left ? 'mockup' : 'real');
     el.textContent = left
       ? left + ' of ' + entries.length + ' still mockup'
       : 'all ' + entries.length + ' real';

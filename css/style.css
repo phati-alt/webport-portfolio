@@ -1909,14 +1909,20 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
    ============================================================== */
 .cs-audit {
   position: absolute; top: 10px; left: 10px; z-index: 5;
-  font-family: var(--font-mono); font-size: .64rem; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  padding: .35rem .55rem; border-radius: 3px;
-  color: #000; background: #ffd400; border: 2px solid #000;
-  pointer-events: none; white-space: nowrap;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #ffd400; border: 2px solid #000;
+  pointer-events: none;
 }
 .cs-audit.is-real { background: #4ade80; }
 .cs-audit.is-mockup { background: #ffd400; }
+/* The one running count (More Projects: "N of M still mockup") carries
+   text it can't drop, so it opts back out of the plain-dot shape above. */
+.cs-audit--summary {
+  width: auto; height: auto; border-radius: 3px;
+  font-family: var(--font-mono); font-size: .64rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: .35rem .55rem; color: #000; white-space: nowrap;
+}
 /* On a case page it is a fixed tag rather than a corner label, so it
    stays visible however far down the page you have scrolled. */
 .cs-audit__bar {
