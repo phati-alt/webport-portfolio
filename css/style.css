@@ -1671,10 +1671,29 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
    instead of the row's fixed viewport height. These covers are landscape
    (roughly 3:2); forcing them into the case row's tall portrait frame
    would crop the device mockups in half. */
+.mp-filter {
+  display: flex; flex-wrap: wrap; gap: .6rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+.mp-filter__btn {
+  font: inherit; font-size: .82rem; font-weight: 500;
+  padding: .5rem 1rem; border-radius: 999px;
+  background: var(--paper); border: 1px solid var(--rule); color: var(--ink);
+  cursor: pointer; transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
+}
+.mp-filter__btn:hover { border-color: var(--ink); }
+/* --primary is reserved for CTAs/links (see tokens.css), so the
+   selected state is a plain ink/paper flip rather than the brand blue. */
+.mp-filter__btn.is-active { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .mp-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: var(--gap); margin-top: clamp(2rem, 4vw, 3rem);
+  gap: var(--gap); margin-top: 1.5rem;
 }
+/* Filtered out: fully removed from layout rather than faded, since a
+   hidden card would otherwise still hold its grid cell. .mp-card sets
+   its own display:block above, which as an author rule already beats
+   the attribute's UA default — this is what actually overrides it. */
+.mp-card[hidden] { display: none; }
 .mp-card {
   /* it opens a dialog rather than navigating, so it is a <button> — which
      means undoing the browser's button styling before anything else */

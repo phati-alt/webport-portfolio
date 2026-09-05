@@ -7,7 +7,7 @@
   intro and a grid of images.
 
   Images live in this folder's own assets/, same as every case folder, and
-  are referenced relatively: <img src="assets/project-1.png">. Add or
+  are referenced relatively: <img src="assets/facility-management.png">. Add or
   remove <figure> blocks freely — .cs-gallery reflows to however many are
   there (2 columns down to tablet, 1 column on phones — same breakpoint as
   everywhere else on the site, see .cs-gallery's media query in
@@ -100,73 +100,83 @@
        independent: add, remove or reorder them freely. ===== -->
   <section class="cs-section" style="border-top: none; padding-top: 0;">
     <div class="wrap">
+      <!-- Filter — buttons are static; initMoreProjects() in js/main.js
+           wires the clicks and hides any card whose data.js `group`
+           doesn't match. Add a new group in that file plus a button here
+           with a matching data-mp-filter-value to introduce one. -->
+      <div class="mp-filter" data-mp-filter role="group" aria-label="Filter projects">
+        <button type="button" class="mp-filter__btn is-active" data-mp-filter-value="all" data-i18n="more.filter.all">All</button>
+        <button type="button" class="mp-filter__btn" data-mp-filter-value="platform" data-i18n="more.filter.platform">Product Platform</button>
+        <button type="button" class="mp-filter__btn" data-mp-filter-value="mobile" data-i18n="more.filter.mobile">Mobile Application</button>
+        <button type="button" class="mp-filter__btn" data-mp-filter-value="dashboard" data-i18n="more.filter.dashboard">Dashboard</button>
+      </div>
       <div class="mp-grid" data-mp-grid>
-        <button class="mp-card" type="button" data-mp-id="project-1" data-reveal data-hover>
+        <button class="mp-card" type="button" data-mp-id="facility-management" data-reveal data-hover>
           <span class="mp-card__media">
-            <img src="assets/project-1.png" alt="" loading="lazy">
+            <img src="assets/facility-management.png" alt="" loading="lazy">
             <span class="mp-card__label">
               <span class="mp-card__label-category" data-mp-field="category"></span>
               <span class="mp-card__label-title" data-mp-field="title"></span>
             </span>
           </span>
         </button>
-        <button class="mp-card" type="button" data-mp-id="project-2" data-reveal data-hover>
+        <button class="mp-card" type="button" data-mp-id="gateway-alerting" data-reveal data-hover>
           <span class="mp-card__media">
-            <img src="assets/project-2.png" alt="" loading="lazy">
+            <img src="assets/gateway-alerting.png" alt="" loading="lazy">
             <span class="mp-card__label">
               <span class="mp-card__label-category" data-mp-field="category"></span>
               <span class="mp-card__label-title" data-mp-field="title"></span>
             </span>
           </span>
         </button>
-        <button class="mp-card" type="button" data-mp-id="project-3" data-reveal data-hover>
+        <button class="mp-card" type="button" data-mp-id="forest-permit" data-reveal data-hover>
           <span class="mp-card__media">
-            <img src="assets/project-3.png" alt="" loading="lazy">
+            <img src="assets/forest-permit.png" alt="" loading="lazy">
             <span class="mp-card__label">
               <span class="mp-card__label-category" data-mp-field="category"></span>
               <span class="mp-card__label-title" data-mp-field="title"></span>
             </span>
           </span>
         </button>
-        <button class="mp-card" type="button" data-mp-id="project-4" data-reveal data-hover>
+        <button class="mp-card" type="button" data-mp-id="water-quality-aot" data-reveal data-hover>
           <span class="mp-card__media">
-            <img src="assets/project-4.png" alt="" loading="lazy">
+            <img src="assets/water-quality-aot.png" alt="" loading="lazy">
             <span class="mp-card__label">
               <span class="mp-card__label-category" data-mp-field="category"></span>
               <span class="mp-card__label-title" data-mp-field="title"></span>
             </span>
           </span>
         </button>
-        <button class="mp-card" type="button" data-mp-id="project-5" data-reveal data-hover>
+        <button class="mp-card" type="button" data-mp-id="vaccine-record" data-reveal data-hover>
           <span class="mp-card__media">
-            <img src="assets/project-5.png" alt="" loading="lazy">
+            <img src="assets/vaccine-record.png" alt="" loading="lazy">
             <span class="mp-card__label">
               <span class="mp-card__label-category" data-mp-field="category"></span>
               <span class="mp-card__label-title" data-mp-field="title"></span>
             </span>
           </span>
         </button>
-        <button class="mp-card" type="button" data-mp-id="project-6" data-reveal data-hover>
+        <button class="mp-card" type="button" data-mp-id="purchase-request" data-reveal data-hover>
           <span class="mp-card__media">
-            <img src="assets/project-6.png" alt="" loading="lazy">
+            <img src="assets/purchase-request.png" alt="" loading="lazy">
             <span class="mp-card__label">
               <span class="mp-card__label-category" data-mp-field="category"></span>
               <span class="mp-card__label-title" data-mp-field="title"></span>
             </span>
           </span>
         </button>
-        <button class="mp-card" type="button" data-mp-id="project-7" data-reveal data-hover>
+        <button class="mp-card" type="button" data-mp-id="num-eiang" data-reveal data-hover>
           <span class="mp-card__media">
-            <img src="assets/project-7.png" alt="" loading="lazy">
+            <img src="assets/num-eiang.png" alt="" loading="lazy">
             <span class="mp-card__label">
               <span class="mp-card__label-category" data-mp-field="category"></span>
               <span class="mp-card__label-title" data-mp-field="title"></span>
             </span>
           </span>
         </button>
-        <button class="mp-card" type="button" data-mp-id="project-8" data-reveal data-hover>
+        <button class="mp-card" type="button" data-mp-id="drin-doctor" data-reveal data-hover>
           <span class="mp-card__media">
-            <img src="assets/project-8.png" alt="" loading="lazy">
+            <img src="assets/drin-doctor.png" alt="" loading="lazy">
             <span class="mp-card__label">
               <span class="mp-card__label-category" data-mp-field="category"></span>
               <span class="mp-card__label-title" data-mp-field="title"></span>

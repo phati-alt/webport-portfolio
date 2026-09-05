@@ -865,6 +865,24 @@
     render();
     window.addEventListener('langchange', render);
 
+    // Filter — buttons are static markup in index.html; this only toggles
+    // which cards stay in the grid, keyed off each one's data.js `group`
+    // (a broader bucket than the `category` text shown on the card).
+    const filterBar = document.querySelector('[data-mp-filter]');
+    if (filterBar) {
+      const filterBtns = [...filterBar.querySelectorAll('[data-mp-filter-value]')];
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const value = btn.dataset.mpFilterValue;
+          filterBtns.forEach(b => b.classList.toggle('is-active', b === btn));
+          cards.forEach(card => {
+            const group = window.MORE_PROJECTS?.[card.dataset.mpId]?.group;
+            card.hidden = value !== 'all' && group !== value;
+          });
+        });
+      });
+    }
+
     cards.forEach(card => {
       card.addEventListener('click', () => {
         openId = card.dataset.mpId;

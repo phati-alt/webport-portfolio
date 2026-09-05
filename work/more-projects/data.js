@@ -10,10 +10,19 @@
    Fields mirror content/cases.csv so the modal reads like a short case
    page: summary is the standfirst, then problem / process (+ quote) /
    solution, and two stats. One entry per image in assets/, keyed by the
-   file's base name, with the same fields in en and th. */
+   file's base name, with the same fields in en and th.
+
+   `group` (top level, not translated — it's a machine value, not
+   copy) is which filter button on the gallery page shows this card:
+   'platform', 'mobile' or 'dashboard'. It's a broader grouping than
+   the `category` text shown on the card itself, so a project can read
+   as "IoT Monitoring" on its label while filtering under "Product
+   Platform". Add a fourth group here and a matching button in
+   index.html's .mp-filter to introduce a new one. */
 window.MORE_PROJECTS = {
-  'project-1': {
+  'facility-management': {
     audit: 'real',
+    group: 'platform',
     en: {
       category: 'Product Platform',
       title: 'Facility Management Platform',
@@ -48,8 +57,9 @@ window.MORE_PROJECTS = {
     }
   },
 
-  'project-2': {
+  'gateway-alerting': {
     audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
+    group: 'platform',
     en: {
       category: 'IoT Monitoring',
       title: 'Gateway and device alerting dashboard',
@@ -84,8 +94,9 @@ window.MORE_PROJECTS = {
     }
   },
 
-  'project-3': {
+  'forest-permit': {
     audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
+    group: 'platform',
     en: {
       category: 'Government Service',
       title: 'Permit application system for the Royal Forest Department',
@@ -120,8 +131,9 @@ window.MORE_PROJECTS = {
     }
   },
 
-  'project-4': {
+  'water-quality-aot': {
     audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
+    group: 'dashboard',
     en: {
       category: 'Environmental Dashboard',
       title: 'Water quality monitoring for Airports of Thailand',
@@ -156,8 +168,9 @@ window.MORE_PROJECTS = {
     }
   },
 
-  'project-5': {
+  'vaccine-record': {
     audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
+    group: 'mobile',
     en: {
       category: 'Health App',
       title: 'Vaccination and health record companion',
@@ -192,8 +205,9 @@ window.MORE_PROJECTS = {
     }
   },
 
-  'project-6': {
+  'purchase-request': {
     audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
+    group: 'mobile',
     en: {
       category: 'Procurement App',
       title: 'Purchase request tracking on mobile',
@@ -228,8 +242,9 @@ window.MORE_PROJECTS = {
     }
   },
 
-  'project-7': {
+  'num-eiang': {
     audit: 'mockup',   /* TEMPORARY: flip to 'real' once this entry's copy is verified */
+    group: 'mobile',
     en: {
       category: 'Lifestyle App',
       title: 'Num Eiang — Chinese auspicious date calendar',
@@ -264,8 +279,9 @@ window.MORE_PROJECTS = {
     }
   },
 
-  'project-8': {
+  'drin-doctor': {
     audit: 'real',
+    group: 'mobile',
     en: {
       category: 'Mobile Application',
       title: 'DR.in for Doctor',
