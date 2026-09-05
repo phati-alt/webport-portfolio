@@ -1,0 +1,169 @@
+/* ============================================================
+   Department of Groundwater Resources — bespoke case layout, v3
+   ============================================================
+   This is the one case page NOT built from work/_template/ +
+   content/cases.csv (see tools/build-cases.ps1's $customSlugs).
+   Every other case shares one template and one set of .cs-* rules
+   in css/style.css by design; this page is the deliberate, single
+   exception, so its rules live here rather than in that shared
+   file. See work/README.md's "Bespoke pages" section.
+
+   v3 direction: dark-panel "insight card" layout, following a
+   reference screenshot the user supplied — elevated panels with an
+   icon + label header, colour-accented rows (problem = red,
+   solution = purple, results = green), KPI tiles paired with
+   progress bars, and a testimonial with a quote mark and an avatar.
+   Colour and type still run on the site's own tokens
+   (css/tokens.css), so light/dark mode carries over unchanged —
+   the reference was a dark-mode screenshot, but nothing here is a
+   hardcoded dark colour. Header, footer, hero title, record strip
+   and the next-project card stay as before / shared site chrome. */
+
+.gp-section {
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  border-top: 1px solid var(--rule);
+}
+.gp-tag {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: .72rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+}
+
+/* ---------- Record strip (role/timeline/platform/tools) ---------- */
+.gp-record {
+  display: flex; flex-wrap: wrap; gap: 0;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+}
+.gp-record__item { flex: 1 1 200px; padding: 1rem 1.5rem 1rem 0; border-left: 1px solid var(--rule); padding-left: 1.5rem; }
+.gp-record__item:first-child { border-left: 0; padding-left: 0; }
+.gp-record__label {
+  display: block; font-family: var(--font-mono); font-size: .68rem;
+  font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: .4rem;
+}
+.gp-record__value { font-size: 1rem; font-weight: 500; line-height: 1.4; }
+
+/* ---------- Panel — the recurring shell for every insight card ---------- */
+.gp-panel {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: clamp(1.5rem, 3vw, 2.25rem);
+}
+.gp-panel__head { display: flex; align-items: center; gap: .65rem; margin-bottom: 1.5rem; }
+.gp-panel__head svg { width: 1.15rem; height: 1.15rem; color: var(--muted); flex: none; }
+.gp-panel__head span {
+  font-family: var(--font-mono); font-size: .78rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  white-space: nowrap;
+}
+.gp-panel__head::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+.gp-panel__lede { margin: -.5rem 0 1.25rem; color: var(--muted); font-size: .92rem; line-height: 1.5; max-width: 62ch; }
+
+/* ---------- Context tiles ---------- */
+.gp-ctx { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.gp-ctx__item {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem;
+}
+.gp-ctx__icon { width: 1.35rem; height: 1.35rem; color: var(--muted); margin-bottom: .7rem; display: block; }
+.gp-ctx__label {
+  display: block; font-family: var(--font-mono); font-size: .64rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem;
+}
+.gp-ctx__value { font-size: .92rem; line-height: 1.45; }
+
+/* ---------- Problem rows — red accent ---------- */
+.gp-prob-list { display: flex; flex-direction: column; gap: .9rem; }
+.gp-prob {
+  display: flex; gap: 1rem; align-items: flex-start;
+  background: var(--paper); border-radius: var(--radius-sm);
+  border-left: 3px solid var(--stamp-no); padding: 1.1rem 1.25rem;
+}
+.gp-prob__icon { width: 1.35rem; height: 1.35rem; color: var(--stamp-no); flex: none; margin-top: .15rem; }
+.gp-prob h3 { font-size: .98rem; font-weight: 600; margin: 0 0 .3rem; }
+.gp-prob p { margin: 0; color: var(--muted); font-size: .89rem; line-height: 1.5; max-width: 60ch; }
+
+/* ---------- Process — the narrative + its pull-quote ---------- */
+.gp-process p { margin: 0; font-size: .96rem; line-height: 1.6; max-width: 68ch; }
+.gp-process__quote {
+  margin: 1.25rem 0 0; padding: 1.1rem 1.4rem;
+  border-radius: var(--radius-sm); border-left: 3px solid var(--ink);
+  background: var(--paper); font-size: 1rem; font-weight: 500; line-height: 1.55;
+}
+
+/* ---------- Solution grid — purple accent ---------- */
+.gp-sol-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.gp-sol {
+  background: var(--paper); border-radius: var(--radius-sm);
+  border: 1px solid var(--rule); border-top: 3px solid var(--purple-dark);
+  padding: 1.1rem 1.25rem;
+}
+.gp-sol__icon { width: 1.35rem; height: 1.35rem; color: var(--purple-dark); margin-bottom: .65rem; display: block; }
+.gp-sol h3 { font-size: .96rem; font-weight: 600; margin: 0 0 .35rem; }
+.gp-sol p { margin: 0; color: var(--muted); font-size: .87rem; line-height: 1.5; }
+
+/* ---------- Results — green accent: KPI tiles + progress bars ---------- */
+.gp-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.75rem; }
+.gp-kpi {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  padding: 1.15rem 1rem; text-align: center;
+}
+.gp-kpi__value {
+  display: block; font-family: var(--font-mono); font-weight: 700;
+  font-size: clamp(1.25rem, 1.05rem + .6vw, 1.55rem); color: var(--stamp-ok);
+  font-variant-numeric: tabular-nums;
+}
+.gp-kpi__label { display: block; margin-top: .4rem; font-size: .76rem; color: var(--muted); line-height: 1.3; }
+
+.gp-bars { display: flex; flex-direction: column; gap: .9rem; }
+.gp-bar { display: grid; grid-template-columns: 9rem 1fr 3.75rem; align-items: center; gap: .85rem; }
+/* Wrapping (the default) is load-bearing here, not just tidiness:
+   "Dev requirement accuracy" measures wider than this column at
+   every viewport width tested, including desktop, so it always
+   needs its second line — never add white-space:nowrap. */
+.gp-bar__label { font-size: .84rem; line-height: 1.25; color: var(--muted); text-align: right; }
+.gp-bar__track { height: 8px; border-radius: 99px; background: var(--rule); overflow: hidden; }
+.gp-bar__fill { height: 100%; border-radius: 99px; background: var(--stamp-ok); }
+.gp-bar__value {
+  font-family: var(--font-mono); font-size: .84rem; font-weight: 600;
+  color: var(--stamp-ok); font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Before / After — plain captioned images, no panel ---------- */
+/* Once assets/screen-*.png exist, swap each media-block for
+   <img src="assets/screen-N.png" alt="">, same as every other case's
+   gallery. Kept out of .gp-panel deliberately, matching the plain
+   image-plus-caption treatment in the reference. */
+.gp-showcase { display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3rem); }
+.gp-showcase figure { margin: 0; }
+.gp-showcase .media-block { aspect-ratio: 16 / 9; border-radius: var(--radius); }
+.gp-showcase img { width: 100%; border-radius: var(--radius); display: block; }
+.gp-showcase figcaption { text-align: center; margin-top: 1rem; font-size: .88rem; color: var(--muted); }
+
+/* ---------- Testimonial ---------- */
+.gp-testi__mark { width: 2rem; height: 2rem; color: var(--muted); margin-bottom: 1rem; }
+.gp-testi blockquote {
+  margin: 0; font-size: 1.05rem; font-style: italic; line-height: 1.65;
+  max-width: 68ch; color: var(--ink);
+}
+.gp-testi__foot { display: flex; align-items: center; gap: .85rem; margin-top: 1.5rem; }
+.gp-testi__avatar {
+  width: 2.75rem; height: 2.75rem; border-radius: 50%; flex: none;
+  background: var(--paper); border: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center; color: var(--muted);
+}
+.gp-testi__avatar svg { width: 1.2rem; height: 1.2rem; }
+.gp-testi__name { font-weight: 600; font-size: .92rem; }
+.gp-testi__role { display: block; font-size: .8rem; color: var(--muted); margin-top: .1rem; }
+
+@media (max-width: 900px) {
+  .gp-ctx { grid-template-columns: 1fr; }
+  .gp-sol-grid { grid-template-columns: 1fr; }
+  .gp-kpis { grid-template-columns: 1fr 1fr; }
+  .gp-bar { grid-template-columns: 6rem 1fr 3.25rem; gap: .6rem; }
+}
+
+@media (max-width: 700px) {
+  .gp-record__item { flex: 1 1 45%; border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 1rem; }
+  .gp-record__item:first-child { border-top: 0; padding-top: 1rem; }
+}

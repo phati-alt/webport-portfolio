@@ -149,6 +149,20 @@ const translations = {
     "cs.next.label": "Next project",
     "cs.next.cta": "View case study",
 
+    /* Section tags for work/government-project/'s bespoke layout only —
+       every other case names its sections through cs.overview.title etc.
+       above, shared by the template. This one has its own markup, so it
+       gets its own small set here rather than overloading those. */
+    "cs.gp.brief": "Context",
+    "cs.gp.findings": "Problem",
+    "cs.gp.field": "Process",
+    "cs.gp.compare": "Before / After",
+    "cs.gp.manifest": "Solution",
+    "cs.gp.outcomes": "Results",
+    "cs.gp.testimonial": "Testimonial",
+    "cs.gp.primaryUsers": "Primary Users",
+    "cs.gp.scope": "Scope",
+
     "a11y.switchLanguage": "Switch language",
     "a11y.toggleDarkMode": "Toggle dark mode",
     "a11y.menu": "Menu",
@@ -295,6 +309,16 @@ const translations = {
     "cs.results.title": "ผลลัพธ์",
     "cs.next.label": "โปรเจกต์ถัดไป",
     "cs.next.cta": "ดู Case Study",
+
+    "cs.gp.brief": "บริบท",
+    "cs.gp.findings": "ปัญหา",
+    "cs.gp.field": "กระบวนการ",
+    "cs.gp.compare": "ก่อน / หลัง",
+    "cs.gp.manifest": "การแก้ปัญหา",
+    "cs.gp.outcomes": "ผลลัพธ์",
+    "cs.gp.testimonial": "คำรับรอง",
+    "cs.gp.primaryUsers": "ผู้ใช้งานหลัก",
+    "cs.gp.scope": "ขอบเขตงาน",
 
     "a11y.switchLanguage": "สลับภาษา",
     "a11y.toggleDarkMode": "สลับโหมดมืด",

@@ -48,6 +48,19 @@ param([string]$OutDir = '')
 # ---------------------------------------------------------------------
 $showDataStatus = $true
 
+# ---------------------------------------------------------------------
+#  Bespoke case pages.
+#  A slug listed here keeps its row in content/cases.csv (so the CSV is
+#  still where its category/title/audit status for the homepage card and
+#  the next-project rotation come from) but its own work/<slug>/index.html
+#  and data.js are left alone - not generated, not overwritten. Use this
+#  for a case whose story earned a one-off layout instead of the shared
+#  template; write that page and its data.js by hand, and give it its own
+#  stylesheet (see work/government-project/case.css for the pattern)
+#  rather than adding one-off rules to the shared css/style.css.
+# ---------------------------------------------------------------------
+$customSlugs = @('government-project')
+
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $csvPath = Join-Path $root 'content/cases.csv'
@@ -120,7 +133,7 @@ function Replace-Region($html, $name, $replacement) {
 }
 
 $slugs = @($rows | Select-Object -ExpandProperty slug -Unique)
-$built = 0; $skipped = @(); $galleries = @(); $noCover = @(); $optional = @()
+$built = 0; $customCount = 0; $skipped = @(); $galleries = @(); $noCover = @(); $optional = @()
 
 # Collected per case and written out afterwards as js/cases-index.js - see
 # the comment above that write for what it is for.
@@ -145,6 +158,29 @@ for ($i = 0; $i -lt $slugs.Count; $i++) {
   if (-not $showDataStatus) {
     $caseRows = @($caseRows | Where-Object { $_.key -ne 'dataStatus' })
   }
+
+  $isCustom = $customSlugs -contains $slug
+
+  # Screen count is needed for the homepage audit badge either way, so it
+  # is read here regardless of $isCustom rather than only inside the
+  # generation branch below.
+  $assetsDir = Join-Path $caseDir 'assets'
+  $screens = @()
+  if (Test-Path $assetsDir) {
+    $screens = @(Get-ChildItem -Path $assetsDir -File |
+      Where-Object { $_.Name -match '^screen-\d+\.(png|jpg|jpeg|webp)$' } |
+      Sort-Object { [int]($_.Name -replace '^screen-(\d+)\..*$', '$1') })
+  }
+
+  if ($isCustom) {
+    # Hand-written page: its own index.html and data.js are never touched.
+    # $nextSlug below still advances past this slug normally, so the case
+    # before it in rotation links here correctly - only this slug's own
+    # NEXT card is not auto-generated, since it has no generated file to
+    # write it into. Keep that card's href/title in sync by hand if the
+    # CSV row order changes.
+    $customCount++
+  } else {
 
   # ---- 1. data.js ---------------------------------------------------
   $sb = New-Object System.Text.StringBuilder
@@ -218,15 +254,7 @@ for ($i = 0; $i -lt $slugs.Count; $i++) {
   }
   $html = Replace-Region $html 'COVER' $cover
 
-  # -- gallery from the images actually present
-  $assetsDir = Join-Path $caseDir 'assets'
-  $screens = @()
-  if (Test-Path $assetsDir) {
-    $screens = @(Get-ChildItem -Path $assetsDir -File |
-      Where-Object { $_.Name -match '^screen-\d+\.(png|jpg|jpeg|webp)$' } |
-      Sort-Object { [int]($_.Name -replace '^screen-(\d+)\..*$', '$1') })
-  }
-
+  # -- gallery from the images actually present ($screens read up top)
   # The block is always rewritten, even with no images. Rewriting only when
   # screens exist would leave the <img> tags from a previous run behind once
   # those files are renamed or deleted - a page full of broken images that
@@ -354,6 +382,8 @@ for ($i = 0; $i -lt $slugs.Count; $i++) {
 
   Write-Utf8 (Join-Path $destDir 'index.html') $html
 
+  } # end: if (-not $isCustom)
+
   # Keep this case's card copy for the homepage index written below.
   $val = { param($k, $lang) $r = $caseRows | Where-Object { $_.key -eq $k } | Select-Object -First 1; if ($r) { Esc $r.$lang } else { '' } }
   $cardIndex += [pscustomobject]@{
@@ -366,7 +396,7 @@ for ($i = 0; $i -lt $slugs.Count; $i++) {
     Screens    = if ($showDataStatus) { $screens.Count } else { -1 }
   }
 
-  $built++
+  if (-not $isCustom) { $built++ }
 }
 
 # ---- 3. js/cases-index.js -------------------------------------------
@@ -411,6 +441,9 @@ if ($cardIndex.Count -gt 0) {
 
 Write-Host ""
 Write-Host "Built $built case page(s) from content/cases.csv" -ForegroundColor Green
+if ($customCount -gt 0) {
+  Write-Host "Left alone (bespoke, hand-written page): $($customSlugs -join ', ')" -ForegroundColor Cyan
+}
 if ($OutDir) { Write-Host "Output written to $OutDir - live pages untouched" -ForegroundColor Cyan }
 if ($galleries.Count -gt 0) {
   Write-Host "Galleries wired from assets/: $($galleries -join ', ')"

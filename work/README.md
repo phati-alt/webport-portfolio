@@ -10,17 +10,35 @@ work/
     index.html
     data.js
     assets/
-  government-project/
+  platform/
     index.html            GENERATED from _template — do not edit
     data.js               GENERATED from content/cases.csv — do not edit
     assets/
       cover.png           hero image, also used as the card on the homepage
-  platform/
   ev-charger/
   custom-dashboard/
   wordpress-website/
+  government-project/     BESPOKE — see below. Edit index.html/data.js directly.
+    index.html
+    data.js
+    case.css
+    assets/
   more-projects/          simple image gallery, not a case study
 ```
+
+### Bespoke pages — the one exception
+
+`government-project` still has a row in `content/cases.csv` (that's still
+where its homepage-card category/title/audit status come from, and where
+its place in the "Next project" rotation is decided), but its
+`index.html` and `data.js` are listed in `tools/build-cases.ps1`'s
+`$customSlugs` array — the build skips generating *those two files* for
+any slug in that list, leaving them alone to edit directly. It carries
+its own `case.css` too, so its one-off layout rules never end up in the
+shared `css/style.css`. Use this only when a case's story earned a
+genuinely different layout, not as a way to tweak one case's spacing —
+that costs the whole point of the shared template, which is every other
+page moving together.
 
 URLs are the folder name: `work/government-project/` → served as that
 folder's `index.html`.
