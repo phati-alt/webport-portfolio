@@ -948,14 +948,19 @@
 
   /* ---------- TEMPORARY: content audit badges ---------- */
   /* A working aid while the case copy is being replaced with the real
-     thing — marks which cases carry real content and which are still
-     placeholder, and how many screenshots have been added.
+     thing — marks which entries carry real content and which are
+     still placeholder. All 5 cases are real now, so the per-case
+     badges (the case page's own bottom-left bar, and the dot on each
+     homepage card) were removed — see case-content-is-mockup memory
+     for the source of that confirmation. More Projects still has
+     mockup entries, so its badges stay.
 
      It draws nothing on its own: everything comes from data the build
      only emits while $showDataStatus is $true in tools/build-cases.ps1.
-     Flip that to $false, re-run, and every badge disappears — this
-     function finds no data and returns. Delete it and the .cs-audit
-     rules in style.css whenever the audit is finished for good. */
+     Flip that to $false, re-run, and every remaining badge disappears
+     too — this function finds no data and returns. Delete it and the
+     .cs-audit rules in style.css whenever the More Projects audit is
+     finished as well. */
   function initDataStatus() {
     // Per-item status is a plain colour dot now — green for real, amber
     // for mockup, no text — so it flags status without competing with
@@ -970,32 +975,13 @@
       host.appendChild(el);
     };
 
-    // Case page: its own data.js carries the row.
-    const caseData = window.CASE_DATA?.en;
-    if (caseData?.dataStatus) {
-      const shots = document.querySelectorAll('.cs-gallery img').length;
-      const bar = document.createElement('div');
-      bar.className = 'cs-audit__bar';
-      mark(bar, caseData.dataStatus, shots);
-      document.body.appendChild(bar);
-    }
-
     const index = window.CASES_INDEX;
-    if (!index) return;
-
-    // Homepage: one badge per card, from the generated index.
-    document.querySelectorAll('.case[data-case-ref]').forEach(card => {
-      const audit = index[card.dataset.caseRef]?.audit;
-      if (!audit) return;
-      const media = card.querySelector('.case__media') || card;
-      mark(media, audit.status, audit.screens);
-    });
 
     // More Projects: its copy is hand-written with no CSV behind it, so the
     // status sits per entry in that folder's data.js and each card can be
     // flipped to 'real' on its own as its text gets verified. Gated on the
     // build's _audit flag so the same single switch clears these too.
-    if (!index._audit || !window.MORE_PROJECTS) return;
+    if (!index?._audit || !window.MORE_PROJECTS) return;
     const entries = Object.entries(window.MORE_PROJECTS);
     entries.forEach(([id, item]) => {
       const card = document.querySelector('.mp-card[data-mp-id="' + id + '"]');
