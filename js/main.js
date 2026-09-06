@@ -923,7 +923,21 @@
       });
     });
 
-    modal.querySelector('[data-mp-close]')?.addEventListener('click', () => modal.close());
+    // Cleanup shared by every close path: resume Lenis and release the
+    // page scroll lock. Idempotent (removing a class / starting a running
+    // Lenis twice is harmless), so it is safe to run from both an explicit
+    // trigger and the 'close' event. It does NOT live only on the 'close'
+    // event because that event is not dispatched in every environment; if
+    // it were the sole home for this, a missed event would leave the page
+    // scroll-locked behind a closed dialog.
+    const releaseModal = () => {
+      openId = null;
+      lenis?.start();
+      root.classList.remove('mp-modal-open');
+    };
+    const dismiss = () => { modal.close(); releaseModal(); };
+
+    modal.querySelector('[data-mp-close]')?.addEventListener('click', dismiss);
 
     // A <dialog> fills its whole top layer, so a click on the dimmed area
     // still lands on the dialog element itself. Comparing against the
@@ -934,16 +948,12 @@
       const box = modal.getBoundingClientRect();
       const inside = e.clientX >= box.left && e.clientX <= box.right &&
                      e.clientY >= box.top && e.clientY <= box.bottom;
-      if (!inside) modal.close();
+      if (!inside) dismiss();
     });
 
-    // Fires however the dialog was dismissed — close button, backdrop, or
-    // the Esc key <dialog> handles itself — so Lenis is always resumed.
-    modal.addEventListener('close', () => {
-      openId = null;
-      lenis?.start();
-      root.classList.remove('mp-modal-open');
-    });
+    // Backstop for the paths not wired above — chiefly the Esc key, which
+    // <dialog> handles itself and surfaces only through this event.
+    modal.addEventListener('close', releaseModal);
   }
 
   /* ---------- TEMPORARY: content audit badges ---------- */

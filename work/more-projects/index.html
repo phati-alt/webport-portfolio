@@ -199,68 +199,66 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
   </button>
 
-  <!-- Same reading order as a case page: category and title first, then the
-       cover, the meta row, and the write-up under a numbered section head.
-       The classes are the case page's own (.cs-meta, .cs-block, .cs-step)
-       so the two stay visually in step from one stylesheet. -->
+  <!-- Editorial layout, bespoke to the modal (not the case pages' panel
+       stack): an accent eyebrow + large title, an inline facts row, a
+       framed cover, then the write-up as a numbered narrative with big
+       ghost numerals rather than boxed sections, a pull-quote break, and
+       a bold stats strip. All text comes from data.js via
+       data-mp-modal-field; initMoreProjects() fills it on open. -->
   <article class="mp-modal__inner">
     <header class="mp-modal__hero">
-      <p class="pretitle" data-mp-modal-field="category"></p>
+      <p class="mp-modal__eyebrow" data-mp-modal-field="category"></p>
       <h2 class="mp-modal__title" id="mpModalTitle" data-mp-modal-field="title"></h2>
-      <p class="lede mp-modal__summary" data-mp-modal-field="summary"></p>
+      <p class="mp-modal__summary" data-mp-modal-field="summary"></p>
+      <ul class="mp-modal__facts">
+        <li><span data-i18n="cs.meta.roleLabel">Role</span><b data-mp-modal-field="role"></b></li>
+        <li><span data-i18n="more.modal.yearLabel">Year</span><b data-mp-modal-field="year"></b></li>
+        <li><span data-i18n="cs.meta.platformLabel">Platform</span><b data-mp-modal-field="platform"></b></li>
+      </ul>
     </header>
 
     <figure class="mp-modal__cover">
       <img data-mp-modal-img src="" alt="">
     </figure>
 
-    <dl class="cs-meta mp-modal__meta">
-      <div><dt data-i18n="cs.meta.roleLabel">Role</dt><dd data-mp-modal-field="role"></dd></div>
-      <div><dt data-i18n="more.modal.yearLabel">Year</dt><dd data-mp-modal-field="year"></dd></div>
-      <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-mp-modal-field="platform"></dd></div>
-    </dl>
+    <div class="mp-modal__story">
+      <section class="mp-modal__chapter">
+        <span class="mp-modal__num" aria-hidden="true">01</span>
+        <div class="mp-modal__chapter-body">
+          <h3 class="mp-modal__chapter-title" data-i18n="cs.ip.findings">Problem</h3>
+          <p data-mp-modal-field="problem"></p>
+        </div>
+      </section>
 
-    <section class="cs-block mp-modal__block">
-      <div class="cs-block__aside">
-        <span class="cs-step">01</span>
-        <h3 class="cs-block__title" data-i18n="cs.overview.title">The Problem</h3>
-      </div>
-      <div class="cs-block__body">
-        <p class="lede" data-mp-modal-field="problem"></p>
-      </div>
-    </section>
+      <section class="mp-modal__chapter">
+        <span class="mp-modal__num" aria-hidden="true">02</span>
+        <div class="mp-modal__chapter-body">
+          <h3 class="mp-modal__chapter-title" data-i18n="cs.ip.process">Process</h3>
+          <p data-mp-modal-field="process"></p>
+        </div>
+      </section>
 
-    <section class="cs-block mp-modal__block">
-      <div class="cs-block__aside">
-        <span class="cs-step">02</span>
-        <h3 class="cs-block__title" data-i18n="cs.process.title">Process</h3>
-      </div>
-      <div class="cs-block__body">
-        <p class="lede" data-mp-modal-field="process"></p>
-        <blockquote class="cs-quote" data-mp-modal-field="quote"></blockquote>
-      </div>
-    </section>
+      <blockquote class="mp-modal__quote" data-mp-modal-field="quote"></blockquote>
 
-    <section class="cs-block mp-modal__block">
-      <div class="cs-block__aside">
-        <span class="cs-step">03</span>
-        <h3 class="cs-block__title" data-i18n="cs.solution.title">The Solution</h3>
-      </div>
-      <div class="cs-block__body">
-        <p class="lede" data-mp-modal-field="solution"></p>
+      <section class="mp-modal__chapter">
+        <span class="mp-modal__num" aria-hidden="true">03</span>
+        <div class="mp-modal__chapter-body">
+          <h3 class="mp-modal__chapter-title" data-i18n="cs.ip.solution">Solution</h3>
+          <p data-mp-modal-field="solution"></p>
+        </div>
+      </section>
+    </div>
 
-        <dl class="cs-stats mp-modal__stats">
-          <div class="cs-stats__item">
-            <strong data-mp-modal-field="stat1"></strong>
-            <span data-mp-modal-field="stat1Label"></span>
-          </div>
-          <div class="cs-stats__item">
-            <strong data-mp-modal-field="stat2"></strong>
-            <span data-mp-modal-field="stat2Label"></span>
-          </div>
-        </dl>
+    <div class="mp-modal__stats">
+      <div class="mp-modal__stat">
+        <strong data-mp-modal-field="stat1"></strong>
+        <span data-mp-modal-field="stat1Label"></span>
       </div>
-    </section>
+      <div class="mp-modal__stat">
+        <strong data-mp-modal-field="stat2"></strong>
+        <span data-mp-modal-field="stat2Label"></span>
+      </div>
+    </div>
   </article>
 </dialog>
 

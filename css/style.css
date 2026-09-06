@@ -1717,42 +1717,73 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
 }
 
 /* The dialog sits on top of everything, so it carries its own surface
-   colours from the theme tokens rather than inheriting a section's. */
+   colours from the theme tokens rather than inheriting a section's. It
+   clips to its rounded corners and does NOT scroll itself — the inner
+   article is the scroll container (below). That split is what lets the
+   close button pin to the panel corner and stay put while the content
+   scrolls under it, rather than drifting with a sticky/float hack. */
 .mp-modal {
   width: min(1280px, calc(100vw - 3rem));
   max-height: min(94vh, 1100px);
   padding: 0; border: 0; border-radius: var(--radius);
   background: var(--paper); color: var(--ink);
-  overflow: hidden auto;
-  /* The dialog is its own scroll container, and a track running down the
-     inside edge of a rounded panel cuts across the corner radius and reads
-     as a seam in the design. Scrolling itself is untouched — wheel, drag,
-     keys and the scrollbar-free trackpad gesture all still work; only the
-     bar is hidden. Safe here precisely because it is a short, self-evidently
-     scrollable panel: the cover image is always cut off at the fold, so
-     there is no doubt that there is more below. */
+  overflow: hidden;
+  position: relative;   /* containing block for the pinned close button */
+  display: flex;        /* let the inner article fill the panel */
+}
+.mp-modal::backdrop { background: rgba(6, 10, 24, .62); backdrop-filter: blur(3px); }
+
+/* Editorial layout — deliberately NOT the case pages' boxed panel stack.
+   The horizontal inset (--mp-pad) is shared by the hero, story and stats;
+   the cover keeps a smaller inset so it reads as a framed hero shot. */
+.mp-modal__inner {
+  --mp-pad: clamp(1.5rem, 4vw, 4.5rem);
+  flex: 1; min-width: 0;
+  max-height: min(94vh, 1100px);
+  overflow-y: auto;
+  /* Scrollbar hidden by design: the panel is self-evidently scrollable
+     (the cover is always cut at the fold), and a track running down the
+     inside of the rounded panel would read as a seam. Wheel, drag, keys
+     and the trackpad gesture all still scroll. */
   scrollbar-width: none;              /* Firefox */
   -ms-overflow-style: none;           /* legacy Edge */
 }
-.mp-modal::-webkit-scrollbar { width: 0; height: 0; display: none; }
-.mp-modal::backdrop { background: rgba(6, 10, 24, .62); backdrop-filter: blur(3px); }
+.mp-modal__inner::-webkit-scrollbar { width: 0; height: 0; display: none; }
 
-/* Case-page rhythm, scaled to a dialog: standfirst, full-bleed cover, meta
-   row, then the write-up beside a numbered section head. The horizontal
-   inset is shared by everything except the cover, which bleeds. */
-.mp-modal__inner { --mp-pad: clamp(1.5rem, 3.5vw, 4rem); }
+/* Hero — accent eyebrow, oversized title, standfirst, then an inline
+   facts row (mono label over value) instead of a bordered meta grid. */
 .mp-modal__hero {
-  padding: clamp(2.5rem, 4.5vw, 4rem) var(--mp-pad) clamp(1.75rem, 3vw, 2.5rem);
+  padding: clamp(2.5rem, 5vw, 4.5rem) var(--mp-pad) clamp(1.5rem, 3vw, 2.25rem);
+}
+.mp-modal__eyebrow {
+  display: inline-flex; align-items: center; gap: .65rem; margin: 0;
+  font-family: var(--font-mono); font-size: .72rem; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--primary);
+}
+.mp-modal__eyebrow::before {
+  content: ''; width: 1.75rem; height: 2px; border-radius: 2px;
+  background: var(--primary);
 }
 .mp-modal__title {
-  margin: .75rem 0 0;
-  font-size: clamp(1.7rem, 1.1rem + 2.6vw, 3.2rem); font-weight: 600;
-  letter-spacing: -.035em; line-height: 1.06; text-wrap: balance;
-  max-width: 20ch;
+  margin: 1rem 0 0;
+  font-size: clamp(2rem, 1.3rem + 3vw, 3.6rem); font-weight: 600;
+  letter-spacing: -.038em; line-height: 1.03; text-wrap: balance;
+  max-width: 18ch;
 }
 .mp-modal__summary {
-  margin-top: clamp(1rem, 2vw, 1.4rem); max-width: 58ch; color: var(--muted);
+  margin: clamp(1rem, 2vw, 1.5rem) 0 0; max-width: 60ch;
+  font-size: var(--fs-lede); line-height: 1.5; color: var(--muted);
 }
+.mp-modal__facts {
+  display: flex; flex-wrap: wrap; gap: 1rem 2.5rem;
+  margin: clamp(1.75rem, 3vw, 2.5rem) 0 0; padding: 0; list-style: none;
+}
+.mp-modal__facts li { display: flex; flex-direction: column; gap: .3rem; }
+.mp-modal__facts span {
+  font-family: var(--font-mono); font-size: .64rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+}
+.mp-modal__facts b { font-size: .98rem; font-weight: 500; }
 /* Capping the cover's height does two jobs at this panel width. Stretched
    to a full 1280 the covers ran taller than the dialog itself, so opening a
    project put a wall of image between the title and everything written
@@ -1761,60 +1792,111 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
    text. Bounded by height and contained instead, they land near their
    native size and stay sharp; the leftover space either side reads as a
    mount, the same way the case pages inset their cover. */
+/* Framed hero shot — inset from the modal edge with a tinted mount and a
+   hairline, so it reads as a presented image rather than a full-bleed
+   banner. Height-capped and contained because these covers are only
+   689px wide: filling the panel would upscale ~1.86x and soften the small
+   UI text in the screenshots, so they sit near native size instead. */
 .mp-modal__cover {
-  margin: 0; background: var(--paper-2);
+  margin: clamp(.5rem, 1.5vw, 1.25rem) var(--mp-pad) 0;
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); overflow: hidden;
   display: grid; place-items: center;
-  padding: clamp(1rem, 2vw, 2rem);
+  padding: clamp(1rem, 2.5vw, 2.5rem);
 }
 .mp-modal__cover img {
   display: block; width: auto; height: auto;
-  max-width: 100%; max-height: 52vh;
+  max-width: 100%; max-height: 50vh; border-radius: var(--radius-sm);
 }
-.mp-modal__meta { margin: clamp(1.5rem, 3vw, 2.25rem) var(--mp-pad) 0; }
-.mp-modal__block {
-  padding: clamp(1.75rem, 3.5vw, 2.75rem) var(--mp-pad) clamp(2.25rem, 4vw, 3.25rem);
-}
-/* .cs-block__aside is sticky under the site header on a real case page;
-   inside a dialog there is no header to clear, and a label that follows
-   the scroll in a panel this short just drifts away from its own text. */
-.mp-modal__block .cs-block__aside { position: static; }
 
-/* Pinned to the dialog, not the image: the image scrolls away on a short
-   viewport and the close control has to stay reachable. */
+/* Story — the write-up as a numbered narrative: an oversized ghost
+   numeral marks each chapter instead of a boxed section head, and the
+   chapters sit on open space rather than in cards. */
+.mp-modal__story {
+  padding: clamp(2.5rem, 5vw, 4rem) var(--mp-pad) 0;
+  display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3rem);
+}
+.mp-modal__chapter {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: clamp(1.25rem, 3vw, 2.5rem); align-items: start;
+}
+.mp-modal__num {
+  font-family: var(--font-mono); font-weight: 700; line-height: 1;
+  font-size: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  color: var(--primary);
+}
+.mp-modal__chapter-title {
+  margin: .3rem 0 .85rem;
+  font-family: var(--font-mono); font-size: .74rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
+}
+.mp-modal__chapter-body p {
+  margin: 0; font-size: 1.02rem; line-height: 1.65; max-width: 64ch; color: var(--ink);
+}
+
+/* Pull-quote — a full-width editorial break between the chapters, set off
+   by hairlines and a large accent quote mark rather than a box. */
+.mp-modal__quote {
+  margin: 0; padding: clamp(1.5rem, 3vw, 2.25rem) 0;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  font-size: clamp(1.3rem, 1rem + 1.4vw, 2rem); font-weight: 500;
+  font-style: italic; line-height: 1.4; letter-spacing: -.01em;
+  text-wrap: balance; color: var(--ink); max-width: 34ch;
+}
+.mp-modal__quote::before {
+  content: '\201C'; display: block;
+  font-family: var(--font-display); font-style: normal;
+  font-size: 3.5em; line-height: .5; color: var(--primary);
+  margin-bottom: .12em;
+}
+
+/* Pinned to the dialog corner (absolute inside the non-scrolling dialog),
+   so it stays exactly put while the inner article scrolls under it — no
+   drift, no negative-margin float. The blur + tint + shadow keep it
+   legible over whatever content passes beneath. */
 .mp-modal__close {
-  position: sticky; top: 0; float: right; z-index: 2;
-  display: grid; place-items: center; width: 40px; height: 40px;
-  margin: .75rem .75rem -40px 0;
-  border: 0; border-radius: 50%; cursor: pointer;
-  background: color-mix(in srgb, var(--paper) 82%, transparent);
-  backdrop-filter: blur(6px);
+  position: absolute; z-index: 3;
+  top: clamp(.85rem, 1.8vw, 1.35rem); right: clamp(.85rem, 1.8vw, 1.35rem);
+  display: grid; place-items: center; width: 42px; height: 42px;
+  border: 1px solid var(--rule); border-radius: 50%; cursor: pointer;
+  background: color-mix(in srgb, var(--paper) 72%, transparent);
+  backdrop-filter: blur(8px);
   color: var(--ink);
-  transition: background var(--speed) var(--ease);
+  box-shadow: 0 2px 12px -4px rgba(0, 0, 0, .25);
+  transition: background var(--speed) var(--ease), transform var(--speed) var(--ease);
 }
-.mp-modal__close:hover { background: var(--paper-2); }
+.mp-modal__close:hover { background: var(--paper-2); transform: rotate(90deg); }
+/* Keep the hero's top line clear of the pinned close button. */
+.mp-modal__hero { padding-right: max(var(--mp-pad), 4rem); }
 
-/* The case page runs three stats across; the modal carries two, and its
-   number scale is tied to viewport width, which is the wrong ruler inside
-   a fixed-width panel — a wide window would size these for a column far
-   larger than the one they sit in. */
-/* Scoped under .mp-modal on purpose: .cs-stats is defined further down this
-   file, so a bare .mp-modal__stats ties on specificity and loses on source
-   order — which left two stats spread across the base rule's three columns,
-   with an empty third. */
-.mp-modal .cs-stats { grid-template-columns: repeat(2, 1fr); }
-.mp-modal .cs-stats__item strong { font-size: clamp(1.6rem, 1.2rem + 1vw, 2.3rem); }
+/* Stats strip — a bold full-bleed band closing the modal: two oversized
+   mono figures split by a hairline. Neutral ink, not a metric-green,
+   since some values are short phrases ("Inline detail") rather than
+   numbers. Full width (no side margin) so it anchors the foot of the
+   panel like a colophon. */
+.mp-modal__stats {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--paper-2); border-top: 1px solid var(--rule);
+}
+.mp-modal__stat {
+  display: flex; flex-direction: column; gap: .55rem;
+  padding: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+}
+.mp-modal__stat:first-child { padding-left: var(--mp-pad); }
+.mp-modal__stat:last-child { padding-right: var(--mp-pad); }
+.mp-modal__stat + .mp-modal__stat { border-left: 1px solid var(--rule); }
+.mp-modal__stat strong {
+  font-family: var(--font-mono); font-weight: 700; line-height: 1;
+  font-size: clamp(1.8rem, 1.2rem + 2vw, 3rem); letter-spacing: -.02em;
+  color: var(--ink); font-variant-numeric: tabular-nums;
+}
+.mp-modal__stat span { font-size: .9rem; line-height: 1.4; color: var(--muted); }
 
-/* Successive blocks would otherwise stack their full top and bottom
-   padding into a large gap; only the first needs the space above it. */
-.mp-modal__block + .mp-modal__block { padding-top: 0; }
-
-/* Below the case page's own two-column breakpoint the aside stacks above
-   the body, same as .cs-block does there. */
-@media (max-width: 900px) {
-  .mp-modal__block .cs-block__aside { display: flex; align-items: baseline; gap: .85rem; }
-  .mp-modal__block .cs-block__title { margin-top: 0; }
-  .mp-modal__block .cs-step { border-bottom: 0; padding-bottom: 0; }
-  .mp-modal .cs-stats { grid-template-columns: 1fr; }
+@media (max-width: 560px) {
+  .mp-modal__stats { grid-template-columns: 1fr; }
+  .mp-modal__stat + .mp-modal__stat { border-left: 0; border-top: 1px solid var(--rule); }
+  .mp-modal__stat { padding-inline: var(--mp-pad); }
 }
 @media (max-width: 900px) {
   .mp-grid { grid-template-columns: 1fr; }
