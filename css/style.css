@@ -1682,9 +1682,11 @@ html.js.no-motion [data-reveal] { opacity: 1; transform: none; }
   cursor: pointer; transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
 }
 .mp-filter__btn:hover { border-color: var(--ink); }
-/* --primary is reserved for CTAs/links (see tokens.css), so the
-   selected state is a plain ink/paper flip rather than the brand blue. */
-.mp-filter__btn.is-active { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+/* Filtering is a real action, not just decoration, so the selected
+   state gets the brand blue rather than a plain ink/paper flip — an
+   explicit exception to tokens.css's "primary is for CTAs/links"
+   guideline, made at the user's own direction for this control. */
+.mp-filter__btn.is-active { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
 .mp-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: var(--gap); margin-top: 1.5rem;
