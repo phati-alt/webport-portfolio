@@ -1,0 +1,88 @@
+/* ============================================================
+   Construction Management Platform — bespoke case layout
+   ============================================================
+   Excluded from the shared work/_template/ pipeline (see
+   tools/build-cases.ps1's $customSlugs), same as work/government-project/.
+   Both share the "Insight Panel" shell, tiles, rows, KPI/bar, steps
+   and testimonial rules in css/insight-panels.css — load that file's
+   header comment first. This file holds only what THIS case needs on
+   top of that: a served/not-served status row for its three user
+   types, a framework before/after comparison and its trade-off (the
+   five numbered steps after it are the shared .ip-steps), and a
+   business-impact card row. Its reflection grid reuses the shared
+   .ip-sol-grid shape directly (with --plain) rather than needing
+   anything of its own.
+
+   Content is the real material this case already had in
+   content/cases.csv (git history, slug platform) before this
+   redesign — reorganised into the panel layout, not rewritten. */
+
+/* ---------- User types — served / not-served status cards ---------- */
+.pf-usertypes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.25rem; }
+.pf-ut {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem; text-align: center;
+}
+.pf-ut__icon { width: 1.6rem; height: 1.6rem; margin: 0 auto .6rem; color: var(--muted); display: block; }
+.pf-ut__role { font-weight: 600; font-size: .92rem; margin-bottom: .55rem; }
+.pf-ut__flag {
+  display: inline-flex; align-items: center; gap: .3rem;
+  font-size: .74rem; font-weight: 700; letter-spacing: .02em;
+  padding: .3rem .65rem; border-radius: 999px;
+}
+.pf-ut__flag svg { width: .85rem; height: .85rem; }
+.pf-ut.is-served .pf-ut__flag { background: color-mix(in srgb, var(--stamp-ok) 16%, transparent); color: var(--stamp-ok); }
+.pf-ut.is-gap .pf-ut__flag { background: color-mix(in srgb, var(--stamp-no) 16%, transparent); color: var(--stamp-no); }
+.pf-ut__need { display: block; margin-top: .6rem; font-size: .8rem; color: var(--muted); line-height: 1.4; }
+
+/* ---------- Framework decision: before/after + steps + trade-off ---------- */
+.pf-fw { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.pf-fw__col {
+  background: var(--paper); border-radius: var(--radius-sm);
+  border: 1px solid var(--rule); border-top: 3px solid var(--stamp-no);
+  padding: 1.1rem 1.25rem;
+}
+.pf-fw__col--new { border-top-color: var(--stamp-ok); }
+.pf-fw__label { display: flex; align-items: center; gap: .5rem; font-weight: 600; font-size: .9rem; margin: 0 0 .8rem; }
+.pf-fw__label svg { width: 1.05rem; height: 1.05rem; flex: none; }
+.pf-fw__col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+.pf-fw__col li { display: flex; gap: .55rem; align-items: flex-start; font-size: .84rem; color: var(--muted); line-height: 1.4; }
+.pf-fw__col li svg { width: 1rem; height: 1rem; flex: none; margin-top: .15rem; }
+.pf-fw__col li svg { color: var(--stamp-no); }
+.pf-fw__col--new li svg { color: var(--stamp-ok); }
+
+/* Steps chip row itself moved to the shared .ip-steps/.ip-step in
+   css/insight-panels.css once work/ev-charger/ needed the same shape
+   without this panel's before/after comparison around it — only the
+   spacing above it (it follows the fw comparison here) stays local. */
+.pf-fw + .ip-steps { margin-top: 1.25rem; }
+
+.pf-tradeoff {
+  margin-top: 1.25rem; padding: 1rem 1.25rem; border-radius: var(--radius-sm);
+  background: var(--paper); border-left: 3px solid var(--orange);
+}
+.pf-tradeoff__label {
+  display: block; font-family: var(--font-mono); font-size: .68rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--orange); margin-bottom: .55rem;
+}
+.pf-tradeoff p { margin: 0 0 .4rem; font-size: .85rem; line-height: 1.5; }
+.pf-tradeoff p:last-child { margin-bottom: 0; }
+.pf-tradeoff strong { color: var(--ink); }
+
+/* ---------- Business impact ---------- */
+.pf-impact { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.pf-impact__card {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem;
+}
+.pf-impact__icon { width: 1.6rem; height: 1.6rem; color: var(--stamp-ok); margin-bottom: .65rem; display: block; }
+.pf-impact__name { font-weight: 600; font-size: .95rem; margin: 0 0 .3rem; }
+.pf-impact__type { font-size: .82rem; color: var(--muted); margin: 0 0 .65rem; }
+.pf-impact__flag { display: inline-flex; align-items: center; gap: .3rem; font-size: .76rem; font-weight: 600; color: var(--stamp-ok); }
+.pf-impact__flag svg { width: .85rem; height: .85rem; }
+
+@media (max-width: 900px) {
+  .pf-usertypes { grid-template-columns: 1fr; }
+  .pf-fw { grid-template-columns: 1fr; }
+  .pf-impact { grid-template-columns: 1fr; }
+}

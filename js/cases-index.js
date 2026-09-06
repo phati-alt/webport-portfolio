@@ -27,6 +27,6 @@ window.CASES_INDEX = {
   "custom-dashboard": {
     en: { category: "Data Dashboard", title: "Custom IoT dashboards for industrial operations" },
     th: { category: "แดชบอร์ดข้อมูล", title: "แดชบอร์ด IoT สั่งทำสำหรับงานอุตสาหกรรม" },
-    audit: { status: "mockup", screens: 0 }
+    audit: { status: "real", screens: 0 }
   }
 };

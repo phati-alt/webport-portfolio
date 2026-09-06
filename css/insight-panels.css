@@ -1,0 +1,260 @@
+/* ============================================================
+   Insight Panels — shared design language for bespoke case pages
+   ============================================================
+   Used by the cases in tools/build-cases.ps1's $customSlugs — pages
+   deliberately excluded from the shared work/_template/ pipeline
+   because their story earned a one-off layout. This file is what
+   those one-off layouts have in common: an elevated panel with an
+   icon + label header, colour-accented rows/grids, KPI tiles paired
+   with progress bars, a plain image-plus-caption showcase, a
+   numbered step row, a goal callout, a decision list, and a
+   testimonial with a quote mark and an avatar. First built for
+   work/government-project/, following a reference screenshot the
+   user supplied; work/platform/ and work/ev-charger/ reuse it rather
+   than duplicating it. A case with its own extra panel type the
+   others don't need (work/platform/'s framework comparison, user
+   types and business impact) keeps that in its own folder's case.css
+   instead of growing this file with something only one page uses.
+
+   Linked from every page that uses it, same as css/style.css — but
+   kept out of that file because these classes are NOT the shared
+   template's design; a case using the ordinary template never loads
+   this. The "ip-" prefix is short for Insight Panel, not tied to any
+   one case's name.
+
+   Colour and type run entirely on the site's own tokens
+   (css/tokens.css), so light/dark mode carries over unchanged —
+   the reference screenshots were dark-mode, but nothing here is a
+   hardcoded dark colour. */
+
+/* No border-top between sections on purpose — each .ip-panel below
+   already reads as its own card (background + border + shadow), so a
+   hairline on top of that just doubled up the separation. Air alone
+   (this padding) does the same job with less visual noise. */
+.ip-section {
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+}
+.ip-tag {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: .72rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+}
+
+/* ---------- Record strip (role/timeline/platform/tools) ---------- */
+.ip-record {
+  display: flex; flex-wrap: wrap; gap: 0;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+}
+.ip-record__item { flex: 1 1 200px; padding: 1rem 1.5rem 1rem 0; border-left: 1px solid var(--rule); padding-left: 1.5rem; }
+.ip-record__item:first-child { border-left: 0; padding-left: 0; }
+.ip-record__label {
+  display: block; font-family: var(--font-mono); font-size: .68rem;
+  font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: .4rem;
+}
+.ip-record__value { font-size: 1rem; font-weight: 500; line-height: 1.4; }
+
+/* ---------- Panel — the recurring shell for every insight card ---------- */
+/* Reads as a card floating on the page (shadow) rather than a boxed
+   section (which is what the border-top on .ip-section used to be
+   for) — the ::before strip is a quiet colour cue for what kind of
+   panel this is, matching the accent already used inside it (red
+   problem rows, purple solution items, green results), not a new
+   colour introduced just for the strip. Panels that are narrative
+   rather than a verdict (Context, Process, Testimonial) carry no
+   modifier and get the plain neutral strip. */
+.ip-panel {
+  position: relative; overflow: hidden;
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: clamp(1.5rem, 3vw, 2.25rem);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 16px 40px -20px rgba(0, 0, 0, .22);
+}
+.ip-panel::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--rule);
+}
+.ip-panel--danger::before { background: var(--stamp-no); }
+.ip-panel--accent::before { background: var(--purple-dark); }
+.ip-panel--ok::before { background: var(--stamp-ok); }
+
+.ip-panel__head { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.5rem; }
+/* The icon becomes its own small chip via box-model properties alone
+   (background/border/radius/padding apply to an <svg> like any other
+   replaced element) — no wrapping element needed in the markup. */
+.ip-panel__head svg {
+  width: 1.1rem; height: 1.1rem; color: var(--muted); flex: none;
+  padding: .5rem; box-sizing: content-box;
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+}
+.ip-panel__head span {
+  font-family: var(--font-mono); font-size: .78rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  white-space: nowrap;
+}
+.ip-panel__head::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+.ip-panel__lede { margin: -.5rem 0 1.25rem; color: var(--muted); font-size: .92rem; line-height: 1.5; max-width: 62ch; }
+
+/* ---------- Context tiles ---------- */
+/* 3 tiles by default; add --4 for a case whose context needs a
+   fourth (role/platform/team/client instead of client/users/scope). */
+.ip-ctx { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.ip-ctx--2 { grid-template-columns: repeat(2, 1fr); }
+.ip-ctx--4 { grid-template-columns: repeat(4, 1fr); }
+.ip-ctx__item {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem;
+}
+.ip-ctx__icon { width: 1.35rem; height: 1.35rem; color: var(--muted); margin-bottom: .7rem; display: block; }
+.ip-ctx__label {
+  display: block; font-family: var(--font-mono); font-size: .64rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem;
+}
+.ip-ctx__value { font-size: .92rem; line-height: 1.45; }
+
+/* ---------- Problem rows — red accent ---------- */
+.ip-prob-list { display: flex; flex-direction: column; gap: .9rem; }
+.ip-prob {
+  display: flex; gap: 1rem; align-items: flex-start;
+  background: var(--paper); border-radius: var(--radius-sm);
+  border-left: 3px solid var(--stamp-no); padding: 1.1rem 1.25rem;
+}
+.ip-prob__icon { width: 1.35rem; height: 1.35rem; color: var(--stamp-no); flex: none; margin-top: .15rem; }
+.ip-prob h3 { font-size: .98rem; font-weight: 600; margin: 0 0 .3rem; }
+.ip-prob p { margin: 0; color: var(--muted); font-size: .89rem; line-height: 1.5; max-width: 60ch; }
+
+/* ---------- Process — the narrative + its pull-quote ---------- */
+.ip-process p { margin: 0; font-size: .96rem; line-height: 1.6; max-width: 68ch; }
+.ip-process__quote {
+  margin: 1.25rem 0 0; padding: 1.1rem 1.4rem;
+  border-radius: var(--radius-sm); border-left: 3px solid var(--ink);
+  background: var(--paper); font-size: 1rem; font-weight: 500; line-height: 1.55;
+}
+
+/* ---------- Goal callout — green accent, the counterpart to a
+   problem row: what the work aimed at rather than what was broken.
+   Sits inside the Problem panel, after its row(s), the same relation
+   the shared template's own .cs-goal has to .cs-probs. ---------- */
+.ip-goal {
+  margin-top: .9rem; padding: 1.1rem 1.25rem;
+  border-radius: var(--radius-sm); border-left: 3px solid var(--stamp-ok);
+  background: var(--paper);
+}
+.ip-goal__label {
+  display: block; font-family: var(--font-mono); font-size: .68rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--stamp-ok); margin-bottom: .5rem;
+}
+.ip-goal p { margin: 0; font-size: .92rem; line-height: 1.55; max-width: 62ch; }
+
+/* ---------- Numbered steps — a plain process chip row ---------- */
+/* auto-fit rather than a fixed column count: a 5-step case (platform)
+   and a 6-step one (ev-charger) both wrap sensibly without a
+   per-case override. */
+.ip-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: .75rem; }
+.ip-step {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  padding: .9rem .7rem; text-align: center;
+}
+.ip-step__no { font-family: var(--font-mono); font-weight: 700; font-size: 1.05rem; color: var(--purple-dark); }
+.ip-step__title { display: block; font-size: .8rem; font-weight: 600; margin-top: .3rem; }
+.ip-step__text { display: block; font-size: .7rem; color: var(--muted); margin-top: .2rem; line-height: 1.3; }
+
+/* ---------- Decisions — a choice paired with its reason ---------- */
+.ip-dec-list { display: flex; flex-direction: column; gap: .9rem; }
+.ip-dec {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem;
+}
+.ip-dec dt { font-weight: 600; font-size: .95rem; margin: 0 0 .4rem; }
+.ip-dec dd { margin: 0; color: var(--muted); font-size: .87rem; line-height: 1.5; max-width: 62ch; }
+
+/* ---------- Solution grid — purple accent by default ---------- */
+/* --plain drops the colour, for a grid that isn't "the solution"
+   semantically (e.g. a reflection section) but wants the same shape. */
+.ip-sol-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+/* An odd count (5 solutions, say) would otherwise leave one item
+   alone in the last row at half width — span it full width instead. */
+.ip-sol-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+.ip-sol {
+  background: var(--paper); border-radius: var(--radius-sm);
+  border: 1px solid var(--rule); border-top: 3px solid var(--purple-dark);
+  padding: 1.1rem 1.25rem;
+}
+.ip-sol--plain { border-top-color: var(--rule); }
+.ip-sol__icon { width: 1.35rem; height: 1.35rem; color: var(--purple-dark); margin-bottom: .65rem; display: block; }
+.ip-sol--plain .ip-sol__icon { color: var(--muted); }
+.ip-sol h3 { font-size: .96rem; font-weight: 600; margin: 0 0 .35rem; }
+.ip-sol p { margin: 0; color: var(--muted); font-size: .87rem; line-height: 1.5; }
+
+/* ---------- Results — green accent: KPI tiles + progress bars ---------- */
+.ip-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.75rem; }
+.ip-kpis--3 { grid-template-columns: repeat(3, 1fr); }
+.ip-kpi {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  padding: 1.15rem 1rem; text-align: center;
+}
+.ip-kpi__value {
+  display: block; font-family: var(--font-mono); font-weight: 700;
+  font-size: clamp(1.25rem, 1.05rem + .6vw, 1.55rem); color: var(--stamp-ok);
+  font-variant-numeric: tabular-nums;
+}
+.ip-kpi__label { display: block; margin-top: .4rem; font-size: .76rem; color: var(--muted); line-height: 1.3; }
+
+.ip-bars { display: flex; flex-direction: column; gap: .9rem; }
+.ip-bar { display: grid; grid-template-columns: 9rem 1fr 3.75rem; align-items: center; gap: .85rem; }
+/* Wrapping (the default) is load-bearing for a long label like "Dev
+   requirement accuracy", which measures wider than this column at
+   every viewport width tested, including desktop — never add
+   white-space:nowrap here. */
+.ip-bar__label { font-size: .84rem; line-height: 1.25; color: var(--muted); text-align: right; }
+.ip-bar__track { height: 8px; border-radius: 99px; background: var(--rule); overflow: hidden; }
+.ip-bar__fill { height: 100%; border-radius: 99px; background: var(--stamp-ok); }
+.ip-bar__value {
+  font-family: var(--font-mono); font-size: .84rem; font-weight: 600;
+  color: var(--stamp-ok); font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Before / After — plain captioned images, no panel ---------- */
+/* Once assets/screen-*.png exist, swap each media-block for
+   <img src="assets/screen-N.png" alt="">, same as every other case's
+   gallery. Kept out of .ip-panel deliberately, matching the plain
+   image-plus-caption treatment in the reference. */
+.ip-showcase { display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3rem); }
+.ip-showcase figure { margin: 0; }
+.ip-showcase .media-block { aspect-ratio: 16 / 9; border-radius: var(--radius); }
+.ip-showcase img { width: 100%; border-radius: var(--radius); display: block; }
+.ip-showcase figcaption { text-align: center; margin-top: 1rem; font-size: .88rem; color: var(--muted); }
+/* --grid: for a case with enough screens that stacking them full-width
+   one after another gets long (6, say, rather than 3) — two per row
+   above mobile width instead. */
+.ip-showcase--grid { flex-direction: row; flex-wrap: wrap; gap: clamp(1.5rem, 3vw, 2.5rem); }
+.ip-showcase--grid figure { flex: 1 1 calc(50% - 1.25rem); min-width: 260px; }
+
+/* ---------- Testimonial ---------- */
+.ip-testi__mark { width: 2rem; height: 2rem; color: var(--muted); margin-bottom: 1rem; }
+.ip-testi blockquote {
+  margin: 0; font-size: 1.05rem; font-style: italic; line-height: 1.65;
+  max-width: 68ch; color: var(--ink);
+}
+.ip-testi__foot { display: flex; align-items: center; gap: .85rem; margin-top: 1.5rem; }
+.ip-testi__avatar {
+  width: 2.75rem; height: 2.75rem; border-radius: 50%; flex: none;
+  background: var(--paper); border: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center; color: var(--muted);
+}
+.ip-testi__avatar svg { width: 1.2rem; height: 1.2rem; }
+.ip-testi__name { font-weight: 600; font-size: .92rem; }
+.ip-testi__role { display: block; font-size: .8rem; color: var(--muted); margin-top: .1rem; }
+
+@media (max-width: 900px) {
+  .ip-ctx, .ip-ctx--2, .ip-ctx--4 { grid-template-columns: 1fr; }
+  .ip-sol-grid { grid-template-columns: 1fr; }
+  .ip-kpis, .ip-kpis--3 { grid-template-columns: 1fr 1fr; }
+  .ip-bar { grid-template-columns: 6rem 1fr 3.25rem; gap: .6rem; }
+}
+
+@media (max-width: 700px) {
+  .ip-record__item { flex: 1 1 45%; border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 1rem; }
+  .ip-record__item:first-child { border-top: 0; padding-top: 1rem; }
+  .ip-showcase--grid figure { flex-basis: 100%; }
+}

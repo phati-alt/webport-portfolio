@@ -59,7 +59,7 @@ $showDataStatus = $true
 #  stylesheet (see work/government-project/case.css for the pattern)
 #  rather than adding one-off rules to the shared css/style.css.
 # ---------------------------------------------------------------------
-$customSlugs = @('government-project')
+$customSlugs = @('government-project', 'platform', 'ev-charger', 'wordpress-website', 'custom-dashboard')
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)

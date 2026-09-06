@@ -1,10 +1,15 @@
 <!--
-  GENERATED FILE - do not edit by hand.
-  Built from work/_template/index.html + content/cases.csv by:
-    powershell -ExecutionPolicy Bypass -File tools/build-cases.ps1
+  HAND-WRITTEN — bespoke case page, NOT built by tools/build-cases.ps1.
+  Excluded from the shared work/_template/ pipeline (see that script's
+  $customSlugs) because this story earned its own layout, same as
+  work/government-project/. Content mirrors window.CASE_DATA in this
+  folder's own data.js. Shared layout rules (panels, tiles, KPIs,
+  testimonial) live in css/insight-panels.css; this case's own extra
+  panel types (user types, framework comparison, business impact,
+  reflection) live in this folder's own case.css.
 
-  Shared page chrome lives in the template; this case's copy lives in
-  the CSV. Edit one of those and re-run - changes made here are lost.
+  Editing this file directly is safe and expected — re-running the build
+  script will not touch it.
 -->
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -26,6 +31,10 @@
 <meta name="theme-color" content="#1434cb">
 <link rel="stylesheet" href="../../css/tokens.css">
 <link rel="stylesheet" href="../../css/style.css">
+<!-- Shared by every bespoke case page — see its own header comment. -->
+<link rel="stylesheet" href="../../css/insight-panels.css">
+<!-- This case's own extra panel types only — see this file's header comment. -->
+<link rel="stylesheet" href="case.css">
 
 <script>
   (function () {
@@ -79,9 +88,9 @@
 
   <section class="cs-hero">
     <div class="wrap">
-      <p class="pretitle" data-i18n-case="category" data-reveal>[Category]</p>
-      <h1 class="cs-hero__title" data-i18n-case="title" data-reveal>[Project Name]</h1>
-      <p class="lede cs-hero__summary" data-i18n-case="summary" data-reveal>[One-sentence summary]</p>
+      <p class="pretitle" data-i18n-case="category" data-reveal>Product Platform</p>
+      <h1 class="cs-hero__title" data-i18n-case="title" data-reveal>Construction Management Platform</h1>
+      <p class="lede cs-hero__summary" data-i18n-case="summary" data-reveal></p>
     </div>
 
     <figure class="cs-cover" data-reveal>
@@ -89,263 +98,334 @@
     </figure>
 
     <div class="wrap">
-      <dl class="cs-meta" data-reveal>
-        <div><dt data-i18n="cs.meta.roleLabel">Role</dt><dd data-i18n-case="role">[Role]</dd></div>
-        <div><dt data-i18n="cs.meta.timelineLabel">Timeline</dt><dd data-i18n-case="timeline">[Timeline]</dd></div>
-        <div><dt data-i18n="cs.meta.platformLabel">Platform</dt><dd data-i18n-case="platform">[Platform]</dd></div>
-        <div><dt data-i18n="cs.meta.toolsLabel">Tools</dt><dd data-i18n-case="tools">[Tools]</dd></div>
-        <!-- Team and client are not on every case; a div whose dd comes back
-             empty hides itself rather than leaving a labelled blank. -->
-        <div><dt data-i18n="cs.meta.teamLabel">Team</dt><dd data-i18n-case="team"></dd></div>
-        <div><dt data-i18n="cs.meta.clientLabel">Client</dt><dd data-i18n-case="client"></dd></div>
+      <!-- Just timeline/tools here — role/platform/team/client are
+           covered by the Context panel's 4 tiles below instead of
+           repeating them in a strip too. -->
+      <dl class="ip-record" data-reveal>
+        <div class="ip-record__item"><dt class="ip-record__label" data-i18n="cs.meta.timelineLabel">Timeline</dt><dd class="ip-record__value" data-i18n-case="timeline"></dd></div>
+        <div class="ip-record__item"><dt class="ip-record__label" data-i18n="cs.meta.toolsLabel">Tools</dt><dd class="ip-record__value" data-i18n-case="tools"></dd></div>
       </dl>
-
-      <p class="cs-context" data-i18n-case="contextText" data-reveal></p>
     </div>
   </section>
 
-  <section class="cs-section">
-    <div class="wrap cs-block">
-      <div class="cs-block__aside" data-reveal>
-        <span class="cs-step">01</span>
-        <h2 class="cs-block__title" data-i18n="cs.overview.title">The Problem</h2>
-      </div>
-      <div class="cs-block__body">
-        <p class="lede" data-i18n-case="problem1" data-reveal>[What was broken or missing before this project?]</p>
-        <p class="lede" data-i18n-case="problem2" data-reveal>[Any constraint worth mentioning — timeline, technical, stakeholder.]</p>
-
-        <ul class="cs-probs" data-reveal>
-          <li>
-            <h3 data-i18n-case="prob1Title"></h3>
-            <p data-i18n-case="prob1Text"></p>
-          </li>
-          <li>
-            <h3 data-i18n-case="prob2Title"></h3>
-            <p data-i18n-case="prob2Text"></p>
-          </li>
-          <li>
-            <h3 data-i18n-case="prob3Title"></h3>
-            <p data-i18n-case="prob3Text"></p>
-          </li>
-        </ul>
-
-
-
-        <ul class="cs-ut" data-reveal>
-          <li class="cs-ut__item is-served">
-            <span class="cs-ut__role" data-i18n-case="ut1Role"></span>
-            <span class="cs-ut__need" data-i18n-case="ut1Need"></span>
-            <span class="cs-ut__flag" data-i18n="cs.ut.served"></span>
-          </li>
-          <li class="cs-ut__item is-gap">
-            <span class="cs-ut__role" data-i18n-case="ut2Role"></span>
-            <span class="cs-ut__need" data-i18n-case="ut2Need"></span>
-            <span class="cs-ut__flag" data-i18n="cs.ut.gap"></span>
-          </li>
-          <li class="cs-ut__item is-gap">
-            <span class="cs-ut__role" data-i18n-case="ut3Role"></span>
-            <span class="cs-ut__need" data-i18n-case="ut3Need"></span>
-            <span class="cs-ut__flag" data-i18n="cs.ut.gap"></span>
-          </li>
-        </ul>
+  <section class="ip-section">
+    <div class="wrap">
+      <div class="ip-panel" data-reveal>
+        <div class="ip-panel__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="10" x2="12" y2="16"/><line x1="12" y1="7" x2="12.01" y2="7"/></svg>
+          <span data-i18n="cs.ip.context">Context</span>
+        </div>
+        <div class="ip-ctx ip-ctx--4">
+          <div class="ip-ctx__item">
+            <svg class="ip-ctx__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="2"/><path d="M5 17c0-2 1.5-3 3-3s3 1 3 3"/><line x1="14" y1="9" x2="19" y2="9"/><line x1="14" y1="13" x2="19" y2="13"/></svg>
+            <span class="ip-ctx__label" data-i18n="cs.meta.roleLabel">Role</span>
+            <p class="ip-ctx__value" data-i18n-case="role"></p>
+          </div>
+          <div class="ip-ctx__item">
+            <svg class="ip-ctx__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 18H6a4 4 0 1 1 .9-7.9A5 5 0 0 1 17 9a3.5 3.5 0 0 1 0 9z"/></svg>
+            <span class="ip-ctx__label" data-i18n="cs.meta.platformLabel">Platform</span>
+            <p class="ip-ctx__value" data-i18n-case="platform"></p>
+          </div>
+          <div class="ip-ctx__item">
+            <svg class="ip-ctx__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17.5" cy="9" r="2.2"/><path d="M15.7 20c.2-2.3 1.9-4 4.3-4.3"/></svg>
+            <span class="ip-ctx__label" data-i18n="cs.meta.teamLabel">Team</span>
+            <p class="ip-ctx__value" data-i18n-case="team"></p>
+          </div>
+          <div class="ip-ctx__item">
+            <svg class="ip-ctx__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+            <span class="ip-ctx__label" data-i18n="cs.meta.clientLabel">Client</span>
+            <p class="ip-ctx__value" data-i18n-case="client"></p>
+          </div>
+        </div>
+        <p style="margin: 1.25rem 0 0; color: var(--muted); font-size: .9rem; line-height: 1.55; max-width: 68ch;" data-i18n-case="contextText"></p>
       </div>
     </div>
   </section>
 
-  <section class="cs-section">
-    <div class="wrap cs-block">
-      <div class="cs-block__aside" data-reveal>
-        <span class="cs-step">02</span>
-        <h2 class="cs-block__title" data-i18n="cs.process.title">Process</h2>
-      </div>
-      <div class="cs-block__body">
-        <p class="lede" data-i18n-case="process1" data-reveal>[Research, discovery, key decisions along the way.]</p>
+  <section class="ip-section">
+    <div class="wrap">
+      <div class="ip-panel ip-panel--danger" data-reveal>
+        <div class="ip-panel__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 2.5 18a1.6 1.6 0 0 0 1.4 2.4h16.2a1.6 1.6 0 0 0 1.4-2.4L13.7 3.9a1.6 1.6 0 0 0-2.8 0z"/><line x1="12" y1="9.5" x2="12" y2="14"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span data-i18n="cs.ip.problem">Discovery &amp; Problem</span>
+        </div>
+        <p class="ip-panel__lede" data-i18n-case="problemIntro"></p>
+        <div class="ip-prob-list">
+          <div class="ip-prob">
+            <svg class="ip-prob__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".5" fill="currentColor"/></svg>
+            <div><h3 data-i18n-case="prob1Title"></h3><p data-i18n-case="prob1Text"></p></div>
+          </div>
+          <div class="ip-prob">
+            <svg class="ip-prob__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <div><h3 data-i18n-case="prob2Title"></h3><p data-i18n-case="prob2Text"></p></div>
+          </div>
+          <div class="ip-prob">
+            <svg class="ip-prob__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            <div><h3 data-i18n-case="prob3Title"></h3><p data-i18n-case="prob3Text"></p></div>
+          </div>
+        </div>
 
-        <ol class="cs-steps" data-reveal>
-          <li><span data-i18n-case="ps1Title"></span><span data-i18n-case="ps1Text"></span></li>
-          <li><span data-i18n-case="ps2Title"></span><span data-i18n-case="ps2Text"></span></li>
-          <li><span data-i18n-case="ps3Title"></span><span data-i18n-case="ps3Text"></span></li>
-          <li><span data-i18n-case="ps4Title"></span><span data-i18n-case="ps4Text"></span></li>
-          <li><span data-i18n-case="ps5Title"></span><span data-i18n-case="ps5Text"></span></li>
-          <li><span data-i18n-case="ps6Title"></span><span data-i18n-case="ps6Text"></span></li>
-        </ol>
-        <blockquote class="cs-quote" data-i18n-case="quote" data-reveal>[The one line worth pulling out of the section above.]</blockquote>
+        <!-- Who the old dashboard served, and who it didn't — the same
+             served/not-served idea the shared template's own .cs-ut
+             uses elsewhere, rebuilt here as status cards. -->
+        <div class="pf-usertypes">
+          <div class="pf-ut is-served">
+            <svg class="pf-ut__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+            <p class="pf-ut__role" data-i18n-case="ut1Role"></p>
+            <span class="pf-ut__flag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="cs.ut.served">Served</span></span>
+            <span class="pf-ut__need" data-i18n-case="ut1Need"></span>
+          </div>
+          <div class="pf-ut is-gap">
+            <svg class="pf-ut__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L2 19l3 3 7.3-7.3a4 4 0 0 0 5.4-5.4l-2.7 2.7-2-2 2.7-2.7z"/></svg>
+            <p class="pf-ut__role" data-i18n-case="ut2Role"></p>
+            <span class="pf-ut__flag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span data-i18n="cs.ut.gap">Not served</span></span>
+            <span class="pf-ut__need" data-i18n-case="ut2Need"></span>
+          </div>
+          <div class="pf-ut is-gap">
+            <svg class="pf-ut__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20 12 4l9 16z"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
+            <p class="pf-ut__role" data-i18n-case="ut3Role"></p>
+            <span class="pf-ut__flag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span data-i18n="cs.ut.gap">Not served</span></span>
+            <span class="pf-ut__need" data-i18n-case="ut3Need"></span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="cs-section">
-    <div class="wrap cs-block">
-      <div class="cs-block__aside" data-reveal>
-        <span class="cs-step">03</span>
-        <h2 class="cs-block__title" data-i18n="cs.framework.title">Framework Decision</h2>
+  <section class="ip-section">
+    <div class="wrap">
+      <div class="ip-panel ip-process" data-reveal>
+        <div class="ip-panel__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polygon points="16 8 14 14 8 16 10 10 16 8"/></svg>
+          <span data-i18n="cs.ip.process">Process</span>
+        </div>
+        <p data-i18n-case="processText"></p>
+        <blockquote class="ip-process__quote" data-i18n-case="quote"></blockquote>
       </div>
-      <div class="cs-block__body">
-        <div class="cs-fw" data-reveal>
-          <div class="cs-fw__col cs-fw__col--before">
-            <h3 class="cs-fw__label" data-i18n-case="fwOldLabel">[What you moved off]</h3>
-            <ul class="cs-fw__list">
-              <li data-i18n-case="fwOld1"></li>
-              <li data-i18n-case="fwOld2"></li>
-              <li data-i18n-case="fwOld3"></li>
-              <li data-i18n-case="fwOld4"></li>
-              <li data-i18n-case="fwOld5"></li>
+    </div>
+  </section>
+
+  <!-- Framework Decision — the shared template names this section the
+       same way (cs.framework.title) for the cases that use it as an
+       optional block; reused verbatim here rather than inventing a
+       second label for the same idea. -->
+  <section class="ip-section">
+    <div class="wrap">
+      <div class="ip-panel ip-panel--accent" data-reveal>
+        <div class="ip-panel__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>
+          <span data-i18n="cs.framework.title">Framework Decision</span>
+        </div>
+        <div class="pf-fw">
+          <div class="pf-fw__col">
+            <p class="pf-fw__label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span data-i18n-case="fwOldLabel"></span></p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span data-i18n-case="fwOld1"></span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span data-i18n-case="fwOld2"></span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span data-i18n-case="fwOld3"></span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span data-i18n-case="fwOld4"></span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span data-i18n-case="fwOld5"></span></li>
             </ul>
           </div>
-          <div class="cs-fw__col cs-fw__col--after">
-            <h3 class="cs-fw__label" data-i18n-case="fwNewLabel">[What you moved to]</h3>
-            <ul class="cs-fw__list">
-              <li data-i18n-case="fwNew1"></li>
-              <li data-i18n-case="fwNew2"></li>
-              <li data-i18n-case="fwNew3"></li>
-              <li data-i18n-case="fwNew4"></li>
-              <li data-i18n-case="fwNew5"></li>
+          <div class="pf-fw__col pf-fw__col--new">
+            <p class="pf-fw__label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg><span data-i18n-case="fwNewLabel"></span></p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n-case="fwNew1"></span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n-case="fwNew2"></span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n-case="fwNew3"></span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n-case="fwNew4"></span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n-case="fwNew5"></span></li>
             </ul>
           </div>
         </div>
 
-        <div class="cs-fw__trade" data-reveal>
-          <p class="cs-fw__trade-label" data-i18n="cs.framework.tradeoff">Trade-off</p>
-          <p class="cs-fw__trade-line">
-            <span class="cs-fw__trade-term" data-i18n="cs.framework.short">Short term</span>
-            <span data-i18n-case="fwTradeShort">[What it cost]</span>
-          </p>
-          <p class="cs-fw__trade-line">
-            <span class="cs-fw__trade-term" data-i18n="cs.framework.long">Long term</span>
-            <span data-i18n-case="fwTradeLong">[What it bought]</span>
-          </p>
+        <div class="ip-steps">
+          <div class="ip-step"><span class="ip-step__no">01</span><span class="ip-step__title" data-i18n-case="ps1Title"></span><span class="ip-step__text" data-i18n-case="ps1Text"></span></div>
+          <div class="ip-step"><span class="ip-step__no">02</span><span class="ip-step__title" data-i18n-case="ps2Title"></span><span class="ip-step__text" data-i18n-case="ps2Text"></span></div>
+          <div class="ip-step"><span class="ip-step__no">03</span><span class="ip-step__title" data-i18n-case="ps3Title"></span><span class="ip-step__text" data-i18n-case="ps3Text"></span></div>
+          <div class="ip-step"><span class="ip-step__no">04</span><span class="ip-step__title" data-i18n-case="ps4Title"></span><span class="ip-step__text" data-i18n-case="ps4Text"></span></div>
+          <div class="ip-step"><span class="ip-step__no">05</span><span class="ip-step__title" data-i18n-case="ps5Title"></span><span class="ip-step__text" data-i18n-case="ps5Text"></span></div>
+        </div>
+
+        <div class="pf-tradeoff">
+          <span class="pf-tradeoff__label" data-i18n="cs.framework.tradeoff">Trade-off</span>
+          <p><strong data-i18n="cs.framework.short">Short term</strong> — <span data-i18n-case="fwTradeShort"></span></p>
+          <p><strong data-i18n="cs.framework.long">Long term</strong> — <span data-i18n-case="fwTradeLong"></span></p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="cs-section">
-    <div class="wrap cs-block">
-      <div class="cs-block__aside" data-reveal>
-        <span class="cs-step">04</span>
-        <h2 class="cs-block__title" data-i18n="cs.solution.title">The Solution</h2>
-      </div>
-      <div class="cs-block__body">
-        <p class="lede" data-i18n-case="solution1" data-reveal>[Describe the final design and why it works.]</p>
-
-        <div class="cs-sol" data-reveal>
-          <div class="cs-sol__item">
-            <h3 data-i18n-case="sol1Title"></h3>
-            <p data-i18n-case="sol1Text"></p>
-          </div>
-          <div class="cs-sol__item">
-            <h3 data-i18n-case="sol2Title"></h3>
-            <p data-i18n-case="sol2Text"></p>
-          </div>
-          <div class="cs-sol__item">
-            <h3 data-i18n-case="sol3Title"></h3>
-            <p data-i18n-case="sol3Text"></p>
-          </div>
-          <div class="cs-sol__item">
-            <h3 data-i18n-case="sol4Title"></h3>
-            <p data-i18n-case="sol4Text"></p>
-          </div>
-          <div class="cs-sol__item">
-            <h3 data-i18n-case="sol5Title"></h3>
-            <p data-i18n-case="sol5Text"></p>
-          </div>
+  <section class="ip-section">
+    <div class="wrap">
+      <div class="ip-panel ip-panel--accent" data-reveal>
+        <div class="ip-panel__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          <span data-i18n="cs.ip.solution">Solution</span>
         </div>
-
-
-
-        <!-- Swap each media-block for <img src="assets/screen-N.png" alt="">.
-             Keep one figure marked is-wide so the grid has a rhythm.
-             Add or drop <figure> blocks freely. -->
-        <div class="cs-gallery">
-          <figure class="is-wide" data-reveal>
-            <div class="media-block" data-tone="blue"><span>Screen 1</span></div>
-            <figcaption data-i18n-case="caption1"></figcaption>
-          </figure>
-          <figure data-reveal>
-            <div class="media-block" data-tone="blue"><span>Screen 2</span></div>
-            <figcaption data-i18n-case="caption2"></figcaption>
-          </figure>
-          <figure data-reveal>
-            <div class="media-block" data-tone="blue"><span>Screen 3</span></div>
-            <figcaption data-i18n-case="caption3"></figcaption>
-          </figure>
+        <p class="ip-panel__lede" data-i18n-case="solutionIntro"></p>
+        <div class="ip-sol-grid">
+          <div class="ip-sol">
+            <svg class="ip-sol__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <h3 data-i18n-case="sol1Title"></h3><p data-i18n-case="sol1Text"></p>
+          </div>
+          <div class="ip-sol">
+            <svg class="ip-sol__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M22 12 12 3 2 12"/><path d="M9 21v-6h6v6"/></svg>
+            <h3 data-i18n-case="sol2Title"></h3><p data-i18n-case="sol2Text"></p>
+          </div>
+          <div class="ip-sol">
+            <svg class="ip-sol__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <h3 data-i18n-case="sol3Title"></h3><p data-i18n-case="sol3Text"></p>
+          </div>
+          <div class="ip-sol">
+            <svg class="ip-sol__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8 7 17M17 7l2.8-2.8"/></svg>
+            <h3 data-i18n-case="sol4Title"></h3><p data-i18n-case="sol4Text"></p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="cs-section">
-    <div class="wrap cs-block">
-      <div class="cs-block__aside" data-reveal>
-        <span class="cs-step">05</span>
-        <h2 class="cs-block__title" data-i18n="cs.results.title">Results</h2>
+  <section class="ip-section">
+    <div class="wrap">
+      <div class="ip-panel ip-panel--ok" data-reveal>
+        <div class="ip-panel__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="20" x2="4" y2="10"/><line x1="10" y1="20" x2="10" y2="4"/><line x1="16" y1="20" x2="16" y2="14"/></svg>
+          <span data-i18n="cs.ip.results">Results</span>
+        </div>
+        <p class="ip-panel__lede" data-i18n-case="resultsText"></p>
+
+        <div class="ip-kpis">
+          <div class="ip-kpi"><strong class="ip-kpi__value" data-i18n-case="stat1"></strong><span class="ip-kpi__label" data-i18n-case="stat1Label"></span></div>
+          <div class="ip-kpi"><strong class="ip-kpi__value" data-i18n-case="stat2"></strong><span class="ip-kpi__label" data-i18n-case="stat2Label"></span></div>
+          <div class="ip-kpi"><strong class="ip-kpi__value" data-i18n-case="stat3"></strong><span class="ip-kpi__label" data-i18n-case="stat3Label"></span></div>
+          <div class="ip-kpi"><strong class="ip-kpi__value" data-i18n-case="stat4"></strong><span class="ip-kpi__label" data-i18n-case="stat4Label"></span></div>
+        </div>
+
+        <!-- Only stat1-3 as bars: they're percentages, so a fill width
+             means something. stat4 ("3" enterprise accounts) isn't a
+             ratio, so it stays a KPI tile above rather than an
+             arbitrary/misleading bar length. -->
+        <div class="ip-bars">
+          <div class="ip-bar">
+            <span class="ip-bar__label" data-i18n-case="stat1Label"></span>
+            <span class="ip-bar__track"><span class="ip-bar__fill" style="width: 60%"></span></span>
+            <span class="ip-bar__value" data-i18n-case="stat1"></span>
+          </div>
+          <div class="ip-bar">
+            <span class="ip-bar__label" data-i18n-case="stat2Label"></span>
+            <span class="ip-bar__track"><span class="ip-bar__fill" style="width: 85%"></span></span>
+            <span class="ip-bar__value" data-i18n-case="stat2"></span>
+          </div>
+          <div class="ip-bar">
+            <span class="ip-bar__label" data-i18n-case="stat3Label"></span>
+            <span class="ip-bar__track"><span class="ip-bar__fill" style="width: 90%"></span></span>
+            <span class="ip-bar__value" data-i18n-case="stat3"></span>
+          </div>
+        </div>
       </div>
-      <div class="cs-block__body">
-        <p class="lede" data-i18n-case="results1" data-reveal>[Summary of the outcome/impact.]</p>
+    </div>
+  </section>
 
-        <div class="cs-stats" data-reveal>
-          <div class="cs-stats__item"><strong data-i18n-case="stat1">[XX%]</strong><span data-i18n-case="stat1Label">[What this measures]</span></div>
-          <div class="cs-stats__item"><strong data-i18n-case="stat2">[XX%]</strong><span data-i18n-case="stat2Label">[What this measures]</span></div>
-          <div class="cs-stats__item"><strong data-i18n-case="stat3">[XX%]</strong><span data-i18n-case="stat3Label">[What this measures]</span></div>
-          <!-- A fourth reading is optional; it hides itself when unfilled. -->
-          <div class="cs-stats__item"><strong data-i18n-case="stat4"></strong><span data-i18n-case="stat4Label"></span></div>
-        </div>
-
-        <div class="cs-impact" data-reveal>
-          <p class="cs-impact__label" data-i18n="cs.impact.title">Business impact</p>
-          <ul class="cs-impact__list">
-            <li>
-              <span class="cs-impact__name" data-i18n-case="bi1Name"></span>
-              <span class="cs-impact__type" data-i18n-case="bi1Type"></span>
-              <span class="cs-impact__flag" data-i18n="cs.impact.closed">Closed</span>
-            </li>
-            <li>
-              <span class="cs-impact__name" data-i18n-case="bi2Name"></span>
-              <span class="cs-impact__type" data-i18n-case="bi2Type"></span>
-              <span class="cs-impact__flag" data-i18n="cs.impact.closed">Closed</span>
-            </li>
-            <li>
-              <span class="cs-impact__name" data-i18n-case="bi3Name"></span>
-              <span class="cs-impact__type" data-i18n-case="bi3Type"></span>
-              <span class="cs-impact__flag" data-i18n="cs.impact.closed">Closed</span>
-            </li>
-          </ul>
-        </div>
-
-        <figure class="cs-quotebox" data-reveal>
-          <blockquote data-i18n-case="testimonialQuote">[What someone who used or sold it said]</blockquote>
-          <figcaption>
-            <span class="cs-quotebox__name" data-i18n-case="testimonialName">[Who said it]</span>
-            <span class="cs-quotebox__role" data-i18n-case="testimonialRole">[Their role]</span>
-          </figcaption>
+  <!-- Before / After — once assets/screen-*.png exist, replace each
+       media-block below with <img src="assets/screen-N.png" alt="">
+       the same way every other case's gallery does. -->
+  <section class="ip-section">
+    <div class="wrap">
+      <span class="ip-tag" data-i18n="cs.ip.screens" data-reveal>Screens</span>
+      <div class="ip-showcase" style="margin-top: 1.5rem;">
+        <figure data-reveal>
+          <div class="media-block" data-tone="blue"><span>Screen 1</span></div>
+          <figcaption data-i18n-case="showcase1Caption"></figcaption>
+        </figure>
+        <figure data-reveal>
+          <div class="media-block" data-tone="blue"><span>Screen 2</span></div>
+          <figcaption data-i18n-case="showcase2Caption"></figcaption>
+        </figure>
+        <figure data-reveal>
+          <div class="media-block" data-tone="blue"><span>Screen 3</span></div>
+          <figcaption data-i18n-case="showcase3Caption"></figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <section class="cs-section">
-    <div class="wrap cs-block">
-      <div class="cs-block__aside" data-reveal>
-        <span class="cs-step">06</span>
-        <h2 class="cs-block__title" data-i18n="cs.reflection.title">What I took from it</h2>
+  <section class="ip-section">
+    <div class="wrap">
+      <div class="ip-panel ip-panel--ok" data-reveal>
+        <div class="ip-panel__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <span data-i18n="cs.impact.title">Business impact</span>
+        </div>
+        <div class="pf-impact">
+          <div class="pf-impact__card">
+            <svg class="pf-impact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+            <p class="pf-impact__name" data-i18n-case="bi1Name"></p>
+            <p class="pf-impact__type" data-i18n-case="bi1Type"></p>
+            <span class="pf-impact__flag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="cs.impact.closed">Closed</span></span>
+          </div>
+          <div class="pf-impact__card">
+            <svg class="pf-impact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+            <p class="pf-impact__name" data-i18n-case="bi2Name"></p>
+            <p class="pf-impact__type" data-i18n-case="bi2Type"></p>
+            <span class="pf-impact__flag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="cs.impact.closed">Closed</span></span>
+          </div>
+          <div class="pf-impact__card">
+            <svg class="pf-impact__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+            <p class="pf-impact__name" data-i18n-case="bi3Name"></p>
+            <p class="pf-impact__type" data-i18n-case="bi3Type"></p>
+            <span class="pf-impact__flag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="cs.impact.closed">Closed</span></span>
+          </div>
+        </div>
       </div>
-      <div class="cs-block__body">
-        <div class="cs-reflect" data-reveal>
-          <div class="cs-reflect__item">
-            <h3 data-i18n-case="reflect1Title"></h3>
-            <p data-i18n-case="reflect1Text"></p>
+    </div>
+  </section>
+
+  <section class="ip-section">
+    <div class="wrap">
+      <div class="ip-panel ip-testi" data-reveal>
+        <div class="ip-panel__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span data-i18n="cs.ip.testimonial">Testimonial</span>
+        </div>
+        <svg class="ip-testi__mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 11c0-3 2-5 5-5v2c-2 0-3 1-3 3h3v6H4v-4a4 4 0 0 1 3-6zm10 0c0-3 2-5 5-5v2c-2 0-3 1-3 3h3v6h-8v-4a4 4 0 0 1 3-6z"/></svg>
+        <blockquote data-i18n-case="testimonialQuote"></blockquote>
+        <div class="ip-testi__foot">
+          <span class="ip-testi__avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+          </span>
+          <div>
+            <p class="ip-testi__name" data-i18n-case="testimonialName"></p>
+            <span class="ip-testi__role" data-i18n-case="testimonialRole"></span>
           </div>
-          <div class="cs-reflect__item">
-            <h3 data-i18n-case="reflect2Title"></h3>
-            <p data-i18n-case="reflect2Text"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ip-section">
+    <div class="wrap">
+      <div class="ip-panel" data-reveal>
+        <div class="ip-panel__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+          <span data-i18n="cs.reflection.title">What I took from it</span>
+        </div>
+        <div class="ip-sol-grid">
+          <div class="ip-sol ip-sol--plain">
+            <svg class="ip-sol__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <h3 data-i18n-case="reflect1Title"></h3><p data-i18n-case="reflect1Text"></p>
           </div>
-          <div class="cs-reflect__item">
-            <h3 data-i18n-case="reflect3Title"></h3>
-            <p data-i18n-case="reflect3Text"></p>
+          <div class="ip-sol ip-sol--plain">
+            <svg class="ip-sol__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <h3 data-i18n-case="reflect2Title"></h3><p data-i18n-case="reflect2Text"></p>
           </div>
-          <div class="cs-reflect__item">
-            <h3 data-i18n-case="reflect4Title"></h3>
-            <p data-i18n-case="reflect4Text"></p>
+          <div class="ip-sol ip-sol--plain">
+            <svg class="ip-sol__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8 7 17M17 7l2.8-2.8"/></svg>
+            <h3 data-i18n-case="reflect3Title"></h3><p data-i18n-case="reflect3Text"></p>
+          </div>
+          <div class="ip-sol ip-sol--plain">
+            <svg class="ip-sol__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17.5" cy="9" r="2.2"/><path d="M15.7 20c.2-2.3 1.9-4 4.3-4.3"/></svg>
+            <h3 data-i18n-case="reflect4Title"></h3><p data-i18n-case="reflect4Text"></p>
           </div>
         </div>
       </div>
@@ -354,12 +434,21 @@
 
   <section class="cs-next">
     <div class="wrap">
+      <!-- Hand-written, unlike a generated case's NEXT region: every
+           case is now bespoke (see tools/build-cases.ps1's
+           $customSlugs), so this chain is no longer computed from
+           content/cases.csv's row order — it's set by hand to match
+           the homepage's own card order (index.html's #casesGrid):
+           government-project, platform, ev-charger, custom-dashboard,
+           wordpress-website, wrapping back to government-project.
+           If that homepage order ever changes, update this and the
+           four other hand-written NEXT cards to match. -->
       <a class="cs-next__card" href="../ev-charger/" data-hover>
         <img src="../ev-charger/assets/cover.png" alt="">
         <div class="cs-next__body">
           <div>
             <p class="pretitle" data-i18n="cs.next.label">Next project</p>
-            <h2 class="cs-next__title" data-i18n-case="nextTitle">[Next Project Name]</h2>
+            <h2 class="cs-next__title" data-i18n-case="nextTitle">EV Charger</h2>
           </div>
           <span class="cs-next__arrow" aria-hidden="true">↗︎</span>
         </div>

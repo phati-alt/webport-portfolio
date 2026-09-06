@@ -131,6 +131,7 @@ const translations = {
     "cs.meta.toolsLabel": "Tools",
     "cs.meta.teamLabel": "Team",
     "cs.meta.clientLabel": "Client",
+    "cs.meta.domainLabel": "Domain",
     "cs.impact.title": "Business impact",
     "cs.impact.closed": "Closed",
     "cs.overview.title": "The Problem",
@@ -149,19 +150,23 @@ const translations = {
     "cs.next.label": "Next project",
     "cs.next.cta": "View case study",
 
-    /* Section tags for work/government-project/'s bespoke layout only —
-       every other case names its sections through cs.overview.title etc.
-       above, shared by the template. This one has its own markup, so it
-       gets its own small set here rather than overloading those. */
-    "cs.gp.brief": "Context",
-    "cs.gp.findings": "Problem",
-    "cs.gp.field": "Process",
-    "cs.gp.compare": "Before / After",
-    "cs.gp.manifest": "Solution",
-    "cs.gp.outcomes": "Results",
-    "cs.gp.testimonial": "Testimonial",
-    "cs.gp.primaryUsers": "Primary Users",
-    "cs.gp.scope": "Scope",
+    /* Section tags for the "Insight Panel" bespoke layout
+       (css/insight-panels.css) shared by work/government-project/,
+       work/platform/ and work/ev-charger/ — every other case names
+       its sections through cs.overview.title etc. above, shared by
+       the template instead. */
+    "cs.ip.context": "Context",
+    "cs.ip.findings": "Problem",
+    "cs.ip.problem": "Discovery & Problem",
+    "cs.ip.process": "Process",
+    "cs.ip.decisions": "Decisions",
+    "cs.ip.compare": "Before / After",
+    "cs.ip.screens": "Screens",
+    "cs.ip.solution": "Solution",
+    "cs.ip.results": "Results",
+    "cs.ip.testimonial": "Testimonial",
+    "cs.ip.primaryUsers": "Primary Users",
+    "cs.ip.scope": "Scope",
 
     "a11y.switchLanguage": "Switch language",
     "a11y.toggleDarkMode": "Toggle dark mode",
@@ -292,6 +297,7 @@ const translations = {
     "cs.meta.toolsLabel": "เครื่องมือ",
     "cs.meta.teamLabel": "ทีมงาน",
     "cs.meta.clientLabel": "ลูกค้า",
+    "cs.meta.domainLabel": "โดเมน",
     "cs.impact.title": "ผลลัพธ์เชิงธุรกิจ",
     "cs.impact.closed": "ปิดดีลแล้ว",
     "cs.overview.title": "โจทย์ปัญหา",
@@ -310,15 +316,18 @@ const translations = {
     "cs.next.label": "โปรเจกต์ถัดไป",
     "cs.next.cta": "ดู Case Study",
 
-    "cs.gp.brief": "บริบท",
-    "cs.gp.findings": "ปัญหา",
-    "cs.gp.field": "กระบวนการ",
-    "cs.gp.compare": "ก่อน / หลัง",
-    "cs.gp.manifest": "การแก้ปัญหา",
-    "cs.gp.outcomes": "ผลลัพธ์",
-    "cs.gp.testimonial": "คำรับรอง",
-    "cs.gp.primaryUsers": "ผู้ใช้งานหลัก",
-    "cs.gp.scope": "ขอบเขตงาน",
+    "cs.ip.context": "บริบท",
+    "cs.ip.findings": "ปัญหา",
+    "cs.ip.problem": "การค้นพบและปัญหา",
+    "cs.ip.process": "กระบวนการ",
+    "cs.ip.decisions": "การตัดสินใจ",
+    "cs.ip.compare": "ก่อน / หลัง",
+    "cs.ip.screens": "หน้าจอ",
+    "cs.ip.solution": "การแก้ปัญหา",
+    "cs.ip.results": "ผลลัพธ์",
+    "cs.ip.testimonial": "คำรับรอง",
+    "cs.ip.primaryUsers": "ผู้ใช้งานหลัก",
+    "cs.ip.scope": "ขอบเขตงาน",
 
     "a11y.switchLanguage": "สลับภาษา",
     "a11y.toggleDarkMode": "สลับโหมดมืด",
